@@ -78,7 +78,7 @@ public class CloseUtil {
 				logger.error("没有匹配到名为[{}]的io对象", ioClass);
 			}
 		} catch (IOException e) {
-			logger.error("关闭io对象 [{}] 时，出现异常：{}", ioClass, ExceptionUtil.getExceptionDetailMessage(e));
+			logger.error("关闭io对象 [{}] 时，出现异常：{}", ioClass, e);
 		}finally{
 			io = null;
 		}
@@ -110,7 +110,7 @@ public class CloseUtil {
 				logger.error("没有匹配到名为[{}]的dbconn对象", dbconnClass);
 			}
 		} catch (SQLException e) {
-			logger.error("关闭dbconn对象 [{}] 时，出现异常：{}", dbconnClass, ExceptionUtil.getExceptionDetailMessage(e));
+			logger.error("关闭dbconn对象 [{}] 时，出现异常：{}", dbconnClass, e);
 		} finally{
 			dbconn = null;
 		}
