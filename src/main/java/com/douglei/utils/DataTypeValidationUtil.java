@@ -3,15 +3,17 @@ package com.douglei.utils;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.douglei.instances.logger.LoggerHolder;
+
 
 /**
  * 数据类型验证工具类
  * @author StoneKing
  */
 public class DataTypeValidationUtil {
-	private static final LoggerHolder logger = new LoggerHolder(DataTypeValidationUtil.class);
+	private static final Logger logger = LoggerFactory.getLogger(DataTypeValidationUtil.class);
 	
 	/**
 	 * 是否是整型

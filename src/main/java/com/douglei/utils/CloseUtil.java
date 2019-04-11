@@ -10,14 +10,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.douglei.instances.logger.LoggerHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 关闭连接、流的工具类
  * @author DougLei
  */
 public class CloseUtil {
-	private static final LoggerHolder logger = new LoggerHolder(CloseUtil.class);
+	private static final Logger logger = LoggerFactory.getLogger(CloseUtil.class);
 	
 	/**
 	 * 关闭File-IO类
@@ -78,7 +79,9 @@ public class CloseUtil {
 				logger.error("没有匹配到名为[{}]的io对象", ioClass);
 			}
 		} catch (IOException e) {
-			logger.error("关闭io对象 [{}] 时，出现异常：{}", ioClass, e);
+			if(logger.isDebugEnabled()) {
+				logger.error("关闭io对象 [{}] 时，出现异常：{}", ioClass, ExceptionUtil.getExceptionDetailMessage(e));
+			}
 		}finally{
 			io = null;
 		}
@@ -110,7 +113,9 @@ public class CloseUtil {
 				logger.error("没有匹配到名为[{}]的dbconn对象", dbconnClass);
 			}
 		} catch (SQLException e) {
-			logger.error("关闭dbconn对象 [{}] 时，出现异常：{}", dbconnClass, e);
+			if(logger.isDebugEnabled()) {
+				logger.error("关闭dbconn对象 [{}] 时，出现异常：{}", dbconnClass, ExceptionUtil.getExceptionDetailMessage(e));
+			}
 		} finally{
 			dbconn = null;
 		}
