@@ -23,10 +23,28 @@ public class StringUtil {
 	 * @param object
 	 * @return
 	 */
-	public static boolean isEmpty(Object strObj){
-		if(strObj == null || "".equals(strObj.toString().trim())){
+	public static boolean isEmpty(Object object){
+		if(object == null || "".equals(object.toString().trim())){
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 字符串是否不为空
+	 * @param str
+	 * @return
+	 */
+	public static boolean notEmpty(String str){
+		return !isEmpty(str);
+	}
+	
+	/**
+	 * object类型的字符串是否不为空
+	 * @param object
+	 * @return
+	 */
+	public static boolean notEmpty(Object object){
+		return !isEmpty(object);
 	}
 }

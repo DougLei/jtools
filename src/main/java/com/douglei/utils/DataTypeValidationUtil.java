@@ -6,8 +6,6 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
 /**
  * 数据类型验证工具类
  * @author StoneKing
