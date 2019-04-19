@@ -1,4 +1,4 @@
-package com.douglei.instances.scan.classes;
+package com.douglei.instances.scanner;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,19 +47,19 @@ public class ClassScanner {
 	 * @param basePackagePath
 	 * @return
 	 */
-	public List<String> rescanClasses(String basePackagePath) {
+	public List<String> rescan(String basePackagePath) {
 		if(!classFullNames.isEmpty()){
 			classFullNames.clear();
 		}
-		return scanClasses(basePackagePath);
+		return scan(basePackagePath);
 	}
 	
 	/**
-	 * 根据包路径，扫描其下所有的类，获取他们的全名集合
+	 * 根据包路径，扫描其下所有的类，获取它们的全名集合
 	 * @param basePackagePath
-	 * @return 所有的类的全名，即包名+类名，如果没有扫描到，返回null
+	 * @return 
 	 */
-	public List<String> scanClasses(String basePackagePath) {
+	public List<String> scan(String basePackagePath) {
 		if(StringUtil.isEmpty(basePackagePath)){
 			throw new NullPointerException("basePackagePath 参数值不能为空");
 		}
@@ -72,9 +72,9 @@ public class ClassScanner {
 		
 		String absoluteFilePath = getAbsoluteFilePath(fileUrl.getFile());
 		if(isJarFile(absoluteFilePath)){
-			scanClassesFromJar(absoluteFilePath, splashedPackageName);
+			scanFromJar(absoluteFilePath, splashedPackageName);
 		}else{
-			scanClassesFromFile(absoluteFilePath, basePackagePath);
+			scanFromFile(absoluteFilePath, basePackagePath);
 		}
 		
 		if(classFullNames.isEmpty()){
@@ -96,7 +96,7 @@ public class ClassScanner {
 	 * 根据文件的url，获取文件的绝对路径
 	 * <pre>
 	 * 	两种样式的fileUrlPath值
-	 *  1: file:/C:/xxxxx/package...		【指定的是一个项目中存在的包路径】
+	 *  1: /C:/xxxxx/package...				【指定的是一个项目中存在的包路径】
 	 *  2: file:/C:/xxxxx/x.jar!package...	【指定的是项目中某个jar包中的包路径】
 	 * </pre>
 	 * @param fileUrlPath
@@ -110,12 +110,19 @@ public class ClassScanner {
 		return fileUrlPath.substring(5, pos);
 	}
 	
+	public static void main(String[] args) {
+		List<String> list = new ClassScanner().scan("org.slf4j.event");
+		for (String string : list) {
+			System.out.println(string);
+		}
+	}
+	
 	/**
 	 * 从jar包中扫描类，并加入到classFullNames集合中
 	 * @param filePath
 	 * @param splashedPackageName
 	 */
-	private void scanClassesFromJar(String filePath, String splashedPackageName) {
+	private void scanFromJar(String filePath, String splashedPackageName) {
 		JarInputStream jarInput = null;
 		JarEntry entry;
 		String classFullName = null;
@@ -139,14 +146,14 @@ public class ClassScanner {
 	 * @param filePath
 	 * @param basePackagePath
 	 */
-	private void scanClassesFromFile(String filePath, String basePackagePath) {
+	private void scanFromFile(String filePath, String basePackagePath) {
 		String[] fileNames = new File(filePath).list();
 		if(fileNames != null && fileNames.length > 0){
 			for (String fn : fileNames) {
 				if(isClassFile(fn)){
 					classFullNames.add(getClassFullName(basePackagePath, fn));
 				}else{
-					scanClasses(basePackagePath + "." + fn);
+					scan(basePackagePath + "." + fn);
 				}
 			}
 		}
