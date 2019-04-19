@@ -110,13 +110,6 @@ public class ClassScanner {
 		return fileUrlPath.substring(5, pos);
 	}
 	
-	public static void main(String[] args) {
-		List<String> list = new ClassScanner().scan("org.slf4j.event");
-		for (String string : list) {
-			System.out.println(string);
-		}
-	}
-	
 	/**
 	 * 从jar包中扫描类，并加入到classFullNames集合中
 	 * @param filePath

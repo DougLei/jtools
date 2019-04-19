@@ -78,16 +78,16 @@ public class FileScanner {
 	}
 	
 	/**
-	 * 从文件中扫描类，并加入到classFullNames集合中
+	 * 扫描文件，并加入到fileFullNames集合中
 	 * @param filePath
 	 * @param basePackagePath
 	 */
-	private void scanClassesFromFile(String filePath, String basePackagePath) {
+	private void recursiveScan(String filePath, String basePackagePath) {
 		String[] fileNames = new File(filePath).list();
 		if(fileNames != null && fileNames.length > 0){
 			for (String fn : fileNames) {
 				if(isClassFile(fn)){
-					classFullNames.add(getClassFullName(basePackagePath, fn));
+					fileFullNames.add(getClassFullName(basePackagePath, fn));
 				}else{
 					scanClasses(basePackagePath + "." + fn);
 				}
@@ -95,31 +95,12 @@ public class FileScanner {
 		}
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(new File("file:/D:/eclipse3").exists());
-	}
-	
 	/**
 	 * 是否是class文件
 	 * @param fileName
 	 * @return
 	 */
-	private boolean isClassFile(String fileName) {
+	private boolean isTargetFile(String fileName) {
 		return fileName.endsWith(".class");
-	}
-	
-	/**
-	 * 获取类全名
-	 * @param basePackagePath
-	 * @param classFileName
-	 * @return
-	 */
-	private String getClassFullName(String basePackagePath, String classFileName) {
-		String className = classFileName;
-		int pos = classFileName.lastIndexOf(".");
-		if(-1 != pos){
-			className = classFileName.substring(0, pos);
-		}
-		return basePackagePath + "." + className;
 	}
 }
