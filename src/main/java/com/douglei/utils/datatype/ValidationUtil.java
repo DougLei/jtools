@@ -1,4 +1,4 @@
-package com.douglei.utils;
+package com.douglei.utils.datatype;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
  * 数据类型验证工具类
  * @author StoneKing
  */
-public class DataTypeValidationUtil {
-	private static final Logger logger = LoggerFactory.getLogger(DataTypeValidationUtil.class);
+public class ValidationUtil {
+	private static final Logger logger = LoggerFactory.getLogger(ValidationUtil.class);
 	
 	/**
 	 * 是否是整型

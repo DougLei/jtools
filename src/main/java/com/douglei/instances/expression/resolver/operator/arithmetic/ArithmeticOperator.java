@@ -2,8 +2,8 @@ package com.douglei.instances.expression.resolver.operator.arithmetic;
 
 import com.douglei.instances.expression.resolver.operator.OperatorImpl;
 import com.douglei.instances.expression.resolver.operator.arithmetic.enums.DataType;
-import com.douglei.utils.DataTypeValidationUtil;
 import com.douglei.utils.StringUtil;
+import com.douglei.utils.datatype.ValidationUtil;
 
 /**
  * 算数运算
@@ -18,10 +18,10 @@ public abstract class ArithmeticOperator extends OperatorImpl {
 		if(StringUtil.isEmpty(rightParam)){
 			throw new NullPointerException("进行算数运算时，参数rightParam不能为空");
 		}
-		if(!DataTypeValidationUtil.isNumber(leftParam)){
+		if(!ValidationUtil.isNumber(leftParam)){
 			throw new NullPointerException("进行算数运算时，参数leftParam的值["+leftParam+"]必须为数字类型");
 		}
-		if(!DataTypeValidationUtil.isNumber(rightParam)){
+		if(!ValidationUtil.isNumber(rightParam)){
 			throw new NullPointerException("进行算数运算时，参数rightParam的值["+rightParam+"]必须为数字类型");
 		}
 		return arithmeticCalc(leftParam.toString().trim(), rightParam.toString().trim());

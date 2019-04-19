@@ -1,7 +1,7 @@
 package com.douglei.instances.expression.resolver.operator.compare;
 
 import com.douglei.instances.expression.resolver.operator.OperatorImpl;
-import com.douglei.utils.DataTypeValidationUtil;
+import com.douglei.utils.datatype.ValidationUtil;
 
 /**
  * ==
@@ -27,10 +27,10 @@ public class EqOperatorImpl extends OperatorImpl {
 		if((leftParam == null && rightParam != null) || (leftParam != null && rightParam == null)){
 			return false;
 		}
-		if(DataTypeValidationUtil.isNumber(leftParam)){
+		if(ValidationUtil.isNumber(leftParam)){
 			leftParam = Double.valueOf(leftParam.toString());
 		}
-		if(DataTypeValidationUtil.isNumber(rightParam)){
+		if(ValidationUtil.isNumber(rightParam)){
 			rightParam = Double.valueOf(rightParam.toString());
 		}
 		return leftParam.equals(rightParam);

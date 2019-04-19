@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.douglei.utils.datatype.ValidationUtil;
+
 /**
  * 日期工具类
  * @author DougLei
@@ -63,7 +65,7 @@ public class DateUtil {
 		if(StringUtil.isEmpty(date)){
 			throw new NullPointerException("格式化日期字符串 ["+date+"] 不能为空！");
 		}
-		if(!DataTypeValidationUtil.isDate(date)){
+		if(!ValidationUtil.isDate(date)){
 			throw new IllegalArgumentException("日期字符串 ["+date+"] 的格式错误！");
 		}
 		try {
@@ -217,7 +219,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String addAndSubtractDay(Object date, int days) {
-		if(DataTypeValidationUtil.isDate(date)){
+		if(ValidationUtil.isDate(date)){
 			if(days != 0){
 				long resultDateTime;
 				if(date instanceof String){
