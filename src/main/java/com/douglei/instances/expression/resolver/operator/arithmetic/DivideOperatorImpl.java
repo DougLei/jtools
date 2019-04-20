@@ -2,8 +2,6 @@ package com.douglei.instances.expression.resolver.operator.arithmetic;
 
 import com.douglei.instances.expression.resolver.operator.arithmetic.enums.DataType;
 
-
-
 /**
  * 除
  * @author DougLei

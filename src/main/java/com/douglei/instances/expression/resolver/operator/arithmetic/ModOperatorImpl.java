@@ -2,7 +2,6 @@ package com.douglei.instances.expression.resolver.operator.arithmetic;
 
 import com.douglei.instances.expression.resolver.operator.arithmetic.enums.DataType;
 
-
 /**
  * %
  * @author DougLei
