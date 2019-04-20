@@ -1,4 +1,4 @@
-package com.douglei.instances.scan.classes;
+package com.douglei.instances.scanner;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class ClassScannerTest {
 	@Test
 	public void scanClasses(){
 		String basePackagePath = "com.douglei.instances.scan.classes.tests";
-		List<String> allClassNames = ClassScanner.newInstance().scanClasses(basePackagePath);
+		List<String> allClassNames = ClassScanner.newInstance().scan(basePackagePath);
 		for (String className : allClassNames) {
 			System.out.println(className);
 		}
