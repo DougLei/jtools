@@ -80,6 +80,16 @@ public class ClassScanner {
 	}
 	
 	/**
+	 * 释放内存
+	 */
+	public void clearMemory() {
+		if(classFullNames.size() > 0) {
+			classFullNames.clear();
+			classFullNames = null;
+		}
+	}
+	
+	/**
 	 * 是否是jar文件
 	 * @param file
 	 * @return

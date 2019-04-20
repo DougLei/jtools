@@ -76,6 +76,16 @@ public class FileScanner {
 	}
 	
 	/**
+	 * 释放内存
+	 */
+	public void clearMemory() {
+		if(fileFullNames.size() > 0) {
+			fileFullNames.clear();
+			fileFullNames = null;
+		}
+	}
+	
+	/**
 	 * 扫描文件，并加入到fileFullNames集合中
 	 * @param filePath
 	 */
