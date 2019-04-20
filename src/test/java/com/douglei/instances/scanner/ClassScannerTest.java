@@ -9,8 +9,8 @@ import com.douglei.instances.scanner.ClassScanner;
 public class ClassScannerTest {
 	
 	@Test
-	public void scanClasses(){
-		String basePackagePath = "com.douglei.instances.scan.classes.tests";
+	public void scan(){
+		String basePackagePath = "com.douglei.instances.scanner.tests";
 		List<String> allClassNames = ClassScanner.newInstance().scan(basePackagePath);
 		for (String className : allClassNames) {
 			System.out.println(className);

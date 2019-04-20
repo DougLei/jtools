@@ -76,10 +76,6 @@ public class ClassScanner {
 		}else{
 			scanFromFile(absoluteFilePath, basePackagePath);
 		}
-		
-		if(classFullNames.isEmpty()){
-			return null;
-		}
 		return classFullNames;
 	}
 	
@@ -174,5 +170,13 @@ public class ClassScanner {
 			className = classFileName.substring(0, pos);
 		}
 		return basePackagePath + "." + className;
+	}
+	
+	public static void main(String[] args) {
+		String basePackagePath = "com.douglei.instances.scanner";
+		List<String> allClassNames = ClassScanner.newInstance().scan(basePackagePath);
+		for (String className : allClassNames) {
+			System.out.println(className);
+		}
 	}
 }
