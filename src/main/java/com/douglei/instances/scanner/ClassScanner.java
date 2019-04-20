@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -16,77 +15,74 @@ import com.douglei.utils.StringUtil;
  * 类扫描器
  * @author StoneKing
  */
-public class ClassScanner {
-	private ClassScanner(){}
-	private List<String> classFullNames = new ArrayList<String>();
-	
-	/**
-	 * 获取单例实例
-	 * @return
-	 */
-	public static final ClassScanner getSingleInstance(){
-		if(singleInstance == null){
-			singleInstance = new ClassScanner();
-		}
-		return singleInstance;
-	}
-	private static ClassScanner singleInstance;
-	
-	/**
-	 * 创建实例
-	 * @return
-	 */
-	public static final ClassScanner newInstance(){
-		return new ClassScanner();
-	}
+public class ClassScanner extends AbstractScanner{
 	
 	// -----------------------------------------------------------------------------------------------------------
-	/**
-	 * 根据包路径，重新扫描其下所有的类
-	 * <p>会清空上一次扫描的类全名结果集</p>
-	 * @param basePackagePath
-	 * @return
-	 */
-	public List<String> rescan(String basePackagePath) {
-		if(!classFullNames.isEmpty()){
-			classFullNames.clear();
-		}
-		return scan(basePackagePath);
-	}
-	
 	/**
 	 * 根据包路径，扫描其下所有的类，获取它们的全名集合
 	 * @param basePackagePath
 	 * @return 
 	 */
+	@Override
 	public List<String> scan(String basePackagePath) {
 		if(StringUtil.isEmpty(basePackagePath)){
 			throw new NullPointerException("basePackagePath 参数值不能为空");
 		}
 		
 		String splashedPackageName = basePackagePath.replace(".", "/"); // 将包名的小数点，转换成url格式的分隔符，即'/'
-		URL fileUrl = getClass().getClassLoader().getResource(splashedPackageName); // 获取包在操作系统下的URL路径
-		if(fileUrl == null){
-			throw new NullPointerException("包路径 ["+basePackagePath+"] 下不存在任何文件，请检查包名是否正确");
+		URL fileUrl = getClassLoader().getResource(splashedPackageName); // 获取包在操作系统下的URL路径
+		if(fileUrl != null){
+			String absoluteFilePath = getAbsoluteFilePath(fileUrl.getFile());
+			if(isJarFile(absoluteFilePath)){
+				scanFromJar(absoluteFilePath, splashedPackageName);
+			}else{
+				scanFromFile(absoluteFilePath, basePackagePath);
+			}
 		}
-		
-		String absoluteFilePath = getAbsoluteFilePath(fileUrl.getFile());
-		if(isJarFile(absoluteFilePath)){
-			scanFromJar(absoluteFilePath, splashedPackageName);
-		}else{
-			scanFromFile(absoluteFilePath, basePackagePath);
-		}
-		return classFullNames;
+		return list;
 	}
 	
 	/**
-	 * 释放内存
+	 * 根据包路径，重新扫描其下所有的类
+	 * <p>会清空上一次扫描的类全名结果集</p>
+	 * @param basePackagePath
+	 * @return
 	 */
-	public void clearMemory() {
-		if(classFullNames.size() > 0) {
-			classFullNames.clear();
-			classFullNames = null;
+	@Override
+	public List<String> rescan(String basePackagePath) {
+		if(list.size() > 0) {
+			list.clear();
 		}
+		return scan(basePackagePath);
+	}
+	
+	/**
+	 * 指定多个路径，循环扫描，将最终的结果一次返回
+	 * @param basePackagePaths
+	 * @return
+	 */
+	@Override
+	public List<String> loopScan(String... basePackagePaths){
+		if(basePackagePaths != null && basePackagePaths.length > 0) {
+			for (String basePackagePath : basePackagePaths) {
+				scan(basePackagePath);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * 根据包路径，重新循环扫描其下所有的类
+	 * <p>会清空上一次扫描的类全名结果集</p>
+	 * @param basePackagePaths
+	 * @return
+	 */
+	@Override
+	public List<String> reLoopScan(String... basePackagePaths) {
+		if(list.size() > 0) {
+			list.clear();
+		}
+		return loopScan(basePackagePaths);
 	}
 	
 	/**
@@ -117,7 +113,7 @@ public class ClassScanner {
 	}
 	
 	/**
-	 * 从jar包中扫描类，并加入到classFullNames集合中
+	 * 从jar包中扫描类，并加入到list集合中
 	 * @param filePath
 	 * @param splashedPackageName
 	 */
@@ -130,7 +126,7 @@ public class ClassScanner {
 			while((entry = jarInput.getNextJarEntry()) != null){ // 依次获取jar包中的每一个class文件，包括内部类，同时，是递归的方式获取，我们这里只要调用该方法即可
 				classFullName = entry.getName();
 				if(classFullName.startsWith(splashedPackageName) && isClassFile(classFullName)){
-					classFullNames.add(classFullName.replace("/", "."));
+					list.add(classFullName.replace("/", "."));
 				}
 			}
 		} catch (IOException e) {
@@ -141,7 +137,7 @@ public class ClassScanner {
 	}
 	
 	/**
-	 * 从文件中扫描类，并加入到classFullNames集合中
+	 * 从文件中扫描类，并加入到list集合中
 	 * @param filePath
 	 * @param basePackagePath
 	 */
@@ -150,7 +146,7 @@ public class ClassScanner {
 		if(fileNames != null && fileNames.length > 0){
 			for (String fn : fileNames) {
 				if(isClassFile(fn)){
-					classFullNames.add(getClassFullName(basePackagePath, fn));
+					list.add(getClassFullName(basePackagePath, fn));
 				}else{
 					scan(basePackagePath + "." + fn);
 				}
@@ -180,13 +176,5 @@ public class ClassScanner {
 			className = classFileName.substring(0, pos);
 		}
 		return basePackagePath + "." + className;
-	}
-	
-	public static void main(String[] args) {
-		String basePackagePath = "com.douglei.instances.scanner";
-		List<String> allClassNames = ClassScanner.newInstance().scan(basePackagePath);
-		for (String className : allClassNames) {
-			System.out.println(className);
-		}
 	}
 }

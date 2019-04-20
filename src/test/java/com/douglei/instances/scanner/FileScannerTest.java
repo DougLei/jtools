@@ -9,7 +9,7 @@ public class FileScannerTest {
 	@Test
 	public void scan(){
 		String basePath = "com/douglei/instances/scanner/tests";
-		List<String> allFileNames = FileScanner.newInstance().scan(basePath, "xml");
+		List<String> allFileNames = new FileScanner("xml").scan(basePath);
 		System.out.println(allFileNames.size());
 		for (String fileName : allFileNames) {
 			System.out.println(fileName);

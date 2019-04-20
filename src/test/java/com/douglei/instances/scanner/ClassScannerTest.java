@@ -11,7 +11,7 @@ public class ClassScannerTest {
 	@Test
 	public void scan(){
 		String basePackagePath = "com.douglei.instances.scanner.tests";
-		List<String> allClassNames = ClassScanner.newInstance().scan(basePackagePath);
+		List<String> allClassNames = new ClassScanner().scan(basePackagePath);
 		for (String className : allClassNames) {
 			System.out.println(className);
 		}
