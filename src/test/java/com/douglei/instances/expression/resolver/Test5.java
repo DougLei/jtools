@@ -30,29 +30,7 @@ public class Test5 {
 		System.out.println(er.resolve("(1+2*5-3/8+1-5*8/(5+5)*7-8*5*8/(2+8.0)*100) == (0-3216)"));
 		System.out.println(er.resolve("(1+2*5-3/8+1-5*8/(5+5)*7-8*5*8/(2+8.0)*100) == (0-3216)").getClass());
 //		System.out.println(er.resolve("8/0"));
-	}
-	
-	public static void main(String[] args) {
-		new Thread(new Runnable() {
-			public void run() {
-//				ExpressionResolverHandler er= ExpressionResolverHandler.newInstance();
-				ExpressionResolverHandler er= ExpressionResolverHandler.getSingleInstance(); // 使用单例模式，会出现数据混乱
-				System.out.println(Thread.currentThread().getName() + ":" +er.resolve("1+2*5-3/8+1-5*8/(5+5)*7-8*5*8/(2+8)*100"));
-				System.out.println(Thread.currentThread().getName() + ":" +er.resolve("1+2*5-3/8+1-5*8/(5+5)*7-8*5*8/(2+8)*100"));
-				System.out.println(Thread.currentThread().getName() + ":" +er.resolve("1+2*5-3/8+1-5*8/(5+5)*7-8*5*8/(2+8)*100"));
-			}
-		}).start();
 		
-		new Thread(new Runnable() {
-			public void run() {
-//				ExpressionResolverHandler er= ExpressionResolverHandler.newInstance();
-				ExpressionResolverHandler er= ExpressionResolverHandler.getSingleInstance();  // 使用单例模式，会出现数据混乱
-				System.out.println(Thread.currentThread().getName() + ":" +er.resolve("1+3/3/3/3/3/3/3/3/3+767-865/4434"));
-				System.out.println(Thread.currentThread().getName() + ":" +er.resolve("1+3/3/3/3/3/3/3/3/3+767-865/4434"));
-				System.out.println(Thread.currentThread().getName() + ":" +er.resolve("1+3/3/3/3/3/3/3/3/3+767-865/4434"));
-				System.out.println(Thread.currentThread().getName() + ":" +er.resolve("1+3/3/3/3/3/3/3/3/3+767-865/4434"));
-			}
-		}).start();
+		System.out.println(er.resolve("哈哈 == 哈哈"));
 	}
-	
 }
