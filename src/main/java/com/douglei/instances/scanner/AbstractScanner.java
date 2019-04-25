@@ -25,7 +25,7 @@ public abstract class AbstractScanner {
 	/**
 	 * 销毁对象
 	 */
-	public void doDestroy() {
+	public void destroy() {
 		if(list.size() > 0) {
 			list.clear();
 			list = null;
