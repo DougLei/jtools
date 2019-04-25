@@ -36,26 +36,26 @@ public class ConvertUtil {
 			logger.debug("targetClass is String.class");
 			return valueString;
 		}
-		if(targetClass == Character.class) {
+		if(targetClass == char.class || targetClass == Character.class) {
 			logger.debug("targetClass is Character.class");
 			return valueString.charAt(0);
 		}
 		
-		if(targetClass == Short.class) {
+		if(targetClass == short.class || targetClass == Short.class) {
 			logger.debug("targetClass is Short.class");
 			if(StringUtil.isEmpty(valueString)) {
 				throw new IllegalArgumentException("将数据值转换为short类型时，源数据值value为空");
 			}
 			return Short.parseShort(valueString.trim());
 		}
-		if(targetClass == Integer.class) {
+		if(targetClass == int.class || targetClass == Integer.class) {
 			logger.debug("targetClass is Integer.class");
 			if(StringUtil.isEmpty(valueString)) {
 				throw new IllegalArgumentException("将数据值转换为integer类型时，源数据值value为空");
 			}
 			return Integer.parseInt(valueString.trim());
 		}
-		if(targetClass == Long.class) {
+		if(targetClass == long.class || targetClass == Long.class) {
 			logger.debug("targetClass is Long.class");
 			if(StringUtil.isEmpty(valueString)) {
 				throw new IllegalArgumentException("将数据值转换为long类型时，源数据值value为空");
@@ -63,14 +63,14 @@ public class ConvertUtil {
 			return Long.parseLong(valueString.trim());
 		}
 		
-		if(targetClass == Float.class) {
+		if(targetClass == float.class || targetClass == Float.class) {
 			logger.debug("targetClass is Float.class");
 			if(StringUtil.isEmpty(valueString)) {
 				throw new IllegalArgumentException("将数据值转换为float类型时，源数据值value为空");
 			}
 			return Float.parseFloat(valueString.trim());
 		}
-		if(targetClass == Double.class) {
+		if(targetClass == double.class || targetClass == Double.class) {
 			logger.debug("targetClass is Double.class");
 			if(StringUtil.isEmpty(valueString)) {
 				throw new IllegalArgumentException("将数据值转换为double类型时，源数据值value为空");
@@ -78,7 +78,7 @@ public class ConvertUtil {
 			return Double.parseDouble(valueString.trim());
 		}
 		
-		if(targetClass == Boolean.class) {
+		if(targetClass == boolean.class || targetClass == Boolean.class) {
 			logger.debug("targetClass is Boolean.class");
 			if(StringUtil.isEmpty(valueString)) {
 				throw new IllegalArgumentException("将数据值转换为boolean类型时，源数据值value为空");
@@ -86,7 +86,7 @@ public class ConvertUtil {
 			return Boolean.parseBoolean(valueString.trim());
 		}
 		
-		if(targetClass == Byte.class) {
+		if(targetClass == byte.class || targetClass == Byte.class) {
 			logger.debug("targetClass is Byte.class");
 			if(StringUtil.isEmpty(valueString)) {
 				throw new IllegalArgumentException("将数据值转换为byte类型时，源数据值value为空");
