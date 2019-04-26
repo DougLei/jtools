@@ -3,6 +3,7 @@ package com.douglei.utils.datatype;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.regex.Pattern;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,12 +20,15 @@ public class ValidationUtil {
 	 * @return
 	 */
 	public static boolean isInteger(Object val){
-		logger.trace("判断是否是integer类型，传入的参数值为: {}", val);
+		logger.debug("判断是否是integer类型，传入的参数值为: {}", val);
 		if(val != null){
 			if(val instanceof Integer){
 				return true;
 			}
-			if(integerTypePattern.matcher(val.toString()).matches()){
+			
+			String valStr = val.toString();
+			logger.debug("将object转换为字符串的值为[{}]", valStr);
+			if(integerTypePattern.matcher(valStr).matches()){
 				return true;
 			}
 		}
@@ -42,12 +46,15 @@ public class ValidationUtil {
 	 * @return
 	 */
 	public static boolean isFloat(Object val){
-		logger.trace("判断是否是浮点类型(java.lang.Float)(java.lang.Double)(java.math.BigDecimal)，传入的参数值为: {}", val);
+		logger.debug("判断是否是浮点类型(java.lang.Float)(java.lang.Double)(java.math.BigDecimal)，传入的参数值为: {}", val);
 		if(val != null){
 			if(val instanceof Float || val instanceof Double || val instanceof BigDecimal){
 				return true;
 			}
-			if(doubleTypePattern.matcher(val.toString()).matches()){
+			
+			String valStr = val.toString();
+			logger.debug("将object转换为字符串的值为[{}]", valStr);
+			if(doubleTypePattern.matcher(valStr).matches()){
 				return true;
 			}
 		}
@@ -63,7 +70,7 @@ public class ValidationUtil {
 	 * @return
 	 */
 	public static boolean isNumber(Object val){
-		logger.trace("判断是否是数字类型，传入的参数值为: {}", val);
+		logger.debug("判断是否是数字类型，传入的参数值为: {}", val);
 		return isInteger(val) || isFloat(val);
 	}
 	
@@ -73,13 +80,14 @@ public class ValidationUtil {
 	 * @return
 	 */
 	public static boolean isBoolean(Object val){
-		logger.trace("判断是否是boolean类型，传入的参数值为: {}", val);
+		logger.debug("判断是否是boolean类型，传入的参数值为: {}", val);
 		if(val != null){
 			if(val instanceof Boolean){
 				return true;
 			}
 			
 			String valStr = val.toString();
+			logger.debug("将object转换为字符串的值为[{}]", valStr);
 			if("true".equals(valStr) || "false".equals(valStr)){
 				return true;
 			}
@@ -97,13 +105,14 @@ public class ValidationUtil {
 	 * @return
 	 */
 	public static boolean isDate(Object val) {
-		logger.trace("判断是否是浮点类型(java.util.Date)(java.sql.Date)(java.sql.Timestamp)，传入的参数值为: {}", val);
+		logger.debug("判断是否是浮点类型(java.util.Date)(java.sql.Date)(java.sql.Timestamp)，传入的参数值为: {}", val);
 		if(val != null){
 			if(val instanceof Date || val instanceof java.sql.Date || val instanceof java.sql.Timestamp){
 				return true;
 			}
 			
 			String valStr = val.toString();
+			logger.debug("将object转换为字符串的值为[{}]", valStr);
 			if(dateTypePattern.matcher(valStr).matches()){
 				return true;
 			}
