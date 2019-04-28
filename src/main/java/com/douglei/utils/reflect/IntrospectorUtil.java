@@ -4,8 +4,8 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ public class IntrospectorUtil {
 	 * @param propertyNames
 	 * @return
 	 */
-	public static Map<String, Object> getProperyValues(Object introspectorObject, List<String> propertyNames) {
+	public static Map<String, Object> getProperyValues(Object introspectorObject, Collection<String> propertyNames) {
 		Class<?> introspectorClass = introspectorObject.getClass();
 		logger.debug("获取[{}]实例, {} 属性值集合", introspectorClass, propertyNames);
 		
