@@ -85,7 +85,7 @@ public class IntrospectorUtil {
 	 * @param propertyMap
 	 * @return
 	 */
-	public static void setProperyValues(Object introspectorObject, Map<String, Object> propertyMap) {
+	public static void setProperyValues(Object introspectorObject, Map<String, ? extends Object> propertyMap) {
 		Class<?> introspectorClass = introspectorObject.getClass();
 		logger.debug("给[{}]实例, set {} 属性值map集合", introspectorClass, propertyMap);
 		
