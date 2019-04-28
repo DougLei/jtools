@@ -4,7 +4,7 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +31,7 @@ public class IntrospectorUtil {
 	 * @param propertyNames
 	 * @return
 	 */
-	public static List<Object> getProperyValues(Object introspectorObject, List<String> propertyNames) {
+	public static Map<String, Object> getProperyValues(Object introspectorObject, List<String> propertyNames) {
 		Class<?> introspectorClass = introspectorObject.getClass();
 		logger.debug("获取[{}]实例, {} 属性值集合", introspectorClass, propertyNames);
 		
@@ -42,7 +42,7 @@ public class IntrospectorUtil {
 				PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
 				
 				int size = propertyNames.size();
-				List<Object> values = new ArrayList<Object>(size);
+				Map<String, Object> valueMap = new HashMap<String, Object>(size);
 				
 				int index = 0;
 				Method getter = null;
@@ -53,10 +53,10 @@ public class IntrospectorUtil {
 						if(getter == null) {
 							throw new NullPointerException("无法调用 "+introspectorClass+"."+toGetMethodName(propertyName)+"方法, 程序没有获取到该方法");
 						}
-						values.add(getter.invoke(introspectorObject));
+						valueMap.put(propertyName, getter.invoke(introspectorObject));
 						
 						if(logger.isDebugEnabled()) {
-							logger.debug("调用 {}.{}, get出的参数值为 {}, 值类型为 {}", introspectorClass, getter.getName(), values.get(index), pd.getPropertyType());
+							logger.debug("调用 {}.{}, get出的参数值为 {}, 值类型为 {}", introspectorClass, getter.getName(), valueMap.get(propertyName), pd.getPropertyType());
 						}
 						index++;
 						if(index == size) {
@@ -64,7 +64,7 @@ public class IntrospectorUtil {
 						}
 					}
 				}
-				return values;
+				return valueMap;
 			} catch (Exception e) {
 				logger.error("[{}]实例, get {} 属性的值时, 出现异常:{}", introspectorClass, propertyName, ExceptionUtil.getExceptionDetailMessage(e));
 				e.printStackTrace();
