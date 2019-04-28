@@ -28,7 +28,8 @@ public class CryptographyUtil {
 	 */
 	public static String encodeMD5(String str, String salt){
 		if(str == null) {
-			throw new NullPointerException("进行md5加密的字符串不能为空");
+			logger.debug("进行md5加密的字符串不能为空");
+			return null;
 		}
 		logger.trace("将字符串[{}]进行md5加密, 其盐值为[{}]", str, salt);
 		if(salt != null) {

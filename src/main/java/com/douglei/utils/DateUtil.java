@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.douglei.utils.datatype.ValidationUtil;
 
 /**
@@ -13,6 +16,7 @@ import com.douglei.utils.datatype.ValidationUtil;
  * @author DougLei
  */
 public class DateUtil {
+	private static final Logger logger = LoggerFactory.getLogger(DateUtil.class);
 	
 	/**
 	 * -格式，简单日期格式化类
@@ -62,11 +66,9 @@ public class DateUtil {
 	 * @return
 	 */
 	public static Date parseDate(String date){
-		if(StringUtil.isEmpty(date)){
-			throw new NullPointerException("格式化日期字符串 ["+date+"] 不能为空！");
-		}
 		if(!ValidationUtil.isDate(date)){
-			throw new IllegalArgumentException("日期字符串 ["+date+"] 的格式错误！");
+			logger.debug("日期字符串 [{}] 的格式错误", date);
+			throw new IllegalArgumentException("日期字符串 ["+date+"] 的格式错误");
 		}
 		try {
 			if(date.endsWith("Z")){
@@ -77,8 +79,10 @@ public class DateUtil {
 				return sdfSimple.parse(date);
 			}
 		} catch (ParseException e) {
-			throw new IllegalArgumentException("格式化日期字符串 ["+date+"] 为日期对象时出现错误：", e);
+			logger.error("格式化日期字符串 [{}] 为日期对象时, 出现异常:{}", date, ExceptionUtil.getExceptionDetailMessage(e));
+			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	/**
@@ -219,25 +223,21 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String addAndSubtractDay(Object date, int days) {
+		if(days == 0) {
+			logger.debug("加减日期的天数不能为0");
+			throw new IllegalArgumentException("加减日期的天数不能为0");
+		}
 		if(ValidationUtil.isDate(date)){
-			if(days != 0){
-				long resultDateTime;
-				if(date instanceof String){
-					resultDateTime = parseDate(date.toString()).getTime() + (days*86400000);
-				}else{
-					resultDateTime = ((Date)date).getTime() + (days*86400000);
-				}
-				return formatDate(new Date(resultDateTime));
+			long resultDateTime;
+			if(date instanceof String){
+				resultDateTime = parseDate(date.toString()).getTime() + (days*86400000);
+			}else{
+				resultDateTime = ((Date)date).getTime() + (days*86400000);
 			}
-		}else{
-			throw new IllegalArgumentException("参数date的日期值 ["+date+"] 格式错误！");
+			return formatDate(new Date(resultDateTime));
 		}
-		
-		if(date instanceof String){
-			return date.toString();
-		}else{
-			return formatDate((Date)date);
-		}
+		logger.debug("参数date的日期值 [{}] 格式错误", date);
+		throw new IllegalArgumentException("参数date的日期值 ["+date+"] 格式错误");
 	}
 	
 	// -----------------------------------------------------------------
