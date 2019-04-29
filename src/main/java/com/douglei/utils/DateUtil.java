@@ -45,6 +45,7 @@ public class DateUtil {
 			throw new IllegalArgumentException("日期字符串 ["+dateString+"] 的格式错误");
 		}
 		try {
+			dateString = dateString.trim();
 			if(dateString.endsWith("Z")){
 				return sdfTimeZone.parse(dateString.replace("Z", " UTC"));
 			}else if(dateString.indexOf(":") != -1){

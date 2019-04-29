@@ -26,7 +26,7 @@ public class ValidationUtil {
 				return true;
 			}
 			
-			String valStr = val.toString();
+			String valStr = val.toString().trim();
 			logger.debug("将object转换为字符串的值为[{}]", valStr);
 			if(integerTypePattern.matcher(valStr).matches()){
 				return true;
@@ -52,7 +52,7 @@ public class ValidationUtil {
 				return true;
 			}
 			
-			String valStr = val.toString();
+			String valStr = val.toString().trim();
 			logger.debug("将object转换为字符串的值为[{}]", valStr);
 			if(doubleTypePattern.matcher(valStr).matches()){
 				return true;
@@ -86,7 +86,7 @@ public class ValidationUtil {
 				return true;
 			}
 			
-			String valStr = val.toString();
+			String valStr = val.toString().trim();
 			logger.debug("将object转换为字符串的值为[{}]", valStr);
 			if("true".equals(valStr) || "false".equals(valStr)){
 				return true;
@@ -111,7 +111,7 @@ public class ValidationUtil {
 				return true;
 			}
 			
-			String valStr = val.toString();
+			String valStr = val.toString().trim();
 			logger.debug("将object转换为字符串的值为[{}]", valStr);
 			if(dateTypePattern.matcher(valStr).matches()){
 				return true;
