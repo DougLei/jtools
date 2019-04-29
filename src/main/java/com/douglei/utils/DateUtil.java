@@ -39,7 +39,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static Date parseDate(String dateString){
-		logger.debug("将字符串[{}] 格式化为日期对象", dateString);
+		logger.debug("将字符串[{}]格式化为日期对象", dateString);
 		if(!ValidationUtil.isDate(dateString)){
 			logger.debug("日期字符串 [{}] 的格式错误", dateString);
 			throw new IllegalArgumentException("日期字符串 ["+dateString+"] 的格式错误");
@@ -53,10 +53,9 @@ public class DateUtil {
 				return sdfSimple.parse(dateString);
 			}
 		} catch (ParseException e) {
-			logger.error("格式化日期字符串 [{}] 为日期对象时, 出现异常:{}", dateString, ExceptionUtil.getExceptionDetailMessage(e));
-			e.printStackTrace();
+			logger.error("格式化日期字符串[{}]为日期对象时, 出现异常:{}", dateString, ExceptionUtil.getExceptionDetailMessage(e));
+			throw new RuntimeException("格式化日期字符串["+dateString+"]为日期对象时, 出现异常", e);
 		}
-		return null;
 	}
 	
 	/**
