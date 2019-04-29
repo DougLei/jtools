@@ -6,8 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.douglei.utils.StringUtil;
 
 /**
- * 数据类型转换
- * <p>目前</p>
+ * 数据类型转换工具类
  * @author DougLei
  */
 public class ConvertUtil {
@@ -28,10 +27,9 @@ public class ConvertUtil {
 			logger.debug("要进行数据类型转换的value值为空");
 			return null;
 		}
+		logger.debug("convert value is {}, targetClass is {}", value, targetClass);
 		
 		String valueString = value.toString();
-		logger.debug("要进行数据类型转换的value={}", valueString);
-		
 		if(targetClass == String.class) {
 			logger.debug("targetClass is String.class");
 			return valueString;
