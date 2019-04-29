@@ -39,6 +39,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static Date parseDate(String dateString){
+		logger.debug("将字符串[{}] 格式化为日期对象", dateString);
 		if(!ValidationUtil.isDate(dateString)){
 			logger.debug("日期字符串 [{}] 的格式错误", dateString);
 			throw new IllegalArgumentException("日期字符串 ["+dateString+"] 的格式错误");
