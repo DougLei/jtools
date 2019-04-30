@@ -76,11 +76,10 @@ public class CloseUtil {
 				InputStream in = (InputStream) io;
 				in.close();
 			}else{
-				logger.error("没有匹配到名为[{}]的io对象", ioClass);
+				logger.debug("没有匹配到名为[{}]的io对象", ioClass);
 			}
 		} catch (IOException e) {
-			logger.error("关闭io对象[{}]时, 出现异常:{}", ioClass, ExceptionUtil.getExceptionDetailMessage(e));
-			e.printStackTrace();
+			throw new RuntimeException("关闭io对象["+ioClass+"]时, 出现异常", e);
 		}finally{
 			io = null;
 		}
@@ -109,11 +108,10 @@ public class CloseUtil {
 				ResultSet rs = (ResultSet) dbconn;
 				rs.close();
 			}else{
-				logger.error("没有匹配到名为[{}]的dbconn对象", dbconnClass);
+				logger.debug("没有匹配到名为[{}]的dbconn对象", dbconnClass);
 			}
 		} catch (SQLException e) {
-			logger.error("关闭dbconn对象[{}]时, 出现异常:{}", dbconnClass, ExceptionUtil.getExceptionDetailMessage(e));
-			e.printStackTrace();
+			throw new RuntimeException("关闭dbconn对象["+dbconnClass+"]时, 出现异常", e);
 		} finally{
 			dbconn = null;
 		}

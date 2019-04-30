@@ -7,8 +7,6 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.douglei.utils.ExceptionUtil;
-
 /**
  * 日期类型工具类
  * @author DougLei
@@ -80,7 +78,6 @@ public class DateTypeUtil {
 				return sdfSimple.parse(dateString);
 			}
 		} catch (ParseException e) {
-			logger.error("格式化日期字符串[{}]为日期对象时, 出现异常:{}", dateString, ExceptionUtil.getExceptionDetailMessage(e));
 			throw new RuntimeException("格式化日期字符串["+dateString+"]为日期对象时, 出现异常", e);
 		}
 	}
