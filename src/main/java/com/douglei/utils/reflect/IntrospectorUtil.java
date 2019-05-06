@@ -31,6 +31,10 @@ public class IntrospectorUtil {
 	 * @return
 	 */
 	public static Map<String, Object> getProperyValues(Object introspectorObject, Collection<String> propertyNames) {
+		if(introspectorObject == null) {
+			logger.debug("getProperyValues时, 传入的introspectorObject实例=null");
+			return null;
+		}
 		Class<?> introspectorClass = introspectorObject.getClass();
 		if(logger.isDebugEnabled()) {
 			logger.debug("获取[{}]实例, {} 属性值集合", introspectorClass, propertyNames);
@@ -86,6 +90,10 @@ public class IntrospectorUtil {
 	 * @return
 	 */
 	public static Object setProperyValues(Object introspectorObject, Map<String, ? extends Object> propertyMap) {
+		if(introspectorObject == null) {
+			logger.debug("setProperyValues时, 传入的introspectorObject实例=null");
+			return null;
+		}
 		Class<?> introspectorClass = introspectorObject.getClass();
 		if(logger.isDebugEnabled()) {
 			logger.debug("给[{}]实例, set {} 属性值map集合", introspectorClass, propertyMap);
