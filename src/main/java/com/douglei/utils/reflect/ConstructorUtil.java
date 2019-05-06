@@ -4,7 +4,7 @@ package com.douglei.utils.reflect;
  * 构造函数反射工具类
  * @author DougLei
  */
-public class ConstructorReflectUtil {
+public class ConstructorUtil {
 	
 	/**
 	 * 创建无参构造函数实例
