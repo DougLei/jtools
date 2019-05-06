@@ -32,7 +32,9 @@ public class IntrospectorUtil {
 	 */
 	public static Map<String, Object> getProperyValues(Object introspectorObject, Collection<String> propertyNames) {
 		Class<?> introspectorClass = introspectorObject.getClass();
-		logger.debug("获取[{}]实例, {} 属性值集合", introspectorClass, propertyNames);
+		if(logger.isDebugEnabled()) {
+			logger.debug("获取[{}]实例, {} 属性值集合", introspectorClass, propertyNames);
+		}
 		
 		if(propertyNames != null && propertyNames.size() > 0) {
 			String propertyName = null;
@@ -71,7 +73,7 @@ public class IntrospectorUtil {
 		return null;
 	}
 	private static String toGetMethodName(String fieldName) {
-		return "get" + fieldName.substring(0,1).toUpperCase() + fieldName.substring(1);
+		return "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 	}
 	
 	/**
@@ -83,9 +85,11 @@ public class IntrospectorUtil {
 	 * @param propertyMap
 	 * @return
 	 */
-	public static void setProperyValues(Object introspectorObject, Map<String, ? extends Object> propertyMap) {
+	public static Object setProperyValues(Object introspectorObject, Map<String, ? extends Object> propertyMap) {
 		Class<?> introspectorClass = introspectorObject.getClass();
-		logger.debug("给[{}]实例, set {} 属性值map集合", introspectorClass, propertyMap);
+		if(logger.isDebugEnabled()) {
+			logger.debug("给[{}]实例, set {} 属性值map集合", introspectorClass, propertyMap);
+		}
 		
 		if(propertyMap != null && propertyMap.size() > 0) {
 			String propertyName = null;
@@ -123,8 +127,9 @@ public class IntrospectorUtil {
 				throw new RuntimeException("["+introspectorClass+"]实例, set "+propertyName+" 属性的值时, 出现异常", e);
 			}
 		}
+		return introspectorObject;
 	}
 	private static String toSetMethodName(String fieldName) {
-		return "set" + fieldName.substring(0,1).toUpperCase() + fieldName.substring(1);
+		return "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
 	}
 }
