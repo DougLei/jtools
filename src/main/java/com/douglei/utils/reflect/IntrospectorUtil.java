@@ -32,8 +32,7 @@ public class IntrospectorUtil {
 	 */
 	public static Map<String, Object> getProperyValues(Object introspectorObject, Collection<String> propertyNames) {
 		if(introspectorObject == null) {
-			logger.debug("getProperyValues时, 传入的introspectorObject实例=null");
-			return null;
+			throw new NullPointerException("getProperyValues时, 传入的introspectorObject实例=null");
 		}
 		Class<?> introspectorClass = introspectorObject.getClass();
 		if(logger.isDebugEnabled()) {
@@ -91,8 +90,7 @@ public class IntrospectorUtil {
 	 */
 	public static Object setProperyValues(Object introspectorObject, Map<String, ? extends Object> propertyMap) {
 		if(introspectorObject == null) {
-			logger.debug("setProperyValues时, 传入的introspectorObject实例=null");
-			return null;
+			throw new NullPointerException("setProperyValues时, 传入的introspectorObject实例=null");
 		}
 		Class<?> introspectorClass = introspectorObject.getClass();
 		if(logger.isDebugEnabled()) {
