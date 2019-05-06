@@ -13,7 +13,7 @@ public class ConstructorUtil {
 	 */
 	public static Object newInstance(Class<?> clz) {
 		try {
-			return clz.getConstructor().newInstance();
+			return clz.newInstance();
 		} catch (Exception e) {
 			throw new RuntimeException("根据类["+clz.getName()+"]的无参构造函数, new实例时, 出现异常", e);
 		}
