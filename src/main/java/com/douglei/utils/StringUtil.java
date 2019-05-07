@@ -47,4 +47,51 @@ public class StringUtil {
 	public static boolean notEmpty(Object object){
 		return !isEmpty(object);
 	}
+	
+	/**
+	 * <pre>
+	 * 	去掉前后的下划线
+	 * </pre>
+	 * @param str
+	 * @return
+	 */
+	public static String trimUnderline(String str) {
+		return trimUnderline_(str)[2];
+	}
+	
+	/**
+	 * <pre>
+	 * 	去掉前后的下划线
+	 * 	[0]=前下划线, 如果没有返回null
+	 * 	[1]=后下划线, 如果没有返回null
+	 * 	[2]=去掉前后下划线的string
+	 * </pre>
+	 * @param str
+	 * @return
+	 */
+	public static String[] trimUnderline_(String str) {
+		String[] result = new String[3];
+		
+		int topIndex = 0;
+		int bottomIndex = str.length();
+		
+		while(topIndex < bottomIndex && str.charAt(topIndex) == '_') {
+			topIndex++;
+		}
+		while(topIndex < bottomIndex && str.charAt(bottomIndex-1) == '_') {
+			bottomIndex--;
+		}
+		
+		boolean flag = false;
+		if(topIndex > 0) {
+			result[0] = str.substring(0, topIndex);
+			flag = true;
+		}
+		if(bottomIndex < str.length()) {
+			result[1] = str.substring(bottomIndex);
+			flag = true;
+		}
+		result[2] = flag?str.substring(topIndex, bottomIndex):str;
+		return result;
+	}
 }
