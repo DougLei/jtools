@@ -7,12 +7,15 @@ package com.douglei.utils;
 public class StringUtil {
 	
 	/**
-	 * 字符串是否为空
-	 * @param str
+	 * <pre>
+	 * 	字符串是否为空
+	 * 	trim()后的空字符串, 也会被判定为空
+	 * </pre>
+	 * @param string
 	 * @return
 	 */
-	public static boolean isEmpty(String str){
-		if(str == null || "".equals(str.trim())){
+	public static boolean isEmpty(String string){
+		if(string == null || "".equals(string.trim())){
 			return true;
 		}
 		return false;
@@ -32,11 +35,11 @@ public class StringUtil {
 	
 	/**
 	 * 字符串是否不为空
-	 * @param str
+	 * @param string
 	 * @return
 	 */
-	public static boolean notEmpty(String str){
-		return !isEmpty(str);
+	public static boolean notEmpty(String string){
+		return !isEmpty(string);
 	}
 	
 	/**
@@ -52,11 +55,11 @@ public class StringUtil {
 	 * <pre>
 	 * 	去掉前后的下划线
 	 * </pre>
-	 * @param str
+	 * @param string
 	 * @return
 	 */
-	public static String trimUnderline(String str) {
-		return trimUnderline_(str)[2];
+	public static String trimUnderline(String string) {
+		return trimUnderline_(string)[2];
 	}
 	
 	/**
@@ -66,32 +69,32 @@ public class StringUtil {
 	 * 	[1]=后下划线, 如果没有返回null
 	 * 	[2]=去掉前后下划线的string
 	 * </pre>
-	 * @param str
+	 * @param string
 	 * @return
 	 */
-	public static String[] trimUnderline_(String str) {
+	public static String[] trimUnderline_(String string) {
 		String[] result = new String[3];
 		
 		int topIndex = 0;
-		int bottomIndex = str.length();
+		int bottomIndex = string.length();
 		
-		while(topIndex < bottomIndex && str.charAt(topIndex) == '_') {
+		while(topIndex < bottomIndex && string.charAt(topIndex) == '_') {
 			topIndex++;
 		}
-		while(topIndex < bottomIndex && str.charAt(bottomIndex-1) == '_') {
+		while(topIndex < bottomIndex && string.charAt(bottomIndex-1) == '_') {
 			bottomIndex--;
 		}
 		
 		boolean flag = false;
 		if(topIndex > 0) {
-			result[0] = str.substring(0, topIndex);
+			result[0] = string.substring(0, topIndex);
 			flag = true;
 		}
-		if(bottomIndex < str.length()) {
-			result[1] = str.substring(bottomIndex);
+		if(bottomIndex < string.length()) {
+			result[1] = string.substring(bottomIndex);
 			flag = true;
 		}
-		result[2] = flag?str.substring(topIndex, bottomIndex):str;
+		result[2] = flag?string.substring(topIndex, bottomIndex):string;
 		return result;
 	}
 }

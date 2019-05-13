@@ -1,5 +1,9 @@
 package com.douglei.utils;
 
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,29 +17,29 @@ public class CryptographyUtil {
 	
 	/**
 	 * md5加密
-	 * @param str
+	 * @param string
 	 * @return
 	 */
-	public static String encodeMD5(String str){
-		return encodeMD5(str, null);
+	public static String encodeMD5(String string){
+		return encodeMD5(string, null);
 	}
 	
 	/**
 	 * md5加密
-	 * @param str
+	 * @param string
 	 * @param salt
 	 * @return
 	 */
-	public static String encodeMD5(String str, String salt){
-		if(str == null) {
+	public static String encodeMD5(String string, String salt){
+		if(string == null) {
 			logger.debug("进行md5加密的字符串不能为空");
 			return null;
 		}
-		logger.trace("将字符串[{}]进行md5加密, 其盐值为[{}]", str, salt);
+		logger.trace("将字符串[{}]进行md5加密, 其盐值为[{}]", string, salt);
 		if(salt != null) {
-			str += salt;
+			string += salt;
 		}
-		String result = DigestUtils.md5Hex(str);
+		String result = DigestUtils.md5Hex(string);
 		logger.trace("加密的结果为[{}]", result);
 		return result;
 	}
@@ -43,12 +47,44 @@ public class CryptographyUtil {
 	/**
 	 * 比较MD5值是否一致
 	 * @param originMD5Value
-	 * @param str
+	 * @param string
+	 * @return
+	 */
+	public static boolean equalsMD5Value(String originMD5Value, String string) {
+		String newMD5Value = encodeMD5(string, null);
+		return originMD5Value.equals(newMD5Value);
+	}
+	
+	/**
+	 * 比较MD5值是否一致
+	 * @param originMD5Value
+	 * @param string
 	 * @param salt
 	 * @return
 	 */
-	public static boolean equalsMD5Value(String originMD5Value, String str, String salt) {
-		String newMD5Value = encodeMD5(str, salt);
+	public static boolean equalsMD5Value(String originMD5Value, String string, String salt) {
+		String newMD5Value = encodeMD5(string, salt);
 		return originMD5Value.equals(newMD5Value);
 	}
+	
+	/**
+	 * base64加密
+	 * @param string
+	 * @return
+	 */
+	public static String encodeByBASE64(String string) {
+		return encoderBASE64.encodeToString(string.getBytes());
+	}
+	private static Encoder encoderBASE64 = Base64.getEncoder();
+	
+	/**
+	 * base64解密
+	 * @param string
+	 * @return
+	 */
+	public static String decodeByBASE64(String string) {
+		byte[] bt = decoderBASE64.decode(string.getBytes());
+		return new String(bt);
+	}
+	private static Decoder decoderBASE64 = Base64.getDecoder();
 }
