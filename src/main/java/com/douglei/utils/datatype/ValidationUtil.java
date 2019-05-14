@@ -45,7 +45,7 @@ public class ValidationUtil {
 	 * @param val
 	 * @return
 	 */
-	public static boolean isFloat(Object val){
+	public static boolean isDouble(Object val){
 		logger.debug("判断是否是浮点类型(java.lang.Float)(java.lang.Double)(java.math.BigDecimal)，传入的参数值为: {}", val);
 		if(val != null){
 			if(val instanceof Float || val instanceof Double || val instanceof BigDecimal){
@@ -71,7 +71,7 @@ public class ValidationUtil {
 	 */
 	public static boolean isNumber(Object val){
 		logger.debug("判断是否是数字类型，传入的参数值为: {}", val);
-		return isInteger(val) || isFloat(val);
+		return isInteger(val) || isDouble(val);
 	}
 	
 	/**

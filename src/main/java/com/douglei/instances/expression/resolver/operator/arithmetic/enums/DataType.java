@@ -21,7 +21,7 @@ public enum DataType {
 	public static DataType getDataType(String value){
 		if(ValidationUtil.isInteger(value)){
 			return DataType.INTEGER;
-		}else if(ValidationUtil.isFloat(value)){
+		}else if(ValidationUtil.isDouble(value)){
 			return  DataType.DOUBLE;
 		}else if(ValidationUtil.isBoolean(value)){
 			return  DataType.BOOLEAN;
