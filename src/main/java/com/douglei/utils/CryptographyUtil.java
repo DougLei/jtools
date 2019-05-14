@@ -1,8 +1,6 @@
 package com.douglei.utils;
 
 import java.util.Base64;
-import java.util.Base64.Decoder;
-import java.util.Base64.Encoder;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
@@ -73,9 +71,8 @@ public class CryptographyUtil {
 	 * @return
 	 */
 	public static String encodeByBASE64(String string) {
-		return encoderBASE64.encodeToString(string.getBytes());
+		return Base64.getEncoder().encodeToString(string.getBytes());
 	}
-	private static Encoder encoderBASE64 = Base64.getEncoder();
 	
 	/**
 	 * base64解密
@@ -83,8 +80,7 @@ public class CryptographyUtil {
 	 * @return
 	 */
 	public static String decodeByBASE64(String string) {
-		byte[] bt = decoderBASE64.decode(string.getBytes());
+		byte[] bt = Base64.getDecoder().decode(string.getBytes());
 		return new String(bt);
 	}
-	private static Decoder decoderBASE64 = Base64.getDecoder();
 }
