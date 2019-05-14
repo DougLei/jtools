@@ -100,7 +100,7 @@ public class DateTypeUtil {
 		}else if(date instanceof java.sql.Date || date instanceof java.sql.Timestamp) {
 			return new Date(((Date)date).getTime());
 		}
-		throw new IllegalArgumentException("转换为java.util.Date时，目前不支持传入的date参数类型["+date.getClass()+"]");
+		throw new IllegalArgumentException("转换为java.util.Date时，目前不支持传入的date参数类型["+date.getClass().getName()+"]");
 	}
 	
 	
@@ -120,7 +120,7 @@ public class DateTypeUtil {
 		}else if(date instanceof java.sql.Date) {
 			return (java.sql.Date)date;
 		}
-		throw new IllegalArgumentException("要转换为java.sql.Date时，目前不支持传入的date参数类型["+date.getClass()+"]");
+		throw new IllegalArgumentException("要转换为java.sql.Date时，目前不支持传入的date参数类型["+date.getClass().getName()+"]");
 	}
 	
 	/**
@@ -139,6 +139,6 @@ public class DateTypeUtil {
 		}else if(date instanceof java.sql.Timestamp) {
 			return (java.sql.Timestamp)date;
 		}
-		throw new IllegalArgumentException("要转换为java.sql.Timestamp时，目前不支持传入的date参数类型["+date.getClass()+"]");
+		throw new IllegalArgumentException("要转换为java.sql.Timestamp时，目前不支持传入的date参数类型["+date.getClass().getName()+"]");
 	}
 }
