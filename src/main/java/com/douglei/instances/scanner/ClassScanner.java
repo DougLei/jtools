@@ -18,11 +18,6 @@ import com.douglei.utils.StringUtil;
 public class ClassScanner extends AbstractScanner{
 	
 	// -----------------------------------------------------------------------------------------------------------
-	/**
-	 * 根据包路径，扫描其下所有的类，获取它们的全名集合
-	 * @param basePackagePath
-	 * @return 
-	 */
 	@Override
 	public List<String> scan(String basePackagePath) {
 		if(StringUtil.isEmpty(basePackagePath)){
@@ -42,12 +37,6 @@ public class ClassScanner extends AbstractScanner{
 		return list;
 	}
 	
-	/**
-	 * 根据包路径，重新扫描其下所有的类
-	 * <p>会清空上一次扫描的类全名结果集</p>
-	 * @param basePackagePath
-	 * @return
-	 */
 	@Override
 	public List<String> rescan(String basePackagePath) {
 		if(list.size() > 0) {
@@ -56,13 +45,8 @@ public class ClassScanner extends AbstractScanner{
 		return scan(basePackagePath);
 	}
 	
-	/**
-	 * 指定多个路径，循环扫描，将最终的结果一次返回
-	 * @param basePackagePaths
-	 * @return
-	 */
 	@Override
-	public List<String> loopScan(String... basePackagePaths){
+	public List<String> multiScan(String... basePackagePaths){
 		if(basePackagePaths != null && basePackagePaths.length > 0) {
 			for (String basePackagePath : basePackagePaths) {
 				scan(basePackagePath);
@@ -71,18 +55,12 @@ public class ClassScanner extends AbstractScanner{
 		return list;
 	}
 	
-	/**
-	 * 根据包路径，重新循环扫描其下所有的类
-	 * <p>会清空上一次扫描的类全名结果集</p>
-	 * @param basePackagePaths
-	 * @return
-	 */
 	@Override
-	public List<String> reLoopScan(String... basePackagePaths) {
+	public List<String> reMultiScan(String... basePackagePaths) {
 		if(list.size() > 0) {
 			list.clear();
 		}
-		return loopScan(basePackagePaths);
+		return multiScan(basePackagePaths);
 	}
 	
 	/**

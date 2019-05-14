@@ -48,11 +48,11 @@ public abstract class AbstractScanner {
 	public abstract List<String> rescan(String basePath);
 	
 	/**
-	 * 指定多个路径，循环扫描，将最终的结果一次返回
+	 * 指定多个路径，多路径扫描，将最终的结果一次返回
 	 * @param basePaths
 	 * @return
 	 */
-	public abstract List<String> loopScan(String... basePaths);
+	public abstract List<String> multiScan(String... basePaths);
 	
 	/**
 	 * 根据包路径，重新循环扫描其下所有的类
@@ -60,5 +60,5 @@ public abstract class AbstractScanner {
 	 * @param basePaths
 	 * @return
 	 */
-	public abstract List<String> reLoopScan(String... basePaths);
+	public abstract List<String> reMultiScan(String... basePaths);
 }

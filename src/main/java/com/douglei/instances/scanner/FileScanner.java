@@ -20,12 +20,6 @@ public class FileScanner extends AbstractScanner{
 	}
 
 	// -----------------------------------------------------------------------------------------------------------
-	/**
-	 * 根据路径，扫描其下所有的文件，获取它们的绝对路径集合
-	 * @param basePath
-	 * @param targetFileSuffix
-	 * @return 
-	 */
 	@Override
 	public List<String> scan(String basePath) {
 		if(StringUtil.isEmpty(basePath)){
@@ -39,12 +33,6 @@ public class FileScanner extends AbstractScanner{
 		return list;
 	}
 	
-	/**
-	 * 根据路径，重新扫描其下所有的文件
-	 * <p>会清空上一次扫描的文件路径结果集</p>
-	 * @param basePath
-	 * @return
-	 */
 	@Override
 	public List<String> rescan(String basePath) {
 		if(list.size() > 0) {
@@ -53,13 +41,8 @@ public class FileScanner extends AbstractScanner{
 		return scan(basePath);
 	}
 	
-	/**
-	 * 指定多个路径，循环扫描，将最终的结果一次返回
-	 * @param basePaths
-	 * @return
-	 */
 	@Override
-	public List<String> loopScan(String... basePaths){
+	public List<String> multiScan(String... basePaths){
 		if(basePaths != null && basePaths.length > 0) {
 			for (String basePath : basePaths) {
 				scan(basePath);
@@ -68,18 +51,12 @@ public class FileScanner extends AbstractScanner{
 		return list;
 	}
 	
-	/**
-	 * 根据路径，重新循环扫描其下所有的文件
-	 * <p>会清空上一次扫描的类全名结果集</p>
-	 * @param basePaths
-	 * @return
-	 */
 	@Override
-	public List<String> reLoopScan(String... basePaths) {
+	public List<String> reMultiScan(String... basePaths) {
 		if(list.size() > 0) {
 			list.clear();
 		}
-		return loopScan(basePaths);
+		return multiScan(basePaths);
 	}
 	
 	/**
