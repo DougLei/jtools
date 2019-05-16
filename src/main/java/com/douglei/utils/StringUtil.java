@@ -1,5 +1,8 @@
 package com.douglei.utils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 字符串工具类
  * @author StoneKing
@@ -97,4 +100,24 @@ public class StringUtil {
 		result[2] = flag?string.substring(topIndex, bottomIndex):string;
 		return result;
 	}
+	
+	/**
+	 * 计算字符串的长度
+	 * <p>如果存在双字节字符，将对应的长度+1</p>
+	 * @param string
+	 * @return
+	 */
+	public static int calcStringLength(String string) {
+		if(string == null){
+			return 0;
+		}
+		int length = string.length();
+		Matcher matcher = doubleCharPattern.matcher(string);
+		while(matcher.find()){
+			length++;
+		}
+		return length;
+	}
+	// 匹配双字节的正则表达式，包括汉字
+	private static final Pattern doubleCharPattern = Pattern.compile("[^x00-xff]");
 }
