@@ -86,7 +86,7 @@ public class ValidationUtil {
 				return true;
 			}
 			
-			String valStr = val.toString();
+			String valStr = val.toString().toLowerCase();
 			logger.debug("将object转换为字符串的值为[{}]", valStr);
 			if("true".equals(valStr) || "false".equals(valStr)){
 				return true;
