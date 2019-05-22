@@ -107,18 +107,17 @@ class ExpressionResolver {
 	
 	/**
 	 * 获取value值
-	 * @param valueStr
+	 * @param valueString
 	 * @return
 	 */
-	private Object getValue(String valueStr) {
-		valueStr = valueStr.trim();
-		valueStr = valueStr
-				.replace("\\\"", "_86cf3770761a45b3823f7353d44a45a8_douglei_").replace("\\'", "_5183bcd3bf7844ddb667b15441fcb357_douglei_")
-				.replace("\"", "").replace("'", "")
-				.replace("_86cf3770761a45b3823f7353d44a45a8_douglei_", "\"").replace("_5183bcd3bf7844ddb667b15441fcb357_douglei_", "'");
-		return valueStr;
+	private Object getValue(String valueString) {
+		valueString = valueString.trim();
+		if(valueString.startsWith("\"") || valueString.startsWith("'")) {
+			valueString = valueString.substring(1, valueString.length()-1);
+		}
+		return valueString;
 	}
-
+	
 	/**
 	 * 根据map，解析表达式
 	 * @param expression
