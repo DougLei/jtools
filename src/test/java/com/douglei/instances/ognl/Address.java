@@ -1,4 +1,4 @@
-package com.douglei.utils.ognl;
+package com.douglei.instances.ognl;
 
 public class Address {
 	private String address;

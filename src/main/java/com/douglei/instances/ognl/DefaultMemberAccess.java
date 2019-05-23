@@ -1,4 +1,4 @@
-package com.douglei.utils.ognl;
+package com.douglei.instances.ognl;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Member;
@@ -19,7 +19,7 @@ import ognl.MemberAccess;
  * @author Drew Davidson (drew@ognl.org)
  * @version 15 October 1999
  */
-public class DefaultMemberAccess implements MemberAccess
+class DefaultMemberAccess implements MemberAccess
 {
     public boolean      allowPrivateAccess = false;
     public boolean      allowProtectedAccess = false;

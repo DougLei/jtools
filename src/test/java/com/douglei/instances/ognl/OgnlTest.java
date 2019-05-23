@@ -1,9 +1,11 @@
-package com.douglei.utils.ognl;
+package com.douglei.instances.ognl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
+
+import com.douglei.instances.ognl.memberaccess.DefaultMemberAccess;
 
 import ognl.Ognl;
 import ognl.OgnlContext;

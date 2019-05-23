@@ -1,4 +1,4 @@
-package com.douglei.utils.ognl;
+package com.douglei.instances.ognl.memberaccess;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Member;
