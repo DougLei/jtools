@@ -22,7 +22,7 @@ public class OgnlHandler {
 	 * 获取单例实例
 	 * @return
 	 */
-	public static final OgnlHandler getSingleInstance(){
+	public static final OgnlHandler singleInstance(){
 		if(singleInstance == null){
 			singleInstance = new OgnlHandler();
 		}

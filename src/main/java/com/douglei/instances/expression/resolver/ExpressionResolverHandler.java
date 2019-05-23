@@ -14,7 +14,7 @@ public class ExpressionResolverHandler {
 	 * 获取单例实例
 	 * @return
 	 */
-	public static final ExpressionResolverHandler getSingleInstance(){
+	public static final ExpressionResolverHandler singleInstance(){
 		if(singleInstance == null){
 			singleInstance = new ExpressionResolverHandler();
 		}
