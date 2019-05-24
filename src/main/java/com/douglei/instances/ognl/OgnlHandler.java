@@ -39,6 +39,14 @@ public class OgnlHandler {
 	}
 	
 	/**
+	 * 获取OgnlContext
+	 * @return ognl.OgnlContext
+	 */
+	public OgnlContext getOgnlContext() {
+		return context;
+	}
+	
+	/**
 	 * 获取boolean值
 	 * @param expression
 	 * @param root
@@ -48,8 +56,21 @@ public class OgnlHandler {
 		try {
 			return (boolean) Ognl.getValue(expression, context, root);
 		} catch (OgnlException e) {
-			e.printStackTrace();
+			throw new RuntimeException("getBooleanValue时出现异常: ", e);
 		}
-		return false;
+	}
+	
+	/**
+	 * 获取Object值
+	 * @param expression
+	 * @param root
+	 * @return
+	 */
+	public Object getObjectValue(String expression, Object root) {
+		try {
+			return Ognl.getValue(expression, context, root);
+		} catch (OgnlException e) {
+			throw new RuntimeException("getObjectValue时出现异常: ", e);
+		}
 	}
 }
