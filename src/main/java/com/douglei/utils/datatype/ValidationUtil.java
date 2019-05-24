@@ -136,7 +136,7 @@ public class ValidationUtil {
 	 * @param value
 	 * @return
 	 */
-	public static boolean isBaseDataType(Object value) {
+	public static boolean isBasicDataType(Object value) {
 		if(value != null) {
 			Class<?> valueClass = value.getClass();
 			if((valueClass == String.class) || 
