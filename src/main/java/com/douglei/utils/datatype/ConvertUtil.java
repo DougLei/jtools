@@ -106,20 +106,12 @@ public class ConvertUtil {
 	 * @param targetClass
 	 * @return
 	 */
-	public static <T> T mapToClass(Map<String, Object> map, Class<T> targetClass) {
-		return mapToClass(map, targetClass, false);
-	}
-	
-	/**
-	 * 将map转换为class对象
-	 * @param map
-	 * @param targetClass
-	 * @param mapKey2PropertyName 是否将map的key转换为属性名
-	 * @return
-	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T mapToClass(Map<String, Object> map, Class<T> targetClass, boolean mapKey2PropertyName) {
-		return (T) IntrospectorUtil.setProperyValues(ConstructorUtil.newInstance(targetClass), map);
+	public static <T> T mapToClass(Map<String, Object> map, Class<T> targetClass) {
+		if(map != null && map.size() > 0) {
+			return (T) IntrospectorUtil.setProperyValues(ConstructorUtil.newInstance(targetClass), map);
+		}
+		return null;
 	}
 	
 	/**
@@ -129,21 +121,10 @@ public class ConvertUtil {
 	 * @return
 	 */
 	public static <T> List<T> listMapToListClass(List<Map<String, Object>> listMap, Class<T> targetClass){
-		return listMapToListClass(listMap, targetClass, false);
-	}
-	
-	/**
-	 * 将list map转换为list class对象集合
-	 * @param listMap
-	 * @param targetClass
-	 * @param mapKey2PropertyName 是否将map的key转换为属性名
-	 * @return
-	 */
-	public static <T> List<T> listMapToListClass(List<Map<String, Object>> listMap, Class<T> targetClass, boolean mapKey2PropertyName){
 		if(listMap!= null && listMap.size()>0) {
 			List<T> listT = new ArrayList<T>(listMap.size());
 			for (Map<String, Object> map : listMap) {
-				listT.add(mapToClass(map, targetClass, mapKey2PropertyName));
+				listT.add(mapToClass(map, targetClass));
 			}
 			return listT;
 		}
