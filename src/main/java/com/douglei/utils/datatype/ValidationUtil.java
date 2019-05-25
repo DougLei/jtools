@@ -12,52 +12,52 @@ public class ValidationUtil {
 	
 	/**
 	 * 是否是短整型
-	 * @param val
+	 * @param value
 	 * @return
 	 */
-	public static boolean isShort(Object val){
-		if(val != null){
-			if(val instanceof Short || val.getClass() == short.class){
+	public static boolean isShort(Object value){
+		if(value != null){
+			if(value instanceof Short || value.getClass() == short.class){
 				return true;
 			}
-			return isInteger_(val);
+			return isInteger_(value);
 		}
 		return false;
 	}
 	
 	/**
 	 * 是否是长整型
-	 * @param val
+	 * @param value
 	 * @return
 	 */
-	public static boolean isLong(Object val){
-		if(val != null){
-			if(val instanceof Long || val.getClass() == long.class){
+	public static boolean isLong(Object value){
+		if(value != null){
+			if(value instanceof Long || value.getClass() == long.class){
 				return true;
 			}
-			return isInteger_(val);
+			return isInteger_(value);
 		}
 		return false;
 	}
 	
 	/**
 	 * 是否是整型
-	 * @param val
+	 * @param value
 	 * @return
 	 */
-	public static boolean isInteger(Object val){
-		if(val != null){
-			if(val instanceof Integer || val.getClass() == int.class){
+	public static boolean isInteger(Object value){
+		if(value != null){
+			if(value instanceof Integer || value.getClass() == int.class){
 				return true;
 			}
-			return isInteger_(val);
+			return isInteger_(value);
 		}
 		return false;
 	}
 	
-	private static boolean isInteger_(Object val) {
-		String valStr = val.toString();
-		if(integerTypePattern.matcher(valStr).matches()){
+	private static boolean isInteger_(Object value) {
+		String valueString = value.toString();
+		if(integerTypePattern.matcher(valueString).matches()){
 			return true;
 		}
 		return false;
@@ -70,18 +70,18 @@ public class ValidationUtil {
 	 * <p>java.lang.Float</p>
 	 * <p>java.lang.Double</p>
 	 * <p>java.math.BigDecimal</p>
-	 * @param val
+	 * @param value
 	 * @return
 	 */
-	public static boolean isDouble(Object val){
-		if(val != null){
-			Class<?> valClass = val.getClass();
-			if(val instanceof Float || valClass == float.class || val instanceof Double || valClass == double.class || val instanceof BigDecimal){
+	public static boolean isDouble(Object value){
+		if(value != null){
+			Class<?> valueClass = value.getClass();
+			if(value instanceof Float || valueClass == float.class || value instanceof Double || valueClass == double.class || value instanceof BigDecimal){
 				return true;
 			}
 			
-			String valStr = val.toString();
-			if(doubleTypePattern.matcher(valStr).matches()){
+			String valueString = value.toString();
+			if(doubleTypePattern.matcher(valueString).matches()){
 				return true;
 			}
 		}
@@ -93,26 +93,26 @@ public class ValidationUtil {
 	/**
 	 * 是否是数字类型
 	 * <p>整型/浮点型/短整型/长整型</p>
-	 * @param val
+	 * @param value
 	 * @return
 	 */
-	public static boolean isNumber(Object val){
-		return isInteger(val) || isDouble(val) || isShort(val) || isLong(val);
+	public static boolean isNumber(Object value){
+		return isInteger(value) || isDouble(value) || isShort(value) || isLong(value);
 	}
 	
 	/**
 	 * 是否是boolean
-	 * @param val
+	 * @param value
 	 * @return
 	 */
-	public static boolean isBoolean(Object val){
-		if(val != null){
-			if(val instanceof Boolean || val.getClass() == boolean.class){
+	public static boolean isBoolean(Object value){
+		if(value != null){
+			if(value instanceof Boolean || value.getClass() == boolean.class){
 				return true;
 			}
 			
-			String valStr = val.toString().toLowerCase();
-			if("true".equals(valStr) || "false".equals(valStr)){
+			String valueString = value.toString().toLowerCase();
+			if("true".equals(valueString) || "false".equals(valueString)){
 				return true;
 			}
 		}
@@ -125,20 +125,20 @@ public class ValidationUtil {
 	 * <p>java.util.Date</p>
 	 * <p>java.sql.Date</p>
 	 * <p>java.sql.Timestamp</p>
-	 * @param val
+	 * @param value
 	 * @return
 	 */
-	public static boolean isDate(Object val) {
-		if(val != null){
-			if(val instanceof Date || val instanceof java.sql.Date || val instanceof java.sql.Timestamp){
+	public static boolean isDate(Object value) {
+		if(value != null){
+			if(value instanceof Date || value instanceof java.sql.Date || value instanceof java.sql.Timestamp){
 				return true;
 			}
 			
-			String valStr = val.toString();
-			if(dateTypePattern.matcher(valStr).matches()){
+			String valueString = value.toString();
+			if(dateTypePattern.matcher(valueString).matches()){
 				return true;
 			}
-			if(timeZoneTypePattern.matcher(valStr).matches()){
+			if(timeZoneTypePattern.matcher(valueString).matches()){
 				return true;
 			}
 			return false;
@@ -155,7 +155,7 @@ public class ValidationUtil {
 	 * 	是否是基本的数据类型
 	 * 	8大基本数据类型和String类型
 	 * </pre>
-	 * @param value
+	 * @param valueue
 	 * @return
 	 */
 	public static boolean isBasicDataType(Object value) {
