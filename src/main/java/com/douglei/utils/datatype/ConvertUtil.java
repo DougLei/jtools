@@ -1,9 +1,15 @@
 package com.douglei.utils.datatype;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.douglei.utils.StringUtil;
+import com.douglei.utils.reflect.ConstructorUtil;
+import com.douglei.utils.reflect.IntrospectorUtil;
 
 /**
  * 数据类型转换工具类
@@ -92,5 +98,55 @@ public class ConvertUtil {
 			return Byte.parseByte(valueString.trim());
 		}
 		throw new IllegalArgumentException("该方法只支持8大基本数据类型和String类型的转换操作");
+	}
+	
+	/**
+	 * 将map转换为class对象
+	 * @param map
+	 * @param targetClass
+	 * @return
+	 */
+	public static <T> T mapToClass(Map<String, Object> map, Class<T> targetClass) {
+		return mapToClass(map, targetClass, false);
+	}
+	
+	/**
+	 * 将map转换为class对象
+	 * @param map
+	 * @param targetClass
+	 * @param mapKey2PropertyName 是否将map的key转换为属性名
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T mapToClass(Map<String, Object> map, Class<T> targetClass, boolean mapKey2PropertyName) {
+		return (T) IntrospectorUtil.setProperyValues(ConstructorUtil.newInstance(targetClass), map);
+	}
+	
+	/**
+	 * 将list map转换为list class对象集合
+	 * @param listMap
+	 * @param targetClass
+	 * @return
+	 */
+	public static <T> List<T> listMapToListClass(List<Map<String, Object>> listMap, Class<T> targetClass){
+		return listMapToListClass(listMap, targetClass, false);
+	}
+	
+	/**
+	 * 将list map转换为list class对象集合
+	 * @param listMap
+	 * @param targetClass
+	 * @param mapKey2PropertyName 是否将map的key转换为属性名
+	 * @return
+	 */
+	public static <T> List<T> listMapToListClass(List<Map<String, Object>> listMap, Class<T> targetClass, boolean mapKey2PropertyName){
+		if(listMap!= null && listMap.size()>0) {
+			List<T> listT = new ArrayList<T>(listMap.size());
+			for (Map<String, Object> map : listMap) {
+				listT.add(mapToClass(map, targetClass, mapKey2PropertyName));
+			}
+			return listT;
+		}
+		return null;
 	}
 }
