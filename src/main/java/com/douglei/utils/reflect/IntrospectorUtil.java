@@ -70,7 +70,7 @@ public class IntrospectorUtil {
 				}
 				return valueMap;
 			} catch (Exception e) {
-				throw new RuntimeException("["+introspectorClass+"]实例, get "+propertyName+" 属性的值时, 出现异常", e);
+				throw new RuntimeException("["+introspectorClass+"]实例, 调用 "+toGetMethodName(propertyName)+"() 方法时, 出现异常", e);
 			}
 		}
 		return null;
@@ -116,7 +116,7 @@ public class IntrospectorUtil {
 						if(value != null) {
 							setter = pd.getWriteMethod();
 							if(setter == null) {
-								throw new NullPointerException("无法调用 "+introspectorClass+"."+toSetMethodName(propertyName)+"方法, 程序没有获取到该方法");
+								throw new NullPointerException("无法调用 "+introspectorClass+"."+toSetMethodName(propertyName)+"() 方法, 程序没有获取到该方法");
 							}
 							setter.invoke(introspectorObject, ConvertUtil.simpleConvert(value, pd.getPropertyType()));
 							
@@ -130,7 +130,7 @@ public class IntrospectorUtil {
 					}
 				}
 			} catch (Exception e) {
-				throw new RuntimeException("["+introspectorClass+"]实例, set "+propertyName+" 属性的值时, 出现异常", e);
+				throw new RuntimeException("["+introspectorClass+"]实例, 调用 "+toSetMethodName(propertyName)+"() 方法时, 出现异常", e);
 			}
 		}
 		return introspectorObject;
