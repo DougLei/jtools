@@ -62,7 +62,19 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String trimUnderline(String string) {
-		return trimUnderline_(string)[2];
+		int topIndex = 0;
+		int bottomIndex = string.length();
+		
+		while(topIndex < bottomIndex && string.charAt(topIndex) == '_') {
+			topIndex++;
+		}
+		while(topIndex < bottomIndex && string.charAt(bottomIndex-1) == '_') {
+			bottomIndex--;
+		}
+		if(topIndex > 0 || bottomIndex < string.length()) {
+			return string.substring(topIndex, bottomIndex);
+		}
+		return string;
 	}
 	
 	/**
