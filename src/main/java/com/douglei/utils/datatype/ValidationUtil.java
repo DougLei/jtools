@@ -20,7 +20,10 @@ public class ValidationUtil {
 			if(value instanceof Short || value.getClass() == short.class){
 				return true;
 			}
-			return isInteger_(value);
+			long l;
+			if((l =isInteger_(value))!=-1) {
+				return l>= Short.MIN_VALUE && l<= Short.MAX_VALUE;
+			}
 		}
 		return false;
 	}
@@ -35,7 +38,10 @@ public class ValidationUtil {
 			if(value instanceof Long || value.getClass() == long.class){
 				return true;
 			}
-			return isInteger_(value);
+			long l;
+			if((l =isInteger_(value))!=-1) {
+				return l>= Long.MIN_VALUE && l<= Long.MAX_VALUE;
+			}
 		}
 		return false;
 	}
@@ -50,17 +56,20 @@ public class ValidationUtil {
 			if(value instanceof Integer || value.getClass() == int.class){
 				return true;
 			}
-			return isInteger_(value);
+			long l;
+			if((l =isInteger_(value))!=-1) {
+				return l>= Integer.MIN_VALUE && l<= Integer.MAX_VALUE;
+			}
 		}
 		return false;
 	}
 	
-	private static boolean isInteger_(Object value) {
+	private static long isInteger_(Object value) {
 		String valueString = value.toString();
 		if(integerTypePattern.matcher(valueString).matches()){
-			return true;
+			return Long.parseLong(valueString);
 		}
-		return false;
+		return -1;
 	}
 	/** 判断整型格式的正则表达式 */
 	private static final Pattern integerTypePattern = Pattern.compile("(\\+|-)?[0-9]+");
