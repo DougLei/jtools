@@ -58,7 +58,7 @@ public class CloseUtil {
 			return;
 		}
 
-		String ioClass = io.getClass().toString();
+		String ioClass = io.getClass().getName();
 		logger.debug("要关闭的io对象为：{}", ioClass);
 		try {
 			if(ioClass.contains("Writer")){
@@ -94,8 +94,8 @@ public class CloseUtil {
 			logger.debug("要关闭的dbconn对象为空");
 			return;
 		}
-
-		String dbconnClass = dbconn.getClass().toString();
+		
+		String dbconnClass = dbconn.getClass().getName();
 		logger.debug("要关闭的dbconn对象为：{}", dbconnClass);
 		try {
 			if(dbconnClass.contains("Connection")){
