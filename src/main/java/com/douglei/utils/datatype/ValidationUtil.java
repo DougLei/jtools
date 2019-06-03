@@ -1,6 +1,5 @@
 package com.douglei.utils.datatype;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -76,26 +75,34 @@ public class ValidationUtil {
 	
 	/**
 	 * 是否是浮点型
-	 * <p>java.lang.Float</p>
-	 * <p>java.lang.Double</p>
-	 * <p>java.math.BigDecimal</p>
+	 * @param value
+	 * @return
+	 */
+	public static boolean isFloat(Object value){
+		if(value != null){
+			if(value instanceof Float || value.getClass() == float.class){
+				return true;
+			}
+			return doubleTypePattern.matcher(value.toString()).matches();
+		}
+		return false;
+	}
+	
+	/**
+	 * 是否是浮点型
 	 * @param value
 	 * @return
 	 */
 	public static boolean isDouble(Object value){
 		if(value != null){
-			Class<?> valueClass = value.getClass();
-			if(value instanceof Float || valueClass == float.class || value instanceof Double || valueClass == double.class || value instanceof BigDecimal){
+			if(value instanceof Double || value.getClass() == double.class){
 				return true;
 			}
-			
-			String valueString = value.toString();
-			if(doubleTypePattern.matcher(valueString).matches()){
-				return true;
-			}
+			return doubleTypePattern.matcher(value.toString()).matches();
 		}
 		return false;
 	}
+	
 	/** 判断浮点型格式的正则表达式 */
 	private static final Pattern doubleTypePattern = Pattern.compile("(\\+|-)?[0-9]+.[0-9]+");
 	
@@ -106,7 +113,7 @@ public class ValidationUtil {
 	 * @return
 	 */
 	public static boolean isNumber(Object value){
-		return isInteger(value) || isDouble(value) || isShort(value) || isLong(value);
+		return isInteger(value) || isDouble(value) || isShort(value) || isLong(value) || isFloat(value);
 	}
 	
 	/**
