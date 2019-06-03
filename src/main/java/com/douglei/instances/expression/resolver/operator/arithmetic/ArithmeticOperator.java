@@ -18,13 +18,15 @@ public abstract class ArithmeticOperator extends OperatorImpl {
 		if(StringUtil.isEmpty(rightParam)){
 			throw new NullPointerException("进行算数运算时，参数rightParam不能为空");
 		}
-		if(!ValidationUtil.isNumber(leftParam)){
+		String leftParamString = leftParam.toString().trim();
+		if(!ValidationUtil.isNumber(leftParamString)){
 			throw new NullPointerException("进行算数运算时，参数leftParam的值["+leftParam+"]必须为数字类型");
 		}
-		if(!ValidationUtil.isNumber(rightParam)){
+		String rightParamString = rightParam.toString().trim();
+		if(!ValidationUtil.isNumber(rightParamString)){
 			throw new NullPointerException("进行算数运算时，参数rightParam的值["+rightParam+"]必须为数字类型");
 		}
-		return arithmeticCalc(leftParam.toString().trim(), rightParam.toString().trim());
+		return arithmeticCalc(leftParamString, rightParamString);
 	}
 	
 	/**

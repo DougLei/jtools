@@ -17,13 +17,15 @@ public abstract class LogicOperatorImpl extends OperatorImpl {
 		if(StringUtil.isEmpty(rightParam)){
 			throw new NullPointerException("进行逻辑运算时，参数rightParam不能为空");
 		}
-		if(!ValidationUtil.isBoolean(leftParam)){
+		String leftParamString = leftParam.toString().trim();
+		if(!ValidationUtil.isBoolean(leftParamString)){
 			throw new NullPointerException("进行逻辑运算时，参数leftParam的值["+leftParam+"]必须为boolean类型");
 		}
-		if(!ValidationUtil.isBoolean(rightParam)){
+		String rightParamString = rightParam.toString().trim();
+		if(!ValidationUtil.isBoolean(rightParamString)){
 			throw new NullPointerException("进行逻辑运算时，参数rightParam的值["+rightParam+"]必须为boolean类型");
 		}
-		return logicCalc(Boolean.valueOf(leftParam.toString().trim()), Boolean.valueOf(rightParam.toString().trim()));
+		return logicCalc(Boolean.valueOf(leftParamString), Boolean.valueOf(rightParamString));
 	}
 
 	/**

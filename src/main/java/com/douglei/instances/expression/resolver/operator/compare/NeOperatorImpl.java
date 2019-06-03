@@ -27,11 +27,13 @@ public class NeOperatorImpl extends OperatorImpl {
 		if((leftParam == null && rightParam != null) || (leftParam != null && rightParam == null)){
 			return true;
 		}
-		if(ValidationUtil.isNumber(leftParam)){
-			leftParam = Double.valueOf(leftParam.toString());
+		String stringValue = leftParam.toString().trim();  
+		if(ValidationUtil.isNumber(stringValue)){
+			leftParam = Double.valueOf(stringValue);
 		}
-		if(ValidationUtil.isNumber(rightParam)){
-			rightParam = Double.valueOf(rightParam.toString());
+		stringValue = rightParam.toString().trim();  
+		if(ValidationUtil.isNumber(stringValue)){
+			rightParam = Double.valueOf(stringValue);
 		}
 		return !leftParam.equals(rightParam);
 	}
