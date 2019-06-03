@@ -55,7 +55,7 @@ public class ValidationUtil {
 	 * @param value
 	 * @return
 	 */
-	public static boolean isLong(String value){
+	public static boolean isLimitLong(String value){
 		if(value != null){
 			long l;
 			if((l =isLimitInteger_(value))!=-1) {
