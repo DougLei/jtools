@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.douglei.instances.expression.resolver.ExpressionResolverHandler;
+
 public class Test5 {
 	
 	@Test
