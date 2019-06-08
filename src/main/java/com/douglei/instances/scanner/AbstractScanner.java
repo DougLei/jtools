@@ -28,8 +28,8 @@ public abstract class AbstractScanner {
 	public void destroy() {
 		if(list.size() > 0) {
 			list.clear();
-			list = null;
 		}
+		list = null;
 	}
 	
 	/**
