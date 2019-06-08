@@ -15,7 +15,7 @@ public class ClassLoadUtil {
 		try {
 			return Thread.currentThread().getContextClassLoader().loadClass(className);
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("加载class=["+className+"], 不加载类中的static代码时出现异常", e);
+			throw new RuntimeException("没有找到className=["+className+"]的类");
 		}
 	}
 	
@@ -28,7 +28,7 @@ public class ClassLoadUtil {
 		try {
 			return Class.forName(className);
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("加载class=["+className+"], 以及类中的static代码时出现异常", e);
+			throw new RuntimeException("没有找到className=["+className+"]的类");
 		}
 	}
 }
