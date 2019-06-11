@@ -1,6 +1,6 @@
 package com.douglei.tools.instances.scanner;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -8,7 +8,7 @@ import java.util.List;
  * @author DougLei
  */
 public abstract class AbstractScanner {
-	protected List<String> list = new ArrayList<String>();
+	protected List<String> list = new LinkedList<String>();
 	private ClassLoader classLoader;
 	
 	protected ClassLoader getClassLoader() {
