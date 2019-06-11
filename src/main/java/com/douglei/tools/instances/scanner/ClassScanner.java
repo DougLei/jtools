@@ -47,10 +47,8 @@ public class ClassScanner extends AbstractScanner{
 	
 	@Override
 	public List<String> multiScan(String... basePackagePaths){
-		if(basePackagePaths != null && basePackagePaths.length > 0) {
-			for (String basePackagePath : basePackagePaths) {
-				scan(basePackagePath);
-			}
+		for (String basePackagePath : basePackagePaths) {
+			scan(basePackagePath);
 		}
 		return list;
 	}

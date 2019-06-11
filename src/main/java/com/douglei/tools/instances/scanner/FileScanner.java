@@ -43,10 +43,8 @@ public class FileScanner extends AbstractScanner{
 	
 	@Override
 	public List<String> multiScan(String... basePaths){
-		if(basePaths != null && basePaths.length > 0) {
-			for (String basePath : basePaths) {
-				scan(basePath);
-			}
+		for (String basePath : basePaths) {
+			scan(basePath);
 		}
 		return list;
 	}
