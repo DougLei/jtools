@@ -3,14 +3,6 @@ package com.douglei.tools.instances.ognl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
-
-import com.douglei.tools.instances.ognl.memberaccess.DefaultMemberAccess;
-
-import ognl.Ognl;
-import ognl.OgnlContext;
-import ognl.OgnlException;
-
 public class OgnlTest {
 	
 //	@Test
@@ -20,76 +12,85 @@ public class OgnlTest {
 //	}
 	
 	public static void main(String[] args) {
-		final DefaultMemberAccess dma = new DefaultMemberAccess(true);
-		final OgnlContext context = new OgnlContext(null, null, dma);
+		OgnlHandler ognl = OgnlHandler.singleInstance();
+		
 		
 		new Thread(new Runnable() {
 			public void run() {
-				try {
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("name", "Douglei");
-					
-					System.out.println(Thread.currentThread().getName() + ":\t");
-					Assert.assertEquals(false, Ognl.getValue("address.address == null", context, User.getInstance()));
-					Assert.assertEquals(false, Ognl.getValue("name == null", context, map));
-					System.out.println(Ognl.getValue("name == null", context, map));
-					System.out.println(Ognl.getValue("name", context, map));
-				} catch (OgnlException e) {
-					e.printStackTrace();
-				}
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("name", "Douglei");
+				
+				System.out.println("111-: " + ognl.getBooleanValue("address.address == null", User.getInstance()) + " address.address == null应该为false");
+				System.out.println("111-: " + ognl.getBooleanValue("name == null", map) + " name == null应该为false");
+				System.out.println("111-: " + ognl.getObjectValue("name", map) + " name应该为Douglei");
 			}
 		}).start();
 		new Thread(new Runnable() {
 			public void run() {
-				try {
-					System.out.println(Thread.currentThread().getName() + ":\t");
-					Assert.assertEquals(true, Ognl.getValue("address.address == null", context, User.getOtherInstance()));
-				} catch (OgnlException e) {
-					e.printStackTrace();
-				}
+				System.out.println("222-: " + ognl.getBooleanValue("address.address == null", User.getOtherInstance()) +" address.address == null应该为true");
 			}
 		}).start();
 		new Thread(new Runnable() {
 			public void run() {
-				try {
-					System.out.println(Thread.currentThread().getName() + ":\t");
-					Assert.assertEquals("金石磊", Ognl.getValue("name", context, User.getInstance()));
-				} catch (OgnlException e) {
-					e.printStackTrace();
-				}
+				System.out.println("333-: " + ognl.getObjectValue("name", User.getInstance()) + " name应该为金石磊");
 			}
 		}).start();
 		new Thread(new Runnable() {
 			public void run() {
-				try {
-					System.out.println(Thread.currentThread().getName() + ":\t");
-					Assert.assertEquals(false, Ognl.getValue("address.address != null", context, User.getOtherInstance()));
-				} catch (OgnlException e) {
-					e.printStackTrace();
-				}
+				System.out.println("777-: " + ognl.getBooleanValue("address.address == null", User.getInstance()) + " address.address == null应该为false");
 			}
 		}).start();
 		new Thread(new Runnable() {
 			public void run() {
-				try {
-					System.out.println(Thread.currentThread().getName() + ":\t");
-					Assert.assertEquals(false, Ognl.getValue("address.address == null", context, User.getInstance()));
-				} catch (OgnlException e) {
-					e.printStackTrace();
-				}
+				System.out.println("444-: " + ognl.getBooleanValue("address.address != null", User.getOtherInstance()) + " address.address != null应该为false");
 			}
 		}).start();
 		new Thread(new Runnable() {
 			public void run() {
-				try {
-					System.out.println(Thread.currentThread().getName() + ":\t");
-					Assert.assertEquals(true, Ognl.getValue("address.address == null", context, User.getOtherInstance()));
-				} catch (OgnlException e) {
-					e.printStackTrace();
-				}
+				System.out.println("666-: " + ognl.getBooleanValue("address.address == null", User.getOtherInstance()) + " address.address == null应该为true");
 			}
 		}).start();
-		
+		new Thread(new Runnable() {
+			public void run() {
+				System.out.println("999-: " + ognl.getBooleanValue("address.address == null", User.getInstance()) + " address.address == null应该为false");
+			}
+		}).start();
+		new Thread(new Runnable() {
+			public void run() {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("name", "Douglei2222");
+				System.out.println("hhh-: " + ognl.getBooleanValue("name == null", map) + " name == null应该为false");
+				System.out.println("hhh-: " + ognl.getObjectValue("name", map) + " name应该为Douglei2222");
+			}
+		}).start();
+		new Thread(new Runnable() {
+			public void run() {
+				System.out.println("555-: " + ognl.getBooleanValue("address.address != null", User.getOtherInstance()) + " address.address != null应该为false");
+			}
+		}).start();
+		new Thread(new Runnable() {
+			public void run() {
+				System.out.println("888-: " + ognl.getBooleanValue("address.address == null", User.getInstance()) + " address.address == null应该为false");
+			}
+		}).start();
+		new Thread(new Runnable() {
+			public void run() {
+				Map<String, Object> map = new HashMap<String, Object>();
+				System.out.println("ccc-: " + ognl.getBooleanValue("name == null", map) + " name == null应该为true");
+				System.out.println("ccc-: " + ognl.getObjectValue("name", map) + " name应该为null");
+			}
+		}).start();
+		new Thread(new Runnable() {
+			public void run() {
+				System.out.println("xxxx-: " + ognl.getBooleanValue("address.address != null", User.getInstance()) + " address.address != null应该为true");
+			}
+		}).start();
+	
+		new Thread(new Runnable() {
+			public void run() {
+				System.out.println("000-: " + ognl.getBooleanValue("address.address == null", User.getOtherInstance()) + " address.address == null应该为true");
+			}
+		}).start();
 	}
 	
 }
