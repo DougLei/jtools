@@ -1,6 +1,5 @@
 package com.douglei.tools.instances.ognl;
 
-import ognl.MemberAccess;
 import ognl.Ognl;
 import ognl.OgnlContext;
 import ognl.OgnlException;
@@ -10,12 +9,10 @@ import ognl.OgnlException;
  * @author DougLei
  */
 public class OgnlHandler {
-	private MemberAccess memberAccess;
 	private OgnlContext context;
 	
 	private OgnlHandler(){
-		memberAccess = new DefaultMemberAccess(true);
-		context = new OgnlContext(null, null, memberAccess);
+		context = new OgnlContext(null, null, new DefaultMemberAccess(true));
 	}
 
 	/**
