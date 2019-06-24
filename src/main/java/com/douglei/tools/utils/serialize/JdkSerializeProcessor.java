@@ -1,0 +1,76 @@
+package com.douglei.tools.utils.serialize;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import com.douglei.tools.utils.CloseUtil;
+import com.douglei.tools.utils.FileUtil;
+import com.douglei.tools.utils.serialize.exception.DeserializeException;
+import com.douglei.tools.utils.serialize.exception.SerializableException;
+
+/**
+ * jdk提供的序列化处理器
+ * @author DougLei
+ */
+public class JdkSerializeProcessor extends SerializeProcessor{
+
+	/**
+	 * 序列化到文件
+	 * @param object
+	 * @param targetFile 目标文件的路径
+	 * @return
+	 */
+	public static boolean serialize(Object object, String targetFile) {
+		isSerializable(object);
+		File file = FileUtil.getFile(targetFile);
+		
+		FileOutputStream fos = null;
+		ObjectOutputStream oos = null;
+		try {
+			fos = new FileOutputStream(file);
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject(object);
+			return true;
+		} catch (Exception e) {
+			throw new SerializableException(object, e);
+		} finally {
+			CloseUtil.closeIO(oos, fos);
+		}
+	}
+
+	/**
+	 * 根据指定的文件路径, 反序列化
+	 * @param targetClass 要转换的目标类
+	 * @param serializationFile
+	 * @return
+	 */
+	public static <T> T deserialize(Class<T> targetClass, String serializationFile) {
+		return deserialize(targetClass, new File(serializationFile));
+	}
+	
+	/**
+	 * 根据指定的文件, 反序列化
+	 * @param targetClass 要转换的目标类
+	 * @param serializationFile
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T deserialize(Class<T> targetClass, File serializationFile) {
+		serializationFileExists(serializationFile);
+		
+		FileInputStream fis = null;
+		ObjectInputStream ois = null;
+		try {
+			fis = new FileInputStream(serializationFile);
+			ois = new ObjectInputStream(fis);
+			return (T) ois.readObject();
+		} catch (Exception e) {
+			throw new DeserializeException(targetClass, serializationFile, e);
+		} finally {
+			CloseUtil.closeIO(ois, fis);
+		}
+	}
+}

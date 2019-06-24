@@ -23,7 +23,7 @@ public class ExpressionResolverHandler {
 	private static ExpressionResolverHandler singleInstance;
 	
 	/**
-	 * 创建实例
+	 * 创建新的实例
 	 * @return
 	 */
 	public static final ExpressionResolverHandler newInstance(){
