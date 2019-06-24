@@ -14,13 +14,24 @@ public class JdkSerializeProcessorTest {
 	
 	@Test
 	public void serialize() {
-		JdkSerializeProcessor.serialize(user, targetFile);
+		JdkSerializeProcessor.serialize2File(user, targetFile);
 	}
 	
 	@Test
 	public void deserialize() {
-		User user = JdkSerializeProcessor.deserialize(User.class, targetFile);
+		User user = JdkSerializeProcessor.deserialize2File(User.class, targetFile);
 		System.out.println(user.getName());
 		System.out.println(user.getAge());
+	}
+	
+	@Test
+	public void serializeByte() {
+		byte[] b = JdkSerializeProcessor.serialize2ByteArray(user);
+		
+		User user = JdkSerializeProcessor.deserialize2ByteArray(User.class, b);
+		System.out.println(user.getName());
+		System.out.println(user.getAge());
+//		System.out.println(user);
+//		System.out.println(this.user);
 	}
 }

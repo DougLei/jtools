@@ -52,34 +52,32 @@ public class CloseUtil {
 	 * 关闭File-IO类
 	 * @param io
 	 */
-	private static void closeIO(Object io){
+	public static void closeIO(Object io){
 		if(io == null){
 			logger.debug("要关闭的io对象为空");
 			return;
 		}
 
-		String ioClass = io.getClass().getName();
-		logger.debug("要关闭的io对象为：{}", ioClass);
 		try {
-			if(ioClass.contains("Writer")){
+			if(io instanceof Writer){
 				Writer writer = (Writer) io;
 				writer.flush();
 				writer.close();
-			}else if(ioClass.contains("Reader")){
+			}else if(io instanceof Reader){
 				Reader reader = (Reader) io;
 				reader.close();
-			}else if(ioClass.contains("OutputStream")){
+			}else if(io instanceof OutputStream){
 				OutputStream out = (OutputStream) io;
 				out.flush();
 				out.close();
-			}else if(ioClass.contains("InputStream")){
+			}else if(io instanceof InputStream){
 				InputStream in = (InputStream) io;
 				in.close();
 			}else{
-				logger.debug("没有匹配到名为[{}]的io对象", ioClass);
+				logger.warn("没有匹配到[{}]的io对象", io.getClass().getName());
 			}
 		} catch (IOException e) {
-			throw new RuntimeException("关闭io对象["+ioClass+"]时, 出现异常", e);
+			throw new RuntimeException("关闭io对象["+io.getClass().getName()+"]时, 出现异常", e);
 		} finally {
 			io = null;
 		}
@@ -89,29 +87,27 @@ public class CloseUtil {
 	 * 关闭数据库连接
 	 * @param dbconn
 	 */
-	private static void closeDBConn(Object dbconn){
+	public static void closeDBConn(Object dbconn){
 		if(dbconn == null){
 			logger.debug("要关闭的dbconn对象为空");
 			return;
 		}
 		
-		String dbconnClass = dbconn.getClass().getName();
-		logger.debug("要关闭的dbconn对象为：{}", dbconnClass);
 		try {
-			if(dbconnClass.contains("Connection")){
+			if(dbconn instanceof Connection){
 				Connection conn = (Connection) dbconn;
 				conn.close();
-			}else if(dbconnClass.contains("Statement")){
+			}else if(dbconn instanceof Statement){
 				Statement st = (Statement) dbconn;
 				st.close();
-			}else if(dbconnClass.contains("ResultSet")){
+			}else if(dbconn instanceof ResultSet){
 				ResultSet rs = (ResultSet) dbconn;
 				rs.close();
 			}else{
-				logger.debug("没有匹配到名为[{}]的dbconn对象", dbconnClass);
+				logger.warn("没有匹配到[{}]的dbconn对象", dbconn.getClass().getName());
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException("关闭dbconn对象["+dbconnClass+"]时, 出现异常", e);
+			throw new RuntimeException("关闭dbconn对象["+dbconn.getClass().getName()+"]时, 出现异常", e);
 		} finally {
 			dbconn = null;
 		}

@@ -11,7 +11,7 @@ import com.douglei.tools.utils.serialize.exception.SerializeFileNotFoundExceptio
  * 序列化处理器
  * @author DougLei
  */
-public abstract class SerializeProcessor {
+abstract class SerializeProcessor {
 	
 	/**
 	 * 是否可序列化

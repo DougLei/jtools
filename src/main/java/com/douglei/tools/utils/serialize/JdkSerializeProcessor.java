@@ -1,5 +1,7 @@
 package com.douglei.tools.utils.serialize;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,13 +19,60 @@ import com.douglei.tools.utils.serialize.exception.SerializableException;
  */
 public class JdkSerializeProcessor extends SerializeProcessor{
 
+	// ---------------------------------------------------------------------------------------------------
+	// 序列化到byte数组、从byte数组反序列化
+	// ---------------------------------------------------------------------------------------------------
+	/**
+	 * 序列化成byte数组
+	 * @param object
+	 * @return
+	 */
+	public static byte[] serialize2ByteArray(Object object) {
+		isSerializable(object);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = null;
+		try {
+			oos = new ObjectOutputStream(baos);
+			oos.writeObject(object);
+			return baos.toByteArray();
+		} catch (Exception e) {
+			throw new SerializableException(object, e);
+		} finally {
+			CloseUtil.closeIO(oos, baos);
+		}
+	}
+
+	/**
+	 * 根据指定的byte数组, 反序列化
+	 * @param targetClass 要转换的目标类
+	 * @param _byte
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T deserialize2ByteArray(Class<T> targetClass, byte[] _byte) {
+		ByteArrayInputStream bais = new ByteArrayInputStream(_byte);
+		ObjectInputStream ois = null;
+		try {
+			ois = new ObjectInputStream(bais);
+			return (T) ois.readObject();
+		} catch (Exception e) {
+			throw new DeserializeException(targetClass, _byte, e);
+		} finally {
+			CloseUtil.closeIO(ois, bais);
+		}
+	}
+	
+	// ---------------------------------------------------------------------------------------------------
+	// 序列化到文件、从文件反序列化
+	// ---------------------------------------------------------------------------------------------------
 	/**
 	 * 序列化到文件
 	 * @param object
 	 * @param targetFile 目标文件的路径
 	 * @return
 	 */
-	public static boolean serialize(Object object, String targetFile) {
+	public static boolean serialize2File(Object object, String targetFile) {
 		isSerializable(object);
 		File file = FileUtil.getFile(targetFile);
 		
@@ -47,8 +96,8 @@ public class JdkSerializeProcessor extends SerializeProcessor{
 	 * @param serializationFile
 	 * @return
 	 */
-	public static <T> T deserialize(Class<T> targetClass, String serializationFile) {
-		return deserialize(targetClass, new File(serializationFile));
+	public static <T> T deserialize2File(Class<T> targetClass, String serializationFile) {
+		return deserialize2File(targetClass, new File(serializationFile));
 	}
 	
 	/**
@@ -58,7 +107,7 @@ public class JdkSerializeProcessor extends SerializeProcessor{
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T deserialize(Class<T> targetClass, File serializationFile) {
+	public static <T> T deserialize2File(Class<T> targetClass, File serializationFile) {
 		serializationFileExists(serializationFile);
 		
 		FileInputStream fis = null;

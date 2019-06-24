@@ -20,13 +20,58 @@ import com.douglei.tools.utils.serialize.exception.SerializableException;
  */
 public class HessianSerializeProcessor extends SerializeProcessor{
 	
+	// ---------------------------------------------------------------------------------------------------
+	// 序列化到byte数组、从byte数组反序列化
+	// ---------------------------------------------------------------------------------------------------
+	/**
+	 * 序列化成byte数组
+	 * @param object
+	 * @return
+	 */
+	public static byte[] serialize2ByteArray(Object object) {
+		isSerializable(object);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		HessianOutput ho = new HessianOutput(baos);
+		try {
+			ho.writeObject(object);
+			return baos.toByteArray();
+		} catch (IOException e) {
+			throw new SerializableException(object, e);
+		} finally {
+			CloseUtil.closeIO(baos);
+		}
+	}
+
+	/**
+	 * 根据指定的byte数组, 反序列化
+	 * @param targetClass 要转换的目标类
+	 * @param _byte
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T deserialize2ByteArray(Class<T> targetClass, byte[] _byte) {
+		ByteArrayInputStream bais = new ByteArrayInputStream(_byte);
+		HessianInput hi = new HessianInput(bais);
+		try {
+			return (T) hi.readObject();
+		} catch (IOException e) {
+			throw new DeserializeException(targetClass, _byte, e);
+		} finally {
+			CloseUtil.closeIO(bais);
+		}
+	}
+	
+	// ---------------------------------------------------------------------------------------------------
+	// 序列化到文件、从文件反序列化
+	// ---------------------------------------------------------------------------------------------------
 	/**
 	 * 序列化到文件
 	 * @param object
 	 * @param targetFile 目标文件的路径
 	 * @return
 	 */
-	public static boolean serialize(Object object, String targetFile) {
+	public static boolean serialize2File(Object object, String targetFile) {
 		isSerializable(object);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -59,8 +104,8 @@ public class HessianSerializeProcessor extends SerializeProcessor{
 	 * @param serializationFile
 	 * @return
 	 */
-	public static <T> T deserialize(Class<T> targetClass, String serializationFile) {
-		return deserialize(targetClass, new File(serializationFile));
+	public static <T> T deserialize2File(Class<T> targetClass, String serializationFile) {
+		return deserialize2File(targetClass, new File(serializationFile));
 	}
 
 	/**
@@ -70,7 +115,7 @@ public class HessianSerializeProcessor extends SerializeProcessor{
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T deserialize(Class<T> targetClass, File serializationFile) {
+	public static <T> T deserialize2File(Class<T> targetClass, File serializationFile) {
 		serializationFileExists(serializationFile);
 		
 		ByteArrayInputStream bais = new ByteArrayInputStream(readBytes2File(serializationFile, targetClass));
@@ -81,9 +126,6 @@ public class HessianSerializeProcessor extends SerializeProcessor{
 			throw new DeserializeException(targetClass, serializationFile, e);
 		} finally {
 			CloseUtil.closeIO(bais);
-			if(hi != null) {
-				hi.close();
-			}
 		}
 	}
 
