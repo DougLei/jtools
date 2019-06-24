@@ -10,6 +10,6 @@ public class SerializeFileNotFoundException extends RuntimeException{
 	private static final long serialVersionUID = -2075104715048623399L;
 
 	public SerializeFileNotFoundException(File file) {
-		super("路径["+file.getAbsolutePath()+"]下, 不存在序列化文件");
+		super("反序列化时, 路径["+file.getAbsolutePath()+"]下, 不存在序列化文件");
 	}
 }

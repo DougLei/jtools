@@ -51,6 +51,8 @@ public class JdkSerializeProcessor extends SerializeProcessor{
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T deserialize2ByteArray(Class<T> targetClass, byte[] _byte) {
+		serializationByteArrayIsNull(_byte);
+		
 		ByteArrayInputStream bais = new ByteArrayInputStream(_byte);
 		ObjectInputStream ois = null;
 		try {
