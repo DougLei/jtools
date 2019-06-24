@@ -15,7 +15,7 @@ import com.douglei.tools.utils.StringUtil;
  * 类扫描器
  * @author StoneKing
  */
-public class ClassScanner extends AbstractScanner{
+public class ClassScanner extends Scanner{
 	
 	// -----------------------------------------------------------------------------------------------------------
 	@Override

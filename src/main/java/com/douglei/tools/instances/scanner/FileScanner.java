@@ -10,7 +10,7 @@ import com.douglei.tools.utils.StringUtil;
  * 文件扫描器
  * @author StoneKing
  */
-public class FileScanner extends AbstractScanner{
+public class FileScanner extends Scanner{
 	private String[] targetFileSuffix;
 	
 	public FileScanner(String... targetFileSuffix) {

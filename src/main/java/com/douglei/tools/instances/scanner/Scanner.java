@@ -7,7 +7,7 @@ import java.util.List;
  * 
  * @author DougLei
  */
-public abstract class AbstractScanner {
+public abstract class Scanner {
 	protected List<String> list = new LinkedList<String>();
 	private ClassLoader classLoader;
 	
