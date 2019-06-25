@@ -9,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import com.douglei.tools.utils.CloseUtil;
-import com.douglei.tools.utils.FileUtil;
 import com.douglei.tools.utils.serialize.exception.DeserializeException;
 import com.douglei.tools.utils.serialize.exception.SerializableException;
 
@@ -76,7 +75,7 @@ public class JdkSerializeProcessor extends SerializeProcessor{
 	 */
 	public static boolean serialize2File(Object object, String targetFile) {
 		isSerializable(object);
-		File file = FileUtil.getFile(targetFile);
+		File file = getFile(targetFile);
 		
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;

@@ -10,7 +10,6 @@ import java.io.IOException;
 import com.caucho.hessian.io.HessianInput;
 import com.caucho.hessian.io.HessianOutput;
 import com.douglei.tools.utils.CloseUtil;
-import com.douglei.tools.utils.FileUtil;
 import com.douglei.tools.utils.serialize.exception.DeserializeException;
 import com.douglei.tools.utils.serialize.exception.SerializableException;
 
@@ -80,7 +79,7 @@ public class HessianSerializeProcessor extends SerializeProcessor{
 		HessianOutput ho = new HessianOutput(baos);
 		try {
 			ho.writeObject(object);
-			writeBytes2File(baos, object, FileUtil.getFile(targetFile));
+			writeBytes2File(baos, object, getFile(targetFile));
 			return true;
 		} catch (IOException e) {
 			throw new SerializableException(object, e);
