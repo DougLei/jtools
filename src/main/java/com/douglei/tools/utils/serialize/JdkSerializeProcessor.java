@@ -50,7 +50,7 @@ public class JdkSerializeProcessor extends SerializeProcessor{
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T deserialize2ByteArray(Class<T> targetClass, byte[] _byte) {
+	public static <T> T deserializeFromByteArray(Class<T> targetClass, byte[] _byte) {
 		serializationByteArrayIsNull(_byte);
 		
 		ByteArrayInputStream bais = new ByteArrayInputStream(_byte);
@@ -98,8 +98,8 @@ public class JdkSerializeProcessor extends SerializeProcessor{
 	 * @param serializationFile
 	 * @return
 	 */
-	public static <T> T deserialize2File(Class<T> targetClass, String serializationFile) {
-		return deserialize2File(targetClass, new File(serializationFile));
+	public static <T> T deserializeFromFile(Class<T> targetClass, String serializationFile) {
+		return deserializeFromFile(targetClass, new File(serializationFile));
 	}
 	
 	/**
@@ -109,7 +109,7 @@ public class JdkSerializeProcessor extends SerializeProcessor{
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T deserialize2File(Class<T> targetClass, File serializationFile) {
+	public static <T> T deserializeFromFile(Class<T> targetClass, File serializationFile) {
 		serializationFileExists(serializationFile);
 		
 		FileInputStream fis = null;

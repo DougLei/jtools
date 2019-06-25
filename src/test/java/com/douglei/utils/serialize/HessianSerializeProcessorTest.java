@@ -15,7 +15,7 @@ public class HessianSerializeProcessorTest {
 	
 	@Test
 	public void deserialize() {
-		User user = HessianSerializeProcessor.deserialize2File(User.class, targetFile);
+		User user = HessianSerializeProcessor.deserializeFromFile(User.class, targetFile);
 		System.out.println(user.getName());
 		System.out.println(user.getAge());
 	}
@@ -24,7 +24,7 @@ public class HessianSerializeProcessorTest {
 	public void serializeByte() {
 		byte[] b = HessianSerializeProcessor.serialize2ByteArray(user);
 		
-		User user = HessianSerializeProcessor.deserialize2ByteArray(User.class, b);
+		User user = HessianSerializeProcessor.deserializeFromByteArray(User.class, b);
 		System.out.println(user.getName());
 		System.out.println(user.getAge());
 //		System.out.println(user);

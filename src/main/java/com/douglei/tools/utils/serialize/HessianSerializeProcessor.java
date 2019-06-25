@@ -50,7 +50,7 @@ public class HessianSerializeProcessor extends SerializeProcessor{
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T deserialize2ByteArray(Class<T> targetClass, byte[] _byte) {
+	public static <T> T deserializeFromByteArray(Class<T> targetClass, byte[] _byte) {
 		serializationByteArrayIsNull(_byte);
 		
 		ByteArrayInputStream bais = new ByteArrayInputStream(_byte);
@@ -106,8 +106,8 @@ public class HessianSerializeProcessor extends SerializeProcessor{
 	 * @param serializationFile
 	 * @return
 	 */
-	public static <T> T deserialize2File(Class<T> targetClass, String serializationFile) {
-		return deserialize2File(targetClass, new File(serializationFile));
+	public static <T> T deserializeFromFile(Class<T> targetClass, String serializationFile) {
+		return deserializeFromFile(targetClass, new File(serializationFile));
 	}
 
 	/**
@@ -117,10 +117,10 @@ public class HessianSerializeProcessor extends SerializeProcessor{
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T deserialize2File(Class<T> targetClass, File serializationFile) {
+	public static <T> T deserializeFromFile(Class<T> targetClass, File serializationFile) {
 		serializationFileExists(serializationFile);
 		
-		ByteArrayInputStream bais = new ByteArrayInputStream(readBytes2File(serializationFile, targetClass));
+		ByteArrayInputStream bais = new ByteArrayInputStream(readBytesFromFile(serializationFile, targetClass));
 		HessianInput hi = new HessianInput(bais);
 		try {
 			return (T) hi.readObject();
@@ -132,7 +132,7 @@ public class HessianSerializeProcessor extends SerializeProcessor{
 	}
 
 	// 将文件中的内容读取成byte
-	private static byte[] readBytes2File(File serializationFile, Class<?> targetClass) {
+	private static byte[] readBytesFromFile(File serializationFile, Class<?> targetClass) {
 		FileInputStream fis = null;
 		ByteArrayOutputStream baos = null;
 		try {

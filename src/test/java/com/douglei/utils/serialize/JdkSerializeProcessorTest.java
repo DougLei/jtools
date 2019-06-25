@@ -19,7 +19,7 @@ public class JdkSerializeProcessorTest {
 	
 	@Test
 	public void deserialize() {
-		User user = JdkSerializeProcessor.deserialize2File(User.class, targetFile);
+		User user = JdkSerializeProcessor.deserializeFromFile(User.class, targetFile);
 		System.out.println(user.getName());
 		System.out.println(user.getAge());
 	}
@@ -28,7 +28,7 @@ public class JdkSerializeProcessorTest {
 	public void serializeByte() {
 		byte[] b = JdkSerializeProcessor.serialize2ByteArray(user);
 		
-		User user = JdkSerializeProcessor.deserialize2ByteArray(User.class, b);
+		User user = JdkSerializeProcessor.deserializeFromByteArray(User.class, b);
 		System.out.println(user.getName());
 		System.out.println(user.getAge());
 //		System.out.println(user);
