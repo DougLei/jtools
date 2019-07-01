@@ -97,19 +97,15 @@ public class ClassScanner extends Scanner{
 		JarInputStream jarInput = null;
 		JarEntry entry;
 		String classFullName = null;
-		int pos = -1;
 		try {
 			jarInput = new JarInputStream(new FileInputStream(filePath));
 			while((entry = jarInput.getNextJarEntry()) != null){ // 依次获取jar包中的每一个class文件，包括内部类，同时，是递归的方式获取，我们这里只要调用该方法即可
 				classFullName = entry.getName();
 				if(classFullName.startsWith(splashedPackageName) && isClassFile(classFullName)){
 					classFullName = classFullName.replace("/", ".");
-					pos = classFullName.lastIndexOf(".");
-					if(-1 != pos){
-						classFullName = classFullName.substring(0, pos);
+					if(classFullName.endsWith(".class")) {
+						classFullName = classFullName.substring(0, classFullName.length()-6);
 					}
-					
-					
 					list.add(classFullName);
 				}
 			}
