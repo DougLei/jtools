@@ -115,7 +115,7 @@ public class StringUtil {
 	
 	/**
 	 * 计算字符串的长度
-	 * <p>如果存在双字节字符，将对应的长度+1</p>
+	 * <p>如果存在汉字，将对应的长度+1</p>
 	 * @param string
 	 * @return
 	 */
@@ -124,12 +124,12 @@ public class StringUtil {
 			return 0;
 		}
 		int length = string.length();
-		Matcher matcher = doubleCharPattern.matcher(string);
+		Matcher matcher = chineseCharacterPattern.matcher(string);
 		while(matcher.find()){
 			length++;
 		}
 		return length;
 	}
-	// 匹配双字节的正则表达式，包括汉字
-	private static final Pattern doubleCharPattern = Pattern.compile("[^x00-xff]");
+	// 匹配汉字
+	private static final Pattern chineseCharacterPattern = Pattern.compile("[\u4e00-\u9fa5]");
 }
