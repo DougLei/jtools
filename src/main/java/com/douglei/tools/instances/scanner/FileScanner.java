@@ -36,20 +36,24 @@ public class FileScanner extends Scanner{
 		if(searchSamePaths) {
 			Enumeration<URL> fileUrls = getResources(basePath);
 			while(fileUrls.hasMoreElements()) {
-				scanFromFile(fileUrls.nextElement().getFile());
+				scan_(fileUrls.nextElement(), basePath);
 			}
 		}else {
 			URL fileUrl = getResource(basePath); // 获取文件在操作系统下的URL路径
-			if(fileUrl != null) {
-				String absoluteFilePath = getAbsoluteFilePath(fileUrl.getFile());
-				if(isJarFile(absoluteFilePath)){
-					scanFromJar(absoluteFilePath, basePath);
-				}else{
-					scanFromFile(absoluteFilePath);
-				}
-			}
+			scan_(fileUrl, basePath);
 		}
 		return list;
+	}
+	
+	private void scan_(URL fileUrl, String basePath) {
+		if(fileUrl != null) {
+			String absoluteFilePath = getAbsoluteFilePath(fileUrl.getFile());
+			if(isJarFile(absoluteFilePath)){
+				scanFromJar(absoluteFilePath, basePath);
+			}else{
+				scanFromFile(absoluteFilePath);
+			}
+		}
 	}
 	
 	/**
