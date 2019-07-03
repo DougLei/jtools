@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -17,6 +18,12 @@ import com.douglei.tools.utils.StringUtil;
  */
 public class ClassScanner extends Scanner{
 	
+	public ClassScanner() {
+	}
+	public ClassScanner(boolean searchSamePaths) {
+		super.searchSamePaths = searchSamePaths;
+	}
+	
 	// -----------------------------------------------------------------------------------------------------------
 	@Override
 	public List<String> scan(String basePackagePath) {
@@ -25,7 +32,21 @@ public class ClassScanner extends Scanner{
 		}
 		
 		String splashedPackageName = basePackagePath.replace(".", "/"); // 将包名的小数点，转换成url格式的分隔符，即'/'
-		URL fileUrl = getClassLoader().getResource(splashedPackageName); // 获取包在操作系统下的URL路径
+		if(searchSamePaths) {
+			Enumeration<URL> fileUrls = getResources(splashedPackageName);
+			if(fileUrls != null) {
+				while(fileUrls.hasMoreElements()) {
+					scan_(fileUrls.nextElement(), splashedPackageName, basePackagePath);
+				}
+			}
+		}else {
+			URL fileUrl = getResource(splashedPackageName); // 获取包在操作系统下的URL路径
+			scan_(fileUrl, splashedPackageName, basePackagePath);
+		}
+		return list;
+	}
+	
+	private void scan_(URL fileUrl, String basePackagePath, String splashedPackageName) {
 		if(fileUrl != null){
 			String absoluteFilePath = getAbsoluteFilePath(fileUrl.getFile());
 			if(isJarFile(absoluteFilePath)){
@@ -34,7 +55,6 @@ public class ClassScanner extends Scanner{
 				scanFromFile(absoluteFilePath, basePackagePath);
 			}
 		}
-		return list;
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package com.douglei.tools.instances.scanner;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.List;
 
 import com.douglei.tools.utils.StringUtil;
@@ -14,6 +15,10 @@ public class FileScanner extends Scanner{
 	private String[] targetFileSuffix;
 	
 	public FileScanner(String... targetFileSuffix) {
+		this(false, targetFileSuffix);
+	}
+	public FileScanner(boolean searchSamePaths, String... targetFileSuffix) {
+		super.searchSamePaths = searchSamePaths;
 		if(targetFileSuffix != null && targetFileSuffix.length > 0) {
 			this.targetFileSuffix = targetFileSuffix;
 		}
@@ -26,9 +31,18 @@ public class FileScanner extends Scanner{
 			throw new NullPointerException("basePath 参数值不能为空");
 		}
 		
-		URL fileUrl = getClassLoader().getResource(basePath); // 获取文件在操作系统下的URL路径
-		if(fileUrl != null){
-			recursiveScan(fileUrl.getFile());
+		if(searchSamePaths) {
+			Enumeration<URL> fileUrls = getResources(basePath);
+			if(fileUrls != null) {
+				while(fileUrls.hasMoreElements()) {
+					recursiveScan(fileUrls.nextElement().getFile());
+				}
+			}
+		}else {
+			URL fileUrl = getResource(basePath); // 获取文件在操作系统下的URL路径
+			if(fileUrl != null){
+				recursiveScan(fileUrl.getFile());
+			}
 		}
 		return list;
 	}
