@@ -12,7 +12,7 @@ import java.util.List;
  */
 public abstract class Scanner {
 	protected List<String> list = new LinkedList<String>();
-	private ClassLoader classLoader;
+	private static ClassLoader classLoader;
 	
 	private ClassLoader getClassLoader() {
 		if(classLoader == null) {

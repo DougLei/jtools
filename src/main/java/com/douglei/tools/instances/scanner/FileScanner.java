@@ -11,6 +11,7 @@ import java.util.jar.JarInputStream;
 
 import com.douglei.tools.utils.CloseUtil;
 import com.douglei.tools.utils.StringUtil;
+import com.douglei.tools.utils.file.FileReaderUtil;
 
 /**
  * 文件扫描器
@@ -39,11 +40,10 @@ public class FileScanner extends Scanner{
 			}
 		}else {
 			URL fileUrl = getResource(basePath); // 获取文件在操作系统下的URL路径
-//			jar:file:/D:/apache-maven-repository/org/slf4j/slf4j-api/1.7.26/slf4j-api-1.7.26.jar!/META-INF
 			if(fileUrl != null) {
 				String absoluteFilePath = getAbsoluteFilePath(fileUrl.getFile());
 				if(isJarFile(absoluteFilePath)){
-					scanFromJar(absoluteFilePath);
+					scanFromJar(absoluteFilePath, basePath);
 				}else{
 					scanFromFile(absoluteFilePath);
 				}
@@ -53,11 +53,11 @@ public class FileScanner extends Scanner{
 	}
 	
 	/**
-	 * 从jar包中扫描类，并加入到list集合中
+	 * 从jar包中扫描文件，并加入到list集合中
 	 * @param filePath
-	 * @param splashedPackageName
+	 * @param basePath
 	 */
-	private void scanFromJar(String filePath, String splashedPackageName) {
+	private void scanFromJar(String filePath, String basePath) {
 		JarInputStream jarInput = null;
 		FileInputStream fis = null;
 		JarEntry entry;
@@ -65,14 +65,14 @@ public class FileScanner extends Scanner{
 		try {
 			fis = new FileInputStream(filePath);
 			jarInput = new JarInputStream(fis);
-			while((entry = jarInput.getNextJarEntry()) != null){ // 依次获取jar包中的每一个class文件，包括内部类，同时，是递归的方式获取，我们这里只要调用该方法即可
+			while((entry = jarInput.getNextJarEntry()) != null){ // 依次获取jar包中的每一个文件，包括内部类，同时，是递归的方式获取，我们这里只要调用该方法即可
 				classFullName = entry.getName();
-				if(classFullName.startsWith(splashedPackageName) && isTargetFile(classFullName)){
-					list.add(classFullName.replace("/", ".").substring(0, classFullName.length()-6));
+				if(classFullName.startsWith(basePath) && isTargetFile(classFullName)){
+					list.add(FileReaderUtil.JAR_FILE + classFullName);
 				}
 			}
 		} catch (IOException e) {
-			throw new RuntimeException("在扫描["+filePath+"]jar时, 出现异常:", e);
+			throw new RuntimeException("在扫描["+filePath+"]时, 出现异常:", e);
 		} finally{
 			CloseUtil.closeIO(jarInput, fis);
 		}

@@ -93,7 +93,7 @@ public class ClassScanner extends Scanner{
 				}
 			}
 		} catch (IOException e) {
-			throw new RuntimeException("在扫描["+filePath+"]jar时, 出现异常:", e);
+			throw new RuntimeException("在扫描["+filePath+"]时, 出现异常:", e);
 		} finally{
 			CloseUtil.closeIO(jarInput, fis);
 		}

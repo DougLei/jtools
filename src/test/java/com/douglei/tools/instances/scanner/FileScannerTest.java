@@ -20,8 +20,8 @@ public class FileScannerTest {
 	
 	@Test
 	public void scanJAR(){
-		String basePath = "META-INF";
-		List<String> allFileNames = new FileScanner("MF").scan(basePath);
+		String basePath = "META-INF/maven/org.slf4j/slf4j-api";
+		List<String> allFileNames = new FileScanner("properties").scan(basePath);
 		System.out.println(allFileNames.size());
 		for (String fileName : allFileNames) {
 			System.out.println(fileName);
