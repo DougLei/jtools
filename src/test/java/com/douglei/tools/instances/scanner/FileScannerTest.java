@@ -17,4 +17,14 @@ public class FileScannerTest {
 			System.out.println(fileName);
 		}
 	}
+	
+	@Test
+	public void scanJAR(){
+		String basePath = "META-INF";
+		List<String> allFileNames = new FileScanner("MF").scan(basePath);
+		System.out.println(allFileNames.size());
+		for (String fileName : allFileNames) {
+			System.out.println(fileName);
+		}
+	}
 }

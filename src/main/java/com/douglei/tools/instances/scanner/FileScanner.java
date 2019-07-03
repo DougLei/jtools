@@ -1,10 +1,15 @@
 package com.douglei.tools.instances.scanner;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
 
+import com.douglei.tools.utils.CloseUtil;
 import com.douglei.tools.utils.StringUtil;
 
 /**
@@ -30,15 +35,47 @@ public class FileScanner extends Scanner{
 		if(searchSamePaths) {
 			Enumeration<URL> fileUrls = getResources(basePath);
 			while(fileUrls.hasMoreElements()) {
-				recursiveScan(fileUrls.nextElement().getFile());
+				scanFromFile(fileUrls.nextElement().getFile());
 			}
 		}else {
 			URL fileUrl = getResource(basePath); // 获取文件在操作系统下的URL路径
+//			jar:file:/D:/apache-maven-repository/org/slf4j/slf4j-api/1.7.26/slf4j-api-1.7.26.jar!/META-INF
 			if(fileUrl != null) {
-				recursiveScan(fileUrl.getFile());
+				String absoluteFilePath = getAbsoluteFilePath(fileUrl.getFile());
+				if(isJarFile(absoluteFilePath)){
+					scanFromJar(absoluteFilePath);
+				}else{
+					scanFromFile(absoluteFilePath);
+				}
 			}
 		}
 		return list;
+	}
+	
+	/**
+	 * 从jar包中扫描类，并加入到list集合中
+	 * @param filePath
+	 * @param splashedPackageName
+	 */
+	private void scanFromJar(String filePath, String splashedPackageName) {
+		JarInputStream jarInput = null;
+		FileInputStream fis = null;
+		JarEntry entry;
+		String classFullName = null;
+		try {
+			fis = new FileInputStream(filePath);
+			jarInput = new JarInputStream(fis);
+			while((entry = jarInput.getNextJarEntry()) != null){ // 依次获取jar包中的每一个class文件，包括内部类，同时，是递归的方式获取，我们这里只要调用该方法即可
+				classFullName = entry.getName();
+				if(classFullName.startsWith(splashedPackageName) && isTargetFile(classFullName)){
+					list.add(classFullName.replace("/", ".").substring(0, classFullName.length()-6));
+				}
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("在扫描["+filePath+"]jar时, 出现异常:", e);
+		} finally{
+			CloseUtil.closeIO(jarInput, fis);
+		}
 	}
 	
 	@Override
@@ -69,7 +106,7 @@ public class FileScanner extends Scanner{
 	 * 扫描文件，并加入到list集合中
 	 * @param filePath
 	 */
-	private void recursiveScan(String filePath) {
+	private void scanFromFile(String filePath) {
 		File firstFile = new File(filePath);
 		if(firstFile.isFile()) {
 			list.add(firstFile.getAbsolutePath());
@@ -82,7 +119,7 @@ public class FileScanner extends Scanner{
 			for (File f : files) {
 				path = f.getAbsolutePath();
 				if(f.isDirectory()) {
-					recursiveScan(path);
+					scanFromFile(path);
 				}else {
 					if(isTargetFile(path)) {
 						list.add(path);
