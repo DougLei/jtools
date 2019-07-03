@@ -19,12 +19,18 @@ public class FileReaderUtil {
 	 * @throws FileNotFoundException 
 	 */
 	public static InputStream readByPath(String path) {
+		InputStream in = null;
 		try {
 			if(path.startsWith(JAR_FILE)) {
-				return classLoader.getResourceAsStream(path.substring(JAR_FILE.length()));
+				in = classLoader.getResourceAsStream(path.substring(JAR_FILE.length()));
+				if(in == null) {
+					throw new NullPointerException();
+				}
+			}else {
+				in = new FileInputStream(path);
 			}
-			return new FileInputStream(path);
-		} catch (FileNotFoundException e) {
+			return in;
+		} catch (Exception e) {
 			throw new RuntimeException("给定的["+path+"], 不存在任何文件");
 		}
 	}
