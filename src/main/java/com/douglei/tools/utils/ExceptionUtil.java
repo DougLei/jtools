@@ -25,7 +25,7 @@ public class ExceptionUtil {
 			exceptionDetailMessage = sw.toString();
 			pw.close();
 		} catch (Exception e) {
-			exceptionDetailMessage = ExceptionUtil.class+".getExceptionDetailMessage(Throwable t)方法时出现异常";
+			exceptionDetailMessage = ExceptionUtil.class.getName()+".getExceptionDetailMessage(Throwable t)方法时出现异常";
 			e.printStackTrace();
 		}
 		return exceptionDetailMessage;

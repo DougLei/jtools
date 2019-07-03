@@ -10,7 +10,7 @@ public class ClassScannerTest {
 	
 	@Test
 	public void scan(){
-		String basePackagePath = "com.douglei.instances.scanner.tests";
+		String basePackagePath = "com.douglei.tools.instances.scanner.tests";
 		List<String> allClassNames = new ClassScanner().scan(basePackagePath);
 		for (String className : allClassNames) {
 			System.out.println(className);

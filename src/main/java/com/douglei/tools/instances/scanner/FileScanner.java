@@ -15,10 +15,6 @@ public class FileScanner extends Scanner{
 	private String[] targetFileSuffix;
 	
 	public FileScanner(String... targetFileSuffix) {
-		this(false, targetFileSuffix);
-	}
-	public FileScanner(boolean searchSamePaths, String... targetFileSuffix) {
-		super.searchSamePaths = searchSamePaths;
 		if(targetFileSuffix != null && targetFileSuffix.length > 0) {
 			this.targetFileSuffix = targetFileSuffix;
 		}
@@ -26,21 +22,19 @@ public class FileScanner extends Scanner{
 
 	// -----------------------------------------------------------------------------------------------------------
 	@Override
-	public List<String> scan(String basePath) {
+	public List<String> scan(boolean searchSamePaths, String basePath) {
 		if(StringUtil.isEmpty(basePath)){
 			throw new NullPointerException("basePath 参数值不能为空");
 		}
 		
 		if(searchSamePaths) {
 			Enumeration<URL> fileUrls = getResources(basePath);
-			if(fileUrls != null) {
-				while(fileUrls.hasMoreElements()) {
-					recursiveScan(fileUrls.nextElement().getFile());
-				}
+			while(fileUrls.hasMoreElements()) {
+				recursiveScan(fileUrls.nextElement().getFile());
 			}
 		}else {
 			URL fileUrl = getResource(basePath); // 获取文件在操作系统下的URL路径
-			if(fileUrl != null){
+			if(fileUrl != null) {
 				recursiveScan(fileUrl.getFile());
 			}
 		}
@@ -48,7 +42,7 @@ public class FileScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> rescan(String basePath) {
+	public List<String> rescan(boolean searchSamePaths, String basePath) {
 		if(list.size() > 0) {
 			list.clear();
 		}
@@ -56,7 +50,7 @@ public class FileScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> multiScan(String... basePaths){
+	public List<String> multiScan(boolean searchSamePaths, String... basePaths){
 		for (String basePath : basePaths) {
 			scan(basePath);
 		}
@@ -64,7 +58,7 @@ public class FileScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> reMultiScan(String... basePaths) {
+	public List<String> reMultiScan(boolean searchSamePaths, String... basePaths) {
 		if(list.size() > 0) {
 			list.clear();
 		}
@@ -126,5 +120,25 @@ public class FileScanner extends Scanner{
 		}else {
 			this.targetFileSuffix = null;
 		}
+	}
+
+	@Override
+	public List<String> scan(String basePath) {
+		return scan(false, basePath);
+	}
+
+	@Override
+	public List<String> rescan(String basePath) {
+		return rescan(false, basePath);
+	}
+
+	@Override
+	public List<String> multiScan(String... basePaths) {
+		return multiScan(false, basePaths);
+	}
+
+	@Override
+	public List<String> reMultiScan(String... basePaths) {
+		return reMultiScan(false, basePaths);
 	}
 }

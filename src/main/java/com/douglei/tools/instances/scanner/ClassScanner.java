@@ -18,15 +18,9 @@ import com.douglei.tools.utils.StringUtil;
  */
 public class ClassScanner extends Scanner{
 	
-	public ClassScanner() {
-	}
-	public ClassScanner(boolean searchSamePaths) {
-		super.searchSamePaths = searchSamePaths;
-	}
-	
 	// -----------------------------------------------------------------------------------------------------------
 	@Override
-	public List<String> scan(String basePackagePath) {
+	public List<String> scan(boolean searchSamePaths, String basePackagePath) {
 		if(StringUtil.isEmpty(basePackagePath)){
 			throw new NullPointerException("basePackagePath 参数值不能为空");
 		}
@@ -34,20 +28,18 @@ public class ClassScanner extends Scanner{
 		String splashedPackageName = basePackagePath.replace(".", "/"); // 将包名的小数点，转换成url格式的分隔符，即'/'
 		if(searchSamePaths) {
 			Enumeration<URL> fileUrls = getResources(splashedPackageName);
-			if(fileUrls != null) {
-				while(fileUrls.hasMoreElements()) {
-					scan_(fileUrls.nextElement(), splashedPackageName, basePackagePath);
-				}
+			while(fileUrls.hasMoreElements()) {
+				scan_(fileUrls.nextElement(), basePackagePath, splashedPackageName);
 			}
 		}else {
 			URL fileUrl = getResource(splashedPackageName); // 获取包在操作系统下的URL路径
-			scan_(fileUrl, splashedPackageName, basePackagePath);
+			scan_(fileUrl, basePackagePath, splashedPackageName);
 		}
 		return list;
 	}
 	
 	private void scan_(URL fileUrl, String basePackagePath, String splashedPackageName) {
-		if(fileUrl != null){
+		if(fileUrl != null) {
 			String absoluteFilePath = getAbsoluteFilePath(fileUrl.getFile());
 			if(isJarFile(absoluteFilePath)){
 				scanFromJar(absoluteFilePath, splashedPackageName);
@@ -58,7 +50,7 @@ public class ClassScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> rescan(String basePackagePath) {
+	public List<String> rescan(boolean searchSamePaths, String basePackagePath) {
 		if(list.size() > 0) {
 			list.clear();
 		}
@@ -66,7 +58,7 @@ public class ClassScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> multiScan(String... basePackagePaths){
+	public List<String> multiScan(boolean searchSamePaths, String... basePackagePaths){
 		for (String basePackagePath : basePackagePaths) {
 			scan(basePackagePath);
 		}
@@ -74,38 +66,11 @@ public class ClassScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> reMultiScan(String... basePackagePaths) {
+	public List<String> reMultiScan(boolean searchSamePaths, String... basePackagePaths) {
 		if(list.size() > 0) {
 			list.clear();
 		}
 		return multiScan(basePackagePaths);
-	}
-	
-	/**
-	 * 是否是jar文件
-	 * @param file
-	 * @return
-	 */
-	private boolean isJarFile(String fileName) {
-		return fileName.endsWith(".jar");
-	}
-	
-	/**
-	 * 根据文件的url，获取文件的绝对路径
-	 * <pre>
-	 * 	两种样式的fileUrlPath值
-	 *  1: /C:/xxxxx/package...				【指定的是一个项目中存在的包路径】
-	 *  2: file:/C:/xxxxx/x.jar!package...	【指定的是项目中某个jar包中的包路径】
-	 * </pre>
-	 * @param fileUrlPath
-	 * @return
-	 */
-	private String getAbsoluteFilePath(String fileUrlPath) {
-		int pos = fileUrlPath.indexOf("!");
-		if(-1 == pos){
-			return fileUrlPath;
-		}
-		return fileUrlPath.substring(5, pos);
 	}
 	
 	/**
@@ -115,24 +80,22 @@ public class ClassScanner extends Scanner{
 	 */
 	private void scanFromJar(String filePath, String splashedPackageName) {
 		JarInputStream jarInput = null;
+		FileInputStream fis = null;
 		JarEntry entry;
 		String classFullName = null;
 		try {
-			jarInput = new JarInputStream(new FileInputStream(filePath));
+			fis = new FileInputStream(filePath);
+			jarInput = new JarInputStream(fis);
 			while((entry = jarInput.getNextJarEntry()) != null){ // 依次获取jar包中的每一个class文件，包括内部类，同时，是递归的方式获取，我们这里只要调用该方法即可
 				classFullName = entry.getName();
 				if(classFullName.startsWith(splashedPackageName) && isClassFile(classFullName)){
-					classFullName = classFullName.replace("/", ".");
-					if(classFullName.endsWith(".class")) {
-						classFullName = classFullName.substring(0, classFullName.length()-6);
-					}
-					list.add(classFullName);
+					list.add(classFullName.replace("/", ".").substring(0, classFullName.length()-6));
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException("在扫描["+filePath+"]jar时, 出现异常:", e);
 		} finally{
-			CloseUtil.closeIO(jarInput);
+			CloseUtil.closeIO(jarInput, fis);
 		}
 	}
 	
@@ -176,5 +139,25 @@ public class ClassScanner extends Scanner{
 			className = classFileName.substring(0, pos);
 		}
 		return basePackagePath + "." + className;
+	}
+	
+	@Override
+	public List<String> scan(String basePackagePath) {
+		return scan(false, basePackagePath);
+	}
+
+	@Override
+	public List<String> rescan(String basePackagePath) {
+		return rescan(false, basePackagePath);
+	}
+
+	@Override
+	public List<String> multiScan(String... basePackagePaths) {
+		return multiScan(false, basePackagePaths);
+	}
+
+	@Override
+	public List<String> reMultiScan(String... basePackagePaths) {
+		return reMultiScan(false, basePackagePaths);
 	}
 }

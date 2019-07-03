@@ -6,18 +6,11 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.douglei.tools.utils.ExceptionUtil;
-
 /**
  * 
  * @author DougLei
  */
 public abstract class Scanner {
-	private static final Logger logger = LoggerFactory.getLogger(Scanner.class);
-	
 	protected List<String> list = new LinkedList<String>();
 	private ClassLoader classLoader;
 	
@@ -46,9 +39,35 @@ public abstract class Scanner {
 		try {
 			return getClassLoader().getResources(basePath);
 		} catch (IOException e) {
-			logger.error("在扫描[{}]路径, getResources()时, 出现异常: {}", basePath, ExceptionUtil.getExceptionDetailMessage(e));
+			throw new RuntimeException("在扫描["+basePath+"]路径, getResources()时, 出现异常:", e);
 		}
-		return null;
+	}
+	
+	/**
+	 * 根据文件的url，获取文件的绝对路径
+	 * <pre>
+	 * 	两种样式的fileUrlPath值
+	 *  1: /C:/xxxxx/package...				【指定的是一个项目中存在的包路径】
+	 *  2: file:/C:/xxxxx/x.jar!package...	【指定的是项目中某个jar包中的包路径】
+	 * </pre>
+	 * @param fileUrlPath
+	 * @return
+	 */
+	protected String getAbsoluteFilePath(String fileUrlPath) {
+		int pos = fileUrlPath.indexOf("!");
+		if(-1 == pos){
+			return fileUrlPath;
+		}
+		return fileUrlPath.substring(5, pos);
+	}
+	
+	/**
+	 * 是否是jar文件
+	 * @param file
+	 * @return
+	 */
+	protected boolean isJarFile(String fileName) {
+		return fileName.endsWith(".jar");
 	}
 	
 	public List<String> getResult(){
@@ -64,6 +83,14 @@ public abstract class Scanner {
 	}
 	
 	/**
+	 * 根据包路径，扫描其下所有的类，获取它们的全名集合
+	 * @param basePath
+	 * @return 
+	 */
+	public abstract List<String> scan(String basePath);
+	/**
+	 * 根据包路径，扫描其下所有的类，获取它们的全名集合
+	 * 
 	 * 是否搜索相同的路径
 	 * 
 	 * searchSamePaths = false
@@ -74,18 +101,11 @@ public abstract class Scanner {
 	 * searchSamePaths = true
 	 * 即搜索所有指定的路径, 对所有满足条件的路径进行扫描
 	 * 
-	 */
-	protected boolean searchSamePaths;
-	public void setSearchSamePaths(boolean searchSamePaths) {
-		this.searchSamePaths = searchSamePaths;
-	}
-	
-	/**
-	 * 根据包路径，扫描其下所有的类，获取它们的全名集合
+	 * @param searchSamePaths
 	 * @param basePath
 	 * @return 
 	 */
-	public abstract List<String> scan(String basePath);
+	public abstract List<String> scan(boolean searchSamePaths, String basePath);
 	
 	/**
 	 * 根据包路径，重新扫描其下所有的类
@@ -94,6 +114,14 @@ public abstract class Scanner {
 	 * @return
 	 */
 	public abstract List<String> rescan(String basePath);
+	/**
+	 * 根据包路径，重新扫描其下所有的类
+	 * <p>会清空上一次扫描的类全名结果集</p>
+	 * @param searchSamePaths @see scan(boolean searchSamePaths, String basePath)
+	 * @param basePath
+	 * @return
+	 */
+	public abstract List<String> rescan(boolean searchSamePaths, String basePath);
 	
 	/**
 	 * 指定多个路径，多路径扫描，将最终的结果一次返回
@@ -101,6 +129,13 @@ public abstract class Scanner {
 	 * @return
 	 */
 	public abstract List<String> multiScan(String... basePaths);
+	/**
+	 * 指定多个路径，多路径扫描，将最终的结果一次返回
+	 * @param searchSamePaths @see scan(boolean searchSamePaths, String basePath)
+	 * @param basePaths
+	 * @return
+	 */
+	public abstract List<String> multiScan(boolean searchSamePaths, String... basePaths);
 	
 	/**
 	 * 根据包路径，重新循环扫描其下所有的类
@@ -109,4 +144,12 @@ public abstract class Scanner {
 	 * @return
 	 */
 	public abstract List<String> reMultiScan(String... basePaths);
+	/**
+	 * 根据包路径，重新循环扫描其下所有的类
+	 * <p>会清空上一次扫描的类全名结果集</p>
+	 * @param searchSamePaths @see scan(boolean searchSamePaths, String basePath)
+	 * @param basePaths
+	 * @return
+	 */
+	public abstract List<String> reMultiScan(boolean searchSamePaths, String... basePaths);
 }
