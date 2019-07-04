@@ -12,7 +12,8 @@ import org.junit.Test;
 
 public class ClassScannerTest {
 	
-	String basePackagePath = "com.douglei";
+//	String basePackagePath = "com.douglei";
+	String basePackagePath = "org.slf4j";
 	
 	@Test
 	public void scan(){

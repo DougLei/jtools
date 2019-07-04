@@ -60,7 +60,9 @@ public class FileScanner extends Scanner{
 	private void scanFromFile(String filePath) {
 		File firstFile = new File(filePath);
 		if(firstFile.isFile()) {
-			list.add(firstFile.getAbsolutePath());
+			if(isTargetFile(filePath)) {
+				list.add(firstFile.getAbsolutePath());
+			}
 			return;
 		}
 		

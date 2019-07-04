@@ -59,7 +59,7 @@ public class ClassScanner extends Scanner{
 	/**
 	 * 从文件中扫描类，并加入到list集合中
 	 * @param filePath
-	 * @param basePackage
+	 * @param pagekage_
 	 */
 	private void scanFromFile(String filePath, String pagekage_) {
 		String[] fileNames = new File(filePath).list();
