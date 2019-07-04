@@ -54,13 +54,13 @@ public class ClassScanner extends Scanner{
 		if(list.size() > 0) {
 			list.clear();
 		}
-		return scan(basePackagePath);
+		return scan(searchAllPath, basePackagePath);
 	}
 	
 	@Override
 	public List<String> multiScan(boolean searchAllPath, String... basePackagePaths){
 		for (String basePackagePath : basePackagePaths) {
-			scan(basePackagePath);
+			scan(searchAllPath, basePackagePath);
 		}
 		return list;
 	}
@@ -70,7 +70,7 @@ public class ClassScanner extends Scanner{
 		if(list.size() > 0) {
 			list.clear();
 		}
-		return multiScan(basePackagePaths);
+		return multiScan(searchAllPath, basePackagePaths);
 	}
 	
 	/**

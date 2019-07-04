@@ -87,13 +87,13 @@ public class FileScanner extends Scanner{
 		if(list.size() > 0) {
 			list.clear();
 		}
-		return scan(basePath);
+		return scan(searchAllPath, basePath);
 	}
 	
 	@Override
 	public List<String> multiScan(boolean searchAllPath, String... basePaths){
 		for (String basePath : basePaths) {
-			scan(basePath);
+			scan(searchAllPath, basePath);
 		}
 		return list;
 	}
@@ -103,7 +103,7 @@ public class FileScanner extends Scanner{
 		if(list.size() > 0) {
 			list.clear();
 		}
-		return multiScan(basePaths);
+		return multiScan(searchAllPath, basePaths);
 	}
 	
 	/**
