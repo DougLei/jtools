@@ -93,19 +93,19 @@ public abstract class Scanner {
 	 * 
 	 * 是否搜索相同的路径
 	 * 
-	 * searchSamePaths = false
+	 * searchAllPath = false
 	 * 扫描指定的某个路径时, 程序会先在当前项目中搜索该路径, 如果找到了, 则就在该路径下开始扫描目标, 同时, 如果jar中也存在相同的路径, 那么是不会被扫描的
 	 * 											             如果没找到, 则就去jar中搜索, 如果搜索到了, 就在该jar的路径下开始扫描, 同时, 如果其他jar中也存在相同路径, 那么是不会被扫描的
 	 * 即搜索到指定路径时, 就停止搜索其他相同的路径, 只扫描一个路径
 	 * 
-	 * searchSamePaths = true
+	 * searchAllPath = true
 	 * 即搜索所有指定的路径, 对所有满足条件的路径进行扫描
 	 * 
-	 * @param searchSamePaths
+	 * @param searchAllPath
 	 * @param basePath
 	 * @return 
 	 */
-	public abstract List<String> scan(boolean searchSamePaths, String basePath);
+	public abstract List<String> scan(boolean searchAllPath, String basePath);
 	
 	/**
 	 * 根据包路径，重新扫描其下所有的类
@@ -117,11 +117,11 @@ public abstract class Scanner {
 	/**
 	 * 根据包路径，重新扫描其下所有的类
 	 * <p>会清空上一次扫描的类全名结果集</p>
-	 * @param searchSamePaths @see scan(boolean searchSamePaths, String basePath)
+	 * @param searchAllPath @see scan(boolean searchAllPath, String basePath)
 	 * @param basePath
 	 * @return
 	 */
-	public abstract List<String> rescan(boolean searchSamePaths, String basePath);
+	public abstract List<String> rescan(boolean searchAllPath, String basePath);
 	
 	/**
 	 * 指定多个路径，多路径扫描，将最终的结果一次返回
@@ -131,11 +131,11 @@ public abstract class Scanner {
 	public abstract List<String> multiScan(String... basePaths);
 	/**
 	 * 指定多个路径，多路径扫描，将最终的结果一次返回
-	 * @param searchSamePaths @see scan(boolean searchSamePaths, String basePath)
+	 * @param searchAllPath @see scan(boolean searchAllPath, String basePath)
 	 * @param basePaths
 	 * @return
 	 */
-	public abstract List<String> multiScan(boolean searchSamePaths, String... basePaths);
+	public abstract List<String> multiScan(boolean searchAllPath, String... basePaths);
 	
 	/**
 	 * 根据包路径，重新循环扫描其下所有的类
@@ -147,9 +147,9 @@ public abstract class Scanner {
 	/**
 	 * 根据包路径，重新循环扫描其下所有的类
 	 * <p>会清空上一次扫描的类全名结果集</p>
-	 * @param searchSamePaths @see scan(boolean searchSamePaths, String basePath)
+	 * @param searchAllPath @see scan(boolean searchAllPath, String basePath)
 	 * @param basePaths
 	 * @return
 	 */
-	public abstract List<String> reMultiScan(boolean searchSamePaths, String... basePaths);
+	public abstract List<String> reMultiScan(boolean searchAllPath, String... basePaths);
 }

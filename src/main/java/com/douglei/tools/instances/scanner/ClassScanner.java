@@ -20,13 +20,13 @@ public class ClassScanner extends Scanner{
 	
 	// -----------------------------------------------------------------------------------------------------------
 	@Override
-	public List<String> scan(boolean searchSamePaths, String basePackagePath) {
+	public List<String> scan(boolean searchAllPath, String basePackagePath) {
 		if(StringUtil.isEmpty(basePackagePath)){
 			throw new NullPointerException("basePackagePath 参数值不能为空");
 		}
 		
 		String splashedPackageName = basePackagePath.replace(".", "/"); // 将包名的小数点，转换成url格式的分隔符，即'/'
-		if(searchSamePaths) {
+		if(searchAllPath) {
 			Enumeration<URL> fileUrls = getResources(splashedPackageName);
 			while(fileUrls.hasMoreElements()) {
 				scan_(fileUrls.nextElement(), basePackagePath, splashedPackageName);
@@ -50,7 +50,7 @@ public class ClassScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> rescan(boolean searchSamePaths, String basePackagePath) {
+	public List<String> rescan(boolean searchAllPath, String basePackagePath) {
 		if(list.size() > 0) {
 			list.clear();
 		}
@@ -58,7 +58,7 @@ public class ClassScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> multiScan(boolean searchSamePaths, String... basePackagePaths){
+	public List<String> multiScan(boolean searchAllPath, String... basePackagePaths){
 		for (String basePackagePath : basePackagePaths) {
 			scan(basePackagePath);
 		}
@@ -66,7 +66,7 @@ public class ClassScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> reMultiScan(boolean searchSamePaths, String... basePackagePaths) {
+	public List<String> reMultiScan(boolean searchAllPath, String... basePackagePaths) {
 		if(list.size() > 0) {
 			list.clear();
 		}

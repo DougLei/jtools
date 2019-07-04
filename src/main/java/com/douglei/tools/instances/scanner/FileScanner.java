@@ -28,12 +28,12 @@ public class FileScanner extends Scanner{
 
 	// -----------------------------------------------------------------------------------------------------------
 	@Override
-	public List<String> scan(boolean searchSamePaths, String basePath) {
+	public List<String> scan(boolean searchAllPath, String basePath) {
 		if(StringUtil.isEmpty(basePath)){
 			throw new NullPointerException("basePath 参数值不能为空");
 		}
 		
-		if(searchSamePaths) {
+		if(searchAllPath) {
 			Enumeration<URL> fileUrls = getResources(basePath);
 			while(fileUrls.hasMoreElements()) {
 				scan_(fileUrls.nextElement(), basePath);
@@ -83,7 +83,7 @@ public class FileScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> rescan(boolean searchSamePaths, String basePath) {
+	public List<String> rescan(boolean searchAllPath, String basePath) {
 		if(list.size() > 0) {
 			list.clear();
 		}
@@ -91,7 +91,7 @@ public class FileScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> multiScan(boolean searchSamePaths, String... basePaths){
+	public List<String> multiScan(boolean searchAllPath, String... basePaths){
 		for (String basePath : basePaths) {
 			scan(basePath);
 		}
@@ -99,7 +99,7 @@ public class FileScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> reMultiScan(boolean searchSamePaths, String... basePaths) {
+	public List<String> reMultiScan(boolean searchAllPath, String... basePaths) {
 		if(list.size() > 0) {
 			list.clear();
 		}
