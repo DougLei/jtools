@@ -50,6 +50,7 @@ public class ClassScanner extends Scanner{
 			}else if(isJarFile(fileUrl)) {
 				scanFromJar(fileUrl, packagePath);
 			}else {
+				// TODO 后续可能需要实现其他protocol
 				throw new UnsupportProtocolException(fileUrl);
 			}
 		}

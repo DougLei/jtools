@@ -47,6 +47,7 @@ public class FileScanner extends Scanner{
 			}else if(isJarFile(fileUrl)) {
 				scanFromJar(fileUrl, basePath);
 			}else {
+				// TODO 后续可能需要实现其他protocol
 				throw new UnsupportProtocolException(fileUrl);
 			}
 		}

@@ -70,6 +70,7 @@ public abstract class Scanner {
 					}
 				}
 			}else {
+				// TODO 后续可能需要实现其他类型
 				throw new UnsupportUrlConnectionException(urlConnection);
 			}
 		} catch (Exception e) {
