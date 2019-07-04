@@ -41,7 +41,7 @@ public class ClassScanner extends Scanner{
 	private void scan_(URL fileUrl, String basePackagePath, String splashedPackageName) {
 		if(fileUrl != null) {
 			String absoluteFilePath = getAbsoluteFilePath(fileUrl.getFile());
-			if(isJarFile(absoluteFilePath)){
+			if(isJarFile(fileUrl.getProtocol())){
 				scanFromJar(absoluteFilePath, splashedPackageName);
 			}else{
 				scanFromFile(absoluteFilePath, basePackagePath);

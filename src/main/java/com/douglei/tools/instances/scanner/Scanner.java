@@ -63,11 +63,11 @@ public abstract class Scanner {
 	
 	/**
 	 * 是否是jar文件
-	 * @param file
+	 * @param protocol
 	 * @return
 	 */
-	protected boolean isJarFile(String fileName) {
-		return fileName.endsWith(".jar");
+	protected boolean isJarFile(String protocol) {
+		return protocol.equals("jar");
 	}
 	
 	public List<String> getResult(){
