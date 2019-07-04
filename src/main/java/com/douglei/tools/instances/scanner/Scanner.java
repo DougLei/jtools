@@ -1,10 +1,16 @@
 package com.douglei.tools.instances.scanner;
 
 import java.io.IOException;
+import java.net.JarURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
+import com.douglei.tools.utils.CloseUtil;
 
 /**
  * 
@@ -13,6 +19,7 @@ import java.util.List;
 public abstract class Scanner {
 	protected List<String> list = new LinkedList<String>();
 	private static ClassLoader classLoader;
+	protected String[] targetFileSuffix;
 	
 	private ClassLoader getClassLoader() {
 		if(classLoader == null) {
@@ -44,30 +51,74 @@ public abstract class Scanner {
 	}
 	
 	/**
-	 * 根据文件的url，获取文件的绝对路径
-	 * <pre>
-	 * 	两种样式的fileUrlPath值
-	 *  1: /C:/xxxxx/package...				【指定的是一个项目中存在的包路径】
-	 *  2: file:/C:/xxxxx/x.jar!package...	【指定的是项目中某个jar包中的包路径】
-	 * </pre>
-	 * @param fileUrlPath
-	 * @return
+	 * 从jar包中扫描文件，并加入到list集合中
+	 * @param fileUrl
+	 * @param basePath
 	 */
-	protected String getAbsoluteFilePath(String fileUrlPath) {
-		int pos = fileUrlPath.indexOf("!");
-		if(-1 == pos){
-			return fileUrlPath;
+	protected void scanFromJar(URL fileUrl, String basePath) {
+		JarFile jarFile = null;
+		JarEntry entry = null;
+		try {
+			URLConnection urlConnection = fileUrl.openConnection();
+			if(urlConnection instanceof JarURLConnection) {
+				jarFile = ((JarURLConnection) urlConnection).getJarFile();
+				Enumeration<JarEntry> jarEntries = jarFile.entries();
+				while(jarEntries.hasMoreElements()) {
+					entry = jarEntries.nextElement();
+					if(entry.getName().startsWith(basePath) && isTargetFile(entry.getName())) {
+						addJarEntryToList(entry);
+					}
+				}
+			}else {
+				throw new UnsupportUrlConnectionException(urlConnection);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("从jar扫描文件时出现异常", e);
+		} finally {
+			CloseUtil.closeIO(jarFile);
 		}
-		return fileUrlPath.substring(5, pos);
 	}
 	
 	/**
-	 * 是否是jar文件
-	 * @param protocol
+	 * 添加jar实体到集合中
+	 * @param entry
+	 */
+	protected abstract void addJarEntryToList(JarEntry entry);
+	
+	/**
+	 * 是否是要扫描的目标文件
+	 * @param fileName
 	 * @return
 	 */
-	protected boolean isJarFile(String protocol) {
-		return protocol.equals("jar");
+	protected boolean isTargetFile(String fileName) {
+		if(targetFileSuffix == null || targetFileSuffix.length == 0) {
+			return true;
+		}
+		for (String fs : targetFileSuffix) {
+			if(fileName.endsWith(fs)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected boolean isFile(URL fileUrl) {
+		return fileUrl.getProtocol().equals("file");
+	}
+	protected boolean isJarFile(URL fileUrl) {
+		return fileUrl.getProtocol().equals("jar");
+	}
+	
+	/**
+	 * 重置要扫描的目标文件后缀
+	 * @param targetFileSuffix
+	 */
+	public void resetTargetFileSuffix(String... targetFileSuffix) {
+		if(targetFileSuffix != null && targetFileSuffix.length > 0) {
+			this.targetFileSuffix = targetFileSuffix;
+		}else {
+			this.targetFileSuffix = null;
+		}
 	}
 	
 	public List<String> getResult(){
