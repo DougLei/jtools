@@ -10,7 +10,7 @@ public class FileScannerTest {
 	
 	@Test
 	public void scan(){
-		String basePath = "com/douglei/tools/instances/scanner/tests";
+		String basePath = "com/douglei/tools/instances/scanner";
 		List<String> allFileNames = new FileScanner("xml").scan(basePath);
 		System.out.println(allFileNames.size());
 		for (String fileName : allFileNames) {
@@ -20,8 +20,8 @@ public class FileScannerTest {
 	
 	@Test
 	public void scanJAR(){
-		String basePath = "META-INF/maven/org.slf4j/slf4j-api";
-		List<String> allFileNames = new FileScanner("properties").scan(basePath);
+		String basePath = "META-INF/maven/ch.qos.logback/";
+		List<String> allFileNames = new FileScanner("properties").scan(true, basePath);
 		System.out.println(allFileNames.size());
 		for (String fileName : allFileNames) {
 			System.out.println(fileName);

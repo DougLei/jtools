@@ -43,7 +43,7 @@ public class FileScanner extends Scanner{
 	private void scan_(URL fileUrl, String basePath) {
 		if(fileUrl != null) {
 			if(isFile(fileUrl)) {
-				scanFromFile(basePath);
+				scanFromFile(fileUrl.getFile());
 			}else if(isJarFile(fileUrl)) {
 				scanFromJar(fileUrl, basePath);
 			}else {
