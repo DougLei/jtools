@@ -1,13 +1,15 @@
 package com.douglei.tools.instances.scanner;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 
 import com.douglei.tools.utils.StringUtil;
-import com.douglei.tools.utils.file.FileReaderUtil;
 
 /**
  * 文件扫描器
@@ -79,7 +81,7 @@ public class FileScanner extends Scanner{
 	
 	@Override
 	protected void addJarEntryToList(JarEntry entry) {
-		list.add(FileReaderUtil.JAR_FILE + entry.getName());
+		list.add(JAR_FILE + entry.getName());
 	}
 	
 	@Override
@@ -124,5 +126,30 @@ public class FileScanner extends Scanner{
 	@Override
 	public List<String> reMultiScan(String... basePaths) {
 		return reMultiScan(false, basePaths);
+	}
+	
+	private static final String JAR_FILE = "_JAR_FILE_";
+	
+	/**
+	 * 根据扫描的path读取文件, 获取文件字节流
+	 * @param path
+	 * @return
+	 * @throws FileNotFoundException 
+	 */
+	public static InputStream readByScanPath(String path) {
+		InputStream in = null;
+		try {
+			if(path.startsWith(JAR_FILE)) {
+				in = getClassLoader().getResourceAsStream(path.substring(JAR_FILE.length()));
+				if(in == null) {
+					throw new NullPointerException();
+				}
+			}else {
+				in = new FileInputStream(path);
+			}
+			return in;
+		} catch (Exception e) {
+			throw new RuntimeException("给定的["+path+"], 不存在任何文件");
+		}
 	}
 }

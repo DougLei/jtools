@@ -23,9 +23,9 @@ public abstract class Scanner {
 	private static ClassLoader classLoader;
 	protected String[] targetFileSuffix;
 	
-	private ClassLoader getClassLoader() {
+	protected static ClassLoader getClassLoader() {
 		if(classLoader == null) {
-			classLoader = getClass().getClassLoader();
+			classLoader = Scanner.class.getClassLoader();
 		}
 		return classLoader;
 	}
