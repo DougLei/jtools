@@ -52,7 +52,33 @@ public abstract class Scanner {
 		}
 	}
 	
-	protected File[] listFiles(File file) {
+	/**
+	 * 扫描文件，并加入到list集合中
+	 * @param filePath
+	 * @param param
+	 */
+	protected void scanFromFile(String filePath, String param) {
+		File firstFile = new File(filePath);
+		if(firstFile.isFile()) {
+			if(isTargetFile(filePath)) {
+				list.add(firstFile.getAbsolutePath());
+			}
+			return;
+		}
+		
+		File[] files = listFiles(firstFile);
+		if(files != null && files.length > 0){
+			for (File file : files) {
+				if(file.isDirectory()) {
+					scanFromFile(file.getAbsolutePath(), processParamsOnDirectory(file, param));
+				}else {
+					addFileToList(file, param);
+				}
+			}
+		}
+	}
+	
+	private File[] listFiles(File file) {
 		File[] files = file.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File file) {
@@ -65,6 +91,21 @@ public abstract class Scanner {
 		return files;
 	}
 	
+	/**
+	 * 当file时文件夹时, 处理params
+	 * @param file
+	 * @param param
+	 * @return
+	 */
+	protected abstract String processParamsOnDirectory(File file, String param);
+
+	/**
+	 * 添加file到集合中
+	 * @param file
+	 * @param param
+	 */
+	protected abstract void addFileToList(File file, String param);
+
 	/**
 	 * 从jar包中扫描文件，并加入到list集合中
 	 * @param fileUrl

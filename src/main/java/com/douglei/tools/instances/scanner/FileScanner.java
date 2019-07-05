@@ -43,7 +43,7 @@ public class FileScanner extends Scanner{
 	private void scan_(URL fileUrl, String basePath) {
 		if(fileUrl != null) {
 			if(isFile(fileUrl)) {
-				scanFromFile(fileUrl.getFile());
+				scanFromFile(fileUrl.getFile(), null);
 			}else if(isJarFile(fileUrl)) {
 				scanFromJar(fileUrl, basePath);
 			}else {
@@ -53,30 +53,14 @@ public class FileScanner extends Scanner{
 		}
 	}
 	
-	/**
-	 * 扫描文件，并加入到list集合中
-	 * @param filePath
-	 */
-	private void scanFromFile(String filePath) {
-		File firstFile = new File(filePath);
-		if(firstFile.isFile()) {
-			if(isTargetFile(filePath)) {
-				list.add(firstFile.getAbsolutePath());
-			}
-			return;
-		}
-		
-		File[] files = listFiles(firstFile);
-		if(files != null && files.length > 0){
-			for (File file : files) {
-				if(file.isDirectory()) {
-					scanFromFile(file.getAbsolutePath());
-				}else {
-					list.add(file.getAbsolutePath());
-				}
-				
-			}
-		}
+	@Override
+	protected String processParamsOnDirectory(File file, String param) {
+		return param;
+	}
+
+	@Override
+	protected void addFileToList(File file, String param) {
+		list.add(file.getAbsolutePath());
 	}
 	
 	@Override

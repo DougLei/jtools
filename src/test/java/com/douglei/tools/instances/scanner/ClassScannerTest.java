@@ -12,15 +12,16 @@ import org.junit.Test;
 
 public class ClassScannerTest {
 	
-	String basePackagePath = "com.douglei.tools.instances.scanner";
-//	String basePackagePath = "com.douglei";
+//	String basePackagePath = "com.douglei.tools.instances.scanner";
+	String basePackagePath = "com.douglei";
 //	String basePackagePath = "org.slf4j";
 	
 	@Test
-	public void scan(){
+	public void scan() throws ClassNotFoundException{
 		List<String> allClassNames = new ClassScanner().scan(basePackagePath);
 		for (String className : allClassNames) {
-			System.out.println(className);
+			System.out.println(Class.forName(className));
+//			System.out.println(className);
 		}
 	}
 	

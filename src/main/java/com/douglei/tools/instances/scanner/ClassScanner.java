@@ -56,24 +56,15 @@ public class ClassScanner extends Scanner{
 		}
 	}
 	
-	/**
-	 * 扫描文件，并加入到list集合中
-	 * @param filePath
-	 * @param pagekage_
-	 */
-	private void scanFromFile(String filePath, String pagekage_) {
-		File[] files = listFiles(new File(filePath));
-		if(files != null && files.length > 0){
-			String fileName = null;
-			for (File file : files) {
-				fileName = file.getName();
-				if(file.isDirectory()) {
-					scanFromFile(file.getAbsolutePath(), pagekage_+"."+fileName);
-				}else {
-					list.add(pagekage_ + "." + fileName.substring(0, fileName.length()-6));
-				}
-			}
-		}
+	@Override
+	protected String processParamsOnDirectory(File file, String pagekage_) {
+		return pagekage_+"."+file.getName();
+	}
+
+	@Override
+	protected void addFileToList(File file, String pagekage_) {
+		String fileName = file.getName();
+		list.add(pagekage_ + "." + fileName.substring(0, fileName.length()-6));
 	}
 	
 	@Override
