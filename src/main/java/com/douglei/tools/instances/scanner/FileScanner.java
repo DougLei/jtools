@@ -51,14 +51,30 @@ public class FileScanner extends Scanner{
 		}
 	}
 	
-	@Override
-	protected Object[] processParamsOnDirectory(File directory, Object... params) {
-		return params;
-	}
-	
-	@Override
-	protected void addFileToList(File file, Object... params) {
-		list.add(file.getAbsolutePath());
+	/**
+	 * 扫描文件，并加入到list集合中
+	 * @param filePath
+	 */
+	private void scanFromFile(String filePath) {
+		File firstFile = new File(filePath);
+		if(firstFile.isFile()) {
+			if(isTargetFile(filePath)) {
+				list.add(firstFile.getAbsolutePath());
+			}
+			return;
+		}
+		
+		File[] files = listFiles(firstFile);
+		if(files != null && files.length > 0){
+			for (File file : files) {
+				if(file.isDirectory()) {
+					scanFromFile(file.getAbsolutePath());
+				}else {
+					list.add(file.getAbsolutePath());
+				}
+				
+			}
+		}
 	}
 	
 	@Override
