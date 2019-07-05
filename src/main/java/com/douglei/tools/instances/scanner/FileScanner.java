@@ -81,7 +81,7 @@ public class FileScanner extends Scanner{
 	
 	@Override
 	protected void addJarEntryToList(JarEntry entry) {
-		list.add(JAR_FILE + entry.getName());
+		list.add(JAR_FILE_PREFIX + entry.getName());
 	}
 	
 	@Override
@@ -128,7 +128,8 @@ public class FileScanner extends Scanner{
 		return reMultiScan(false, basePaths);
 	}
 	
-	private static final String JAR_FILE = "_JAR_FILE_";
+	// -----------------------------------------------------------------------------------------------------------
+	private static final String JAR_FILE_PREFIX = "_JAR_FILE_";// 读取jar包中文件路径的前缀
 	
 	/**
 	 * 根据扫描的path读取文件, 获取文件字节流
@@ -139,8 +140,8 @@ public class FileScanner extends Scanner{
 	public static InputStream readByScanPath(String path) {
 		InputStream in = null;
 		try {
-			if(path.startsWith(JAR_FILE)) {
-				in = getClassLoader().getResourceAsStream(path.substring(JAR_FILE.length()));
+			if(path.startsWith(JAR_FILE_PREFIX)) {
+				in = getClassLoader().getResourceAsStream(path.substring(JAR_FILE_PREFIX.length()));
 				if(in == null) {
 					throw new NullPointerException();
 				}
