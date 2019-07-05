@@ -1,6 +1,7 @@
 package com.douglei.tools.instances.scanner;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
@@ -16,9 +17,7 @@ import com.douglei.tools.utils.file.FileReaderUtil;
 public class FileScanner extends Scanner{
 	
 	public FileScanner(String... targetFileSuffix) {
-		if(targetFileSuffix != null && targetFileSuffix.length > 0) {
-			super.targetFileSuffix = targetFileSuffix;
-		}
+		super.targetFileSuffix = validateTargetFileSuffix(targetFileSuffix);
 	}
 
 	// -----------------------------------------------------------------------------------------------------------
@@ -66,7 +65,14 @@ public class FileScanner extends Scanner{
 			return;
 		}
 		
-		File[] files = firstFile.listFiles();
+		File[] files = firstFile.listFiles(new FilenameFilter() {
+			
+			@Override
+			public boolean accept(File dir, String name) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
 		if(files != null && files.length > 0){
 			String path = null;
 			for (File f : files) {

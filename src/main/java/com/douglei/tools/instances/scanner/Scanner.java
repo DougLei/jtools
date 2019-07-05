@@ -111,15 +111,27 @@ public abstract class Scanner {
 	}
 	
 	/**
+	 * 验证要扫描的目标文件后缀, 如果没有.开始, 则加上
+	 * @param targetFileSuffix
+	 * @return 
+	 */
+	protected String[] validateTargetFileSuffix(String... targetFileSuffix) {
+		if(targetFileSuffix != null && targetFileSuffix.length > 0) {
+			for(int i=0;i<targetFileSuffix.length;i++) {
+				if(!targetFileSuffix[i].startsWith(".")) {
+					targetFileSuffix[i] = "."+targetFileSuffix[i];
+				}
+			}
+		}
+		return targetFileSuffix;
+	}
+	
+	/**
 	 * 重置要扫描的目标文件后缀
 	 * @param targetFileSuffix
 	 */
 	public void resetTargetFileSuffix(String... targetFileSuffix) {
-		if(targetFileSuffix != null && targetFileSuffix.length > 0) {
-			this.targetFileSuffix = targetFileSuffix;
-		}else {
-			this.targetFileSuffix = null;
-		}
+		this.targetFileSuffix = validateTargetFileSuffix(targetFileSuffix);
 	}
 	
 	public List<String> getResult(){
