@@ -82,8 +82,6 @@ public class CloseUtil {
 			}
 		} catch (IOException e) {
 			throw new RuntimeException("关闭io对象["+io.getClass().getName()+"]时, 出现异常", e);
-		} finally {
-			io = null;
 		}
 	}
 	
@@ -112,8 +110,6 @@ public class CloseUtil {
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException("关闭dbconn对象["+dbconn.getClass().getName()+"]时, 出现异常", e);
-		} finally {
-			dbconn = null;
 		}
 	}
 }
