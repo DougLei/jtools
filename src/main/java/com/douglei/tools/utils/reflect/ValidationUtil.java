@@ -13,7 +13,7 @@ public class ValidationUtil {
 	 * @return
 	 */
 	public static boolean isImplementInterface(Class<?> targetInterface, Class<?>[] interfaces) {
-		if(interfaces.length > 0) {
+		if(targetInterface != null && interfaces != null && interfaces.length > 0) {
 			for (Class<?> interface_ : interfaces) {
 				if(interface_ == targetInterface) {
 					return true;
