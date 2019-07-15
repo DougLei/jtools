@@ -1,4 +1,4 @@
-package com.douglei.utils.serialize;
+package com.douglei.tools.utils.serialize;
 
 import java.io.Serializable;
 
