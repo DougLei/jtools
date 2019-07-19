@@ -1,11 +1,16 @@
 package com.douglei.tools.utils.datatype.converter;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.douglei.tools.instances.scanner.ClassScanner;
+import com.douglei.tools.utils.CloseUtil;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
 import com.douglei.tools.utils.reflect.IntrospectorUtil;
 
@@ -21,13 +26,42 @@ public class ConverterUtil {
 		for (String clz : classes) {
 			register((IConverter)ConstructorUtil.newInstance(clz));
 		}
+		loadConverterFactories();
+	}
+	
+	// 
+	// 
+	
+	/**
+	 * 加载converter.factories配置文件, 读取其中配置内容, register里面配置的转换器
+	 * 
+	 * 如果提供的转换器不满足使用, 则可以在项目的根目录下添加converter.factories文件, 里面配置自定义的转换器, 配置的格式为每行一个转换器类全路径
+	 * 自定义的转换器需要实现 {@link IConverter} 接口
+	 */
+	private static void loadConverterFactories() {
+		InputStream in = ConverterUtil.class.getClassLoader().getResourceAsStream("converter.factories");
+		if(in != null) {
+			InputStreamReader isr = null;
+			BufferedReader br = null;
+			try {
+				isr = new InputStreamReader(in);
+				br = new BufferedReader(isr);
+				while(br.ready()) {
+					register((IConverter)ConstructorUtil.newInstance(br.readLine()));
+				}
+			} catch (IOException e) {
+				throw new RuntimeException("在读取converter.factories配置文件时出现异常", e);
+			} finally {
+				CloseUtil.closeIO(br, isr, in);
+			}
+		}
 	}
 	
 	/**
 	 * 注册类型转换器, 如果有重复, 则用最新的替换
 	 * @param converter
 	 */
-	public static void register(IConverter converter) {
+	private static void register(IConverter converter) {
 		for(Class<?> clz: converter.targetClasses()) {
 			converters.put(clz, converter);
 		}
