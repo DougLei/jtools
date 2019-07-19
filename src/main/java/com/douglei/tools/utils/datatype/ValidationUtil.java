@@ -13,6 +13,24 @@ public class ValidationUtil {
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * <pre>
+	 * 	是否是字节
+	 * 	限定在byte的长度范围
+	 * </pre>
+	 * @param value
+	 * @return
+	 */
+	public static boolean isLimitByte(String value){
+		if(value != null){
+			long l;
+			if((l =isLimitInteger_(value))!=-1) {
+				return l>= Byte.MIN_VALUE && l<= Byte.MAX_VALUE;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * <pre>
 	 * 	是否是短整型
 	 * 	限定在short的长度范围
 	 * </pre>

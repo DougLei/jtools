@@ -11,7 +11,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.douglei.tools.utils.datatype.ConvertUtil;
+import com.douglei.tools.utils.datatype.converter.ConverterUtil;
 
 
 /**
@@ -118,7 +118,7 @@ public class IntrospectorUtil {
 							if(setter == null) {
 								throw new NullPointerException("无法调用 "+introspectorClass+"."+toSetMethodName(propertyName)+"() 方法, 程序没有获取到该方法");
 							}
-							setter.invoke(introspectorObject, ConvertUtil.simpleConvert(value, pd.getPropertyType()));
+							setter.invoke(introspectorObject, ConverterUtil.convert(value, pd.getPropertyType()));
 							
 							if(logger.isDebugEnabled()) {
 								logger.debug("调用 {}.{}, set进的参数值为 {}, 值类型为 {}", introspectorClass, setter.getName(), value, pd.getPropertyType());
