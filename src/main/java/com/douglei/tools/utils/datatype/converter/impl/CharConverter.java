@@ -7,15 +7,19 @@ import com.douglei.tools.utils.datatype.converter.IConverter;
  * 
  * @author DougLei
  */
-public class StringConverter implements IConverter {
+public class CharConverter implements IConverter {
 
 	@Override
 	public Class<?>[] targetClasses() {
-		return new Class[] {String.class};
+		return new Class[] {Character.class, char.class};
 	}
 
 	@Override
-	public String convert(Object object) throws ConvertException {
-		return object.toString();
+	public Character convert(Object object) throws ConvertException {
+		String str = object.toString();
+		if(str.length() == 0) {
+			return null;
+		}
+		return str.charAt(0);
 	}
 }

@@ -4,19 +4,19 @@ package com.douglei.tools.utils.datatype.converter;
  * 转换器
  * @author DougLei
  */
-public interface IConverter<T> {
+public interface IConverter {
 	
 	/**
-	 * 要转换的目标类
+	 * 转换的目标类型
 	 * @return
 	 */
-	Class<T> targetClass();
+	Class<?>[] targetClasses();
 	
 	/**
-	 * 进行转换
+	 * 转换
 	 * @param object
 	 * @return
 	 * @throws ConvertException
 	 */
-	T convert(Object object) throws ConvertException ;
+	Object convert(Object object) throws ConvertException;
 }

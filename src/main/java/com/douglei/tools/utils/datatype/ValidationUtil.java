@@ -22,7 +22,7 @@ public class ValidationUtil {
 	public static boolean isLimitByte(String value){
 		if(value != null){
 			long l;
-			if((l =isLimitInteger_(value))!=-1) {
+			if((l =isInteger_(value))!=-1) {
 				return l>= Byte.MIN_VALUE && l<= Byte.MAX_VALUE;
 			}
 		}
@@ -40,7 +40,7 @@ public class ValidationUtil {
 	public static boolean isLimitShort(String value){
 		if(value != null){
 			long l;
-			if((l =isLimitInteger_(value))!=-1) {
+			if((l =isInteger_(value))!=-1) {
 				return l>= Short.MIN_VALUE && l<= Short.MAX_VALUE;
 			}
 		}
@@ -58,7 +58,7 @@ public class ValidationUtil {
 	public static boolean isLimitInteger(String value){
 		if(value != null){
 			long l;
-			if((l =isLimitInteger_(value))!=-1) {
+			if((l =isInteger_(value))!=-1) {
 				return l>= Integer.MIN_VALUE && l<= Integer.MAX_VALUE;
 			}
 		}
@@ -76,15 +76,15 @@ public class ValidationUtil {
 	public static boolean isLimitLong(String value){
 		if(value != null){
 			long l;
-			if((l =isLimitInteger_(value))!=-1) {
+			if((l =isInteger_(value))!=-1) {
 				return l>= Long.MIN_VALUE && l<= Long.MAX_VALUE;
 			}
 		}
 		return false;
 	}
 	
-	// 是否是限制整型
-	private static long isLimitInteger_(String value) {
+	// 是否是整数, 并返回转换为long类型的值, 如果返回-1则证明不是整数
+	private static long isInteger_(String value) {
 		if(integerTypePattern.matcher(value).matches()){
 			return Long.parseLong(value);
 		}
@@ -112,11 +112,14 @@ public class ValidationUtil {
 	// 浮点型
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * 是否是浮点型
+	 * <pre>
+	 * 	是否是浮点型
+	 * 	限定在必须有小数
+	 * </pre>
 	 * @param value
 	 * @return
 	 */
-	public static boolean isDouble(String value){
+	public static boolean isLimitDouble(String value){
 		if(value != null){
 			return doubleTypePattern.matcher(value).matches();
 		}
@@ -124,6 +127,24 @@ public class ValidationUtil {
 	}
 	/** 判断浮点型格式的正则表达式 */
 	private static final Pattern doubleTypePattern = Pattern.compile("(\\+|-)?[0-9]+.[0-9]+");
+	
+	/**
+	 * 是否是浮点型
+	 * @param value
+	 * @return
+	 */
+	public static boolean isDouble(String value){
+		return isLimitDouble(value) || isInteger(value);
+	}
+	
+	/**
+	 * 是否是数字类型
+	 * @param value
+	 * @return
+	 */
+	public static boolean isNumber(String value){
+		return isDouble(value);
+	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// 布尔型
@@ -145,16 +166,12 @@ public class ValidationUtil {
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * 是否是date
-	 * <p>字符串的日期格式，目前只支持yyyy-MM-dd HH:mm:ss格式</p>
 	 * @param value
 	 * @return
 	 */
 	public static boolean isDate(String value) {
 		if(value != null){
-			if(dateTypePattern.matcher(value).matches()){
-				return true;
-			}
-			return timeZoneTypePattern.matcher(value).matches();
+			return dateTypePattern.matcher(value).matches() || timeZoneTypePattern.matcher(value).matches() || isLimitLong(value);
 		}
 		return false;
 	}
@@ -189,14 +206,5 @@ public class ValidationUtil {
 			}
 		}
 		return false;
-	}
-	
-	/**
-	 * 是否是数字类型
-	 * @param value
-	 * @return
-	 */
-	public static boolean isNumber(String value){
-		return isInteger(value) || isDouble(value);
 	}
 }
