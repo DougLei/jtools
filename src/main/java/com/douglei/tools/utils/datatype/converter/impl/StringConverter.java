@@ -15,7 +15,7 @@ public class StringConverter implements IConverter {
 	}
 
 	@Override
-	public String convert(Object object) throws ConvertException {
+	public String doConvert(Object object) throws ConvertException {
 		return object.toString();
 	}
 }

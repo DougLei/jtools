@@ -18,7 +18,7 @@ public class SqlDateConverter implements IConverter {
 	}
 
 	@Override
-	public Date convert(Object object) throws ConvertException {
+	public Date doConvert(Object object) throws ConvertException {
 		try {
 			return DateTypeUtil.parseSqlDate(object);
 		} catch (Exception e) {

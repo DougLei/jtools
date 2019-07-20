@@ -16,7 +16,7 @@ public class IntConverter implements IConverter {
 	}
 
 	@Override
-	public Integer convert(Object object) throws ConvertException {
+	public Integer doConvert(Object object) throws ConvertException {
 		String str = object.toString();
 		if(ValidationUtil.isLimitInteger(str)) {
 			return Integer.parseInt(str);

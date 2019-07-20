@@ -16,7 +16,7 @@ public class DoubleConverter implements IConverter {
 	}
 
 	@Override
-	public Double convert(Object object) throws ConvertException {
+	public Double doConvert(Object object) throws ConvertException {
 		String str = object.toString();
 		if(ValidationUtil.isDouble(str)) {
 			return Double.parseDouble(str);

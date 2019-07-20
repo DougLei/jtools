@@ -84,7 +84,7 @@ public class ConverterUtil {
 		
 		IConverter converter = converters.get(targetClass);
 		if(converter != null) {
-			return (T) converter.convert(value);
+			return (T) converter.doConvert(value);
 		}
 		throw new UnsupportDataTypeConvertException(value, targetClass);
 	}

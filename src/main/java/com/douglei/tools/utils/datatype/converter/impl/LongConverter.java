@@ -16,7 +16,7 @@ public class LongConverter implements IConverter {
 	}
 
 	@Override
-	public Long convert(Object object) throws ConvertException {
+	public Long doConvert(Object object) throws ConvertException {
 		String str = object.toString();
 		if(ValidationUtil.isLimitLong(str)) {
 			return Long.parseLong(str);

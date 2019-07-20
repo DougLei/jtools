@@ -17,11 +17,11 @@ public class DateConverter implements IConverter {
 	}
 
 	@Override
-	public Date convert(Object object) throws ConvertException {
+	public Date doConvert(Object object) throws ConvertException {
 		try {
 			return DateTypeUtil.parseDate(object);
 		} catch (Exception e) {
 			throw new ConvertException(object, Date.class, e);
 		}
-	}// , java.sql.Date.class, Timestamp.class
+	}
 }

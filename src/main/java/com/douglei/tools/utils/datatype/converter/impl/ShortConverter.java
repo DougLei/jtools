@@ -16,7 +16,7 @@ public class ShortConverter implements IConverter {
 	}
 
 	@Override
-	public Short convert(Object object) throws ConvertException {
+	public Short doConvert(Object object) throws ConvertException {
 		String str = object.toString();
 		if(ValidationUtil.isLimitShort(str)) {
 			return Short.parseShort(str);

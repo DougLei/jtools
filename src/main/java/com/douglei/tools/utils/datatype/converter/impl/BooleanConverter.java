@@ -16,7 +16,7 @@ public class BooleanConverter implements IConverter {
 	}
 
 	@Override
-	public Boolean convert(Object object) throws ConvertException {
+	public Boolean doConvert(Object object) throws ConvertException {
 		String str = object.toString();
 		if(ValidationUtil.isBoolean(str)) {
 			return Boolean.parseBoolean(str);

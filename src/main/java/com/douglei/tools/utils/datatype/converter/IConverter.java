@@ -18,5 +18,5 @@ public interface IConverter {
 	 * @return
 	 * @throws ConvertException
 	 */
-	Object convert(Object object) throws ConvertException;
+	Object doConvert(Object object) throws ConvertException;
 }

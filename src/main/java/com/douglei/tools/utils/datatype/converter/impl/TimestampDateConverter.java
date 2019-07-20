@@ -18,7 +18,7 @@ public class TimestampDateConverter implements IConverter {
 	}
 
 	@Override
-	public Timestamp convert(Object object) throws ConvertException {
+	public Timestamp doConvert(Object object) throws ConvertException {
 		try {
 			return DateTypeUtil.parseSqlTimestamp(object);
 		} catch (Exception e) {

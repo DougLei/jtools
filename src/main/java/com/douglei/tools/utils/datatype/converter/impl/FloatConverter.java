@@ -16,7 +16,7 @@ public class FloatConverter implements IConverter {
 	}
 
 	@Override
-	public Float convert(Object object) throws ConvertException {
+	public Float doConvert(Object object) throws ConvertException {
 		String str = object.toString();
 		if(ValidationUtil.isDouble(str)) {
 			return Float.parseFloat(str);

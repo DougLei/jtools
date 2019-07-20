@@ -15,7 +15,7 @@ public class CharConverter implements IConverter {
 	}
 
 	@Override
-	public Character convert(Object object) throws ConvertException {
+	public Character doConvert(Object object) throws ConvertException {
 		String str = object.toString();
 		if(str.length() == 0) {
 			return null;

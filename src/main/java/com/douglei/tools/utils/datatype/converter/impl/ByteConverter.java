@@ -16,7 +16,7 @@ public class ByteConverter implements IConverter {
 	}
 
 	@Override
-	public Byte convert(Object object) throws ConvertException {
+	public Byte doConvert(Object object) throws ConvertException {
 		String str = object.toString();
 		if(ValidationUtil.isLimitByte(str)) {
 			return Byte.parseByte(str);
