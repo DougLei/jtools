@@ -1,6 +1,7 @@
 package com.douglei.tools.instances.expression.resolver.operator.arithmetic.enums;
 
-import com.douglei.tools.utils.datatype.ValidationUtil;
+import com.douglei.tools.utils.datatype.VerifyTypeMatchUtil;
+import com.douglei.tools.utils.datatype.date.DateFormatUtil;
 
 /**
  * 数据类型
@@ -19,13 +20,13 @@ public enum DataType {
 	 * @return
 	 */
 	public static DataType getDataType(String value){
-		if(ValidationUtil.isInteger(value)){
+		if(VerifyTypeMatchUtil.isInteger(value)){
 			return DataType.INTEGER;
-		}else if(ValidationUtil.isDouble(value)){
+		}else if(VerifyTypeMatchUtil.isDouble(value)){
 			return  DataType.DOUBLE;
-		}else if(ValidationUtil.isBoolean(value)){
+		}else if(VerifyTypeMatchUtil.isBoolean(value)){
 			return  DataType.BOOLEAN;
-		}else if(ValidationUtil.isDate(value)){
+		}else if(DateFormatUtil.verifyIsDate(value)){
 			return  DataType.DATE;
 		}else{
 			return  DataType.STRING;

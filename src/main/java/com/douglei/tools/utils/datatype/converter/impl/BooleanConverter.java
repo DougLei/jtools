@@ -1,14 +1,14 @@
 package com.douglei.tools.utils.datatype.converter.impl;
 
-import com.douglei.tools.utils.datatype.ValidationUtil;
+import com.douglei.tools.utils.datatype.VerifyTypeMatchUtil;
 import com.douglei.tools.utils.datatype.converter.ConvertException;
-import com.douglei.tools.utils.datatype.converter.IConverter;
+import com.douglei.tools.utils.datatype.converter.Converter;
 
 /**
  * 
  * @author DougLei
  */
-public class BooleanConverter implements IConverter {
+public class BooleanConverter implements Converter {
 
 	@Override
 	public Class<?>[] targetClasses() {
@@ -18,7 +18,7 @@ public class BooleanConverter implements IConverter {
 	@Override
 	public Boolean doConvert(Object object) throws ConvertException {
 		String str = object.toString();
-		if(ValidationUtil.isBoolean(str)) {
+		if(VerifyTypeMatchUtil.isBoolean(str)) {
 			return Boolean.parseBoolean(str);
 		}
 		throw new ConvertException("将数据值转换为boolean类型时, 源数据值["+str+"]非boolean类型");

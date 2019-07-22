@@ -3,10 +3,10 @@ package com.douglei.tools.utils.datatype;
 import java.util.regex.Pattern;
 
 /**
- * 数据类型验证工具类
+ * 验证类型是否匹配的工具类
  * @author StoneKing
  */
-public class ValidationUtil {
+public class VerifyTypeMatchUtil {
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	// 整型
@@ -157,53 +157,6 @@ public class ValidationUtil {
 	public static boolean isBoolean(String value){
 		if(value != null){
 			return "true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value);
-		}
-		return false;
-	}
-	
-	// -----------------------------------------------------------------------------------------------------------------
-	// 日期型
-	// -----------------------------------------------------------------------------------------------------------------
-	/**
-	 * 是否是date
-	 * @param value
-	 * @return
-	 */
-	public static boolean isDate(String value) {
-		if(value != null){
-			return dateTypePattern.matcher(value).matches() || timeZoneTypePattern.matcher(value).matches() || isLimitLong(value);
-		}
-		return false;
-	}
-	/** 判断日期格式的正则表达式 */
-	private static final Pattern dateTypePattern = Pattern.compile("[0-9]{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1])( ([0-9]|0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[0-5][0-9]):(0[0-9]|[0-5][0-9]))?");
-	private static final Pattern timeZoneTypePattern = Pattern.compile("[0-9]{4}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[1-2][0-9]|3[0-1])T([0-9]|0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[0-5][0-9]):(0[0-9]|[0-5][0-9]).[0-9][0-9][0-9]( )?Z");// 带时差的日期格式，例如：2018-09-08T06:53:35.000Z
-	
-	// -----------------------------------------------------------------------------------------------------------------
-	// 基本类型
-	// -----------------------------------------------------------------------------------------------------------------
-	/**
-	 * <pre>
-	 * 	是否是基本的数据类型
-	 * 	8大基本数据类型和String类型
-	 * </pre>
-	 * @param valueue
-	 * @return
-	 */
-	public static boolean isBasicDataType(Object value) {
-		if(value != null) {
-			Class<?> valueClass = value.getClass();
-			if((valueClass == String.class) || 
-					(valueClass == int.class || valueClass == Integer.class) || 
-					(valueClass == double.class || valueClass == Double.class) || 
-					(valueClass == boolean.class || valueClass == Boolean.class) || 
-					(valueClass == char.class || valueClass == Character.class) || 
-					(valueClass == short.class || valueClass == Short.class) || 
-					(valueClass == long.class || valueClass == Long.class) || 
-					(valueClass == float.class || valueClass == Float.class) || 
-					(valueClass == byte.class || valueClass == Byte.class)) {
-				return true;
-			}
 		}
 		return false;
 	}

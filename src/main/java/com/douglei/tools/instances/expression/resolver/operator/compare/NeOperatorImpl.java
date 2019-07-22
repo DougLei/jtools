@@ -1,7 +1,7 @@
 package com.douglei.tools.instances.expression.resolver.operator.compare;
 
 import com.douglei.tools.instances.expression.resolver.operator.OperatorImpl;
-import com.douglei.tools.utils.datatype.ValidationUtil;
+import com.douglei.tools.utils.datatype.VerifyTypeMatchUtil;
 
 /**
  * !=
@@ -28,11 +28,11 @@ public class NeOperatorImpl extends OperatorImpl {
 			return true;
 		}
 		String stringValue = leftParam.toString().trim();  
-		if(ValidationUtil.isNumber(stringValue)){
+		if(VerifyTypeMatchUtil.isNumber(stringValue)){
 			leftParam = Double.valueOf(stringValue);
 		}
 		stringValue = rightParam.toString().trim();  
-		if(ValidationUtil.isNumber(stringValue)){
+		if(VerifyTypeMatchUtil.isNumber(stringValue)){
 			rightParam = Double.valueOf(stringValue);
 		}
 		return !leftParam.equals(rightParam);

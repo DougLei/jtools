@@ -2,15 +2,15 @@ package com.douglei.tools.utils.datatype.converter.impl;
 
 import java.sql.Date;
 
-import com.douglei.tools.utils.datatype.DateTypeUtil;
 import com.douglei.tools.utils.datatype.converter.ConvertException;
-import com.douglei.tools.utils.datatype.converter.IConverter;
+import com.douglei.tools.utils.datatype.converter.Converter;
+import com.douglei.tools.utils.datatype.date.DateFormatUtil;
 
 /**
  * 
  * @author DougLei
  */
-public class SqlDateConverter implements IConverter {
+public class SqlDateConverter implements Converter {
 
 	@Override
 	public Class<?>[] targetClasses() {
@@ -20,7 +20,7 @@ public class SqlDateConverter implements IConverter {
 	@Override
 	public Date doConvert(Object object) throws ConvertException {
 		try {
-			return DateTypeUtil.parseSqlDate(object);
+			return DateFormatUtil.parseSqlDate(object);
 		} catch (Exception e) {
 			throw new ConvertException(object, Date.class, e);
 		}

@@ -2,7 +2,7 @@ package com.douglei.tools.instances.expression.resolver.operator.logic;
 
 import com.douglei.tools.instances.expression.resolver.operator.OperatorImpl;
 import com.douglei.tools.utils.StringUtil;
-import com.douglei.tools.utils.datatype.ValidationUtil;
+import com.douglei.tools.utils.datatype.VerifyTypeMatchUtil;
 
 /**
  * 
@@ -18,11 +18,11 @@ public abstract class LogicOperatorImpl extends OperatorImpl {
 			throw new NullPointerException("进行逻辑运算时，参数rightParam不能为空");
 		}
 		String leftParamString = leftParam.toString().trim();
-		if(!ValidationUtil.isBoolean(leftParamString)){
+		if(!VerifyTypeMatchUtil.isBoolean(leftParamString)){
 			throw new NullPointerException("进行逻辑运算时，参数leftParam的值["+leftParam+"]必须为boolean类型");
 		}
 		String rightParamString = rightParam.toString().trim();
-		if(!ValidationUtil.isBoolean(rightParamString)){
+		if(!VerifyTypeMatchUtil.isBoolean(rightParamString)){
 			throw new NullPointerException("进行逻辑运算时，参数rightParam的值["+rightParam+"]必须为boolean类型");
 		}
 		return logicCalc(Boolean.valueOf(leftParamString), Boolean.valueOf(rightParamString));

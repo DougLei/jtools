@@ -2,15 +2,15 @@ package com.douglei.tools.utils.datatype.converter.impl;
 
 import java.sql.Timestamp;
 
-import com.douglei.tools.utils.datatype.DateTypeUtil;
 import com.douglei.tools.utils.datatype.converter.ConvertException;
-import com.douglei.tools.utils.datatype.converter.IConverter;
+import com.douglei.tools.utils.datatype.converter.Converter;
+import com.douglei.tools.utils.datatype.date.DateFormatUtil;
 
 /**
  * 
  * @author DougLei
  */
-public class TimestampDateConverter implements IConverter {
+public class TimestampDateConverter implements Converter {
 
 	@Override
 	public Class<?>[] targetClasses() {
@@ -20,7 +20,7 @@ public class TimestampDateConverter implements IConverter {
 	@Override
 	public Timestamp doConvert(Object object) throws ConvertException {
 		try {
-			return DateTypeUtil.parseSqlTimestamp(object);
+			return DateFormatUtil.parseSqlTimestamp(object);
 		} catch (Exception e) {
 			throw new ConvertException(object, Timestamp.class, e);
 		}

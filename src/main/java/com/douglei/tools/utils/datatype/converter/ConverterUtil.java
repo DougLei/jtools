@@ -19,24 +19,21 @@ import com.douglei.tools.utils.reflect.IntrospectorUtil;
  * @author DougLei
  */
 public class ConverterUtil {
-	private static final Map<Class<?>, IConverter> converters = new HashMap<Class<?>, IConverter>();
+	private static final Map<Class<?>, Converter> CONVERTERS = new HashMap<Class<?>, Converter>();
 	static {
 		ClassScanner cs = new ClassScanner();
 		List<String> classes = cs.scan(ConverterUtil.class.getPackage().getName() + ".impl");
 		for (String clz : classes) {
-			register((IConverter)ConstructorUtil.newInstance(clz));
+			register((Converter)ConstructorUtil.newInstance(clz));
 		}
 		loadConverterFactories();
 	}
-	
-	// 
-	// 
 	
 	/**
 	 * 加载converter.factories配置文件, 读取其中配置内容, register里面配置的转换器
 	 * 
 	 * 如果提供的转换器不满足使用, 则可以在项目的根目录下添加converter.factories文件, 里面配置自定义的转换器, 配置的格式为每行一个转换器类全路径
-	 * 自定义的转换器需要实现 {@link IConverter} 接口
+	 * 自定义的转换器需要实现 {@link Converter} 接口
 	 */
 	private static void loadConverterFactories() {
 		InputStream in = ConverterUtil.class.getClassLoader().getResourceAsStream("converter.factories");
@@ -47,7 +44,7 @@ public class ConverterUtil {
 				isr = new InputStreamReader(in);
 				br = new BufferedReader(isr);
 				while(br.ready()) {
-					register((IConverter)ConstructorUtil.newInstance(br.readLine()));
+					register((Converter)ConstructorUtil.newInstance(br.readLine()));
 				}
 			} catch (IOException e) {
 				throw new RuntimeException("在读取converter.factories配置文件时出现异常", e);
@@ -61,9 +58,9 @@ public class ConverterUtil {
 	 * 注册类型转换器, 如果有重复, 则用最新的替换
 	 * @param converter
 	 */
-	private static void register(IConverter converter) {
+	public static void register(Converter converter) {
 		for(Class<?> clz: converter.targetClasses()) {
-			converters.put(clz, converter);
+			CONVERTERS.put(clz, converter);
 		}
 	}
 	
@@ -82,7 +79,7 @@ public class ConverterUtil {
 			return (T) value;
 		}
 		
-		IConverter converter = converters.get(targetClass);
+		Converter converter = CONVERTERS.get(targetClass);
 		if(converter != null) {
 			return (T) converter.doConvert(value);
 		}
@@ -91,7 +88,21 @@ public class ConverterUtil {
 	
 	
 	/**
+	 * 是否是简单的数据类型
+	 * 即对象中直接包裹着值, 比如String, Date, Integer...
+	 * @param value
+	 * @return
+	 */
+	public static boolean isSimpleType(Object value) {
+		if(value != null) {
+			return CONVERTERS.get(value.getClass()).isSimpleType();
+		}
+		return false;
+	}
+	
+	/**
 	 * 将map转换为class对象
+	 * 前提是map的key, 要和class的属性名一致
 	 * @param map
 	 * @param targetClass
 	 * @return
@@ -106,6 +117,7 @@ public class ConverterUtil {
 	
 	/**
 	 * 将list map转换为list class对象集合
+	 * 前提是map的key, 要和class的属性名一致
 	 * @param listMap
 	 * @param targetClass
 	 * @return

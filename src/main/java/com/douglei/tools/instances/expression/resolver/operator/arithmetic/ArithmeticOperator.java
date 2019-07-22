@@ -3,7 +3,7 @@ package com.douglei.tools.instances.expression.resolver.operator.arithmetic;
 import com.douglei.tools.instances.expression.resolver.operator.OperatorImpl;
 import com.douglei.tools.instances.expression.resolver.operator.arithmetic.enums.DataType;
 import com.douglei.tools.utils.StringUtil;
-import com.douglei.tools.utils.datatype.ValidationUtil;
+import com.douglei.tools.utils.datatype.VerifyTypeMatchUtil;
 
 /**
  * 算数运算
@@ -19,11 +19,11 @@ public abstract class ArithmeticOperator extends OperatorImpl {
 			throw new NullPointerException("进行算数运算时，参数rightParam不能为空");
 		}
 		String leftParamString = leftParam.toString().trim();
-		if(!ValidationUtil.isNumber(leftParamString)){
+		if(!VerifyTypeMatchUtil.isNumber(leftParamString)){
 			throw new NullPointerException("进行算数运算时，参数leftParam的值["+leftParam+"]必须为数字类型");
 		}
 		String rightParamString = rightParam.toString().trim();
-		if(!ValidationUtil.isNumber(rightParamString)){
+		if(!VerifyTypeMatchUtil.isNumber(rightParamString)){
 			throw new NullPointerException("进行算数运算时，参数rightParam的值["+rightParam+"]必须为数字类型");
 		}
 		return arithmeticCalc(leftParamString, rightParamString);
