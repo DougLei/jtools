@@ -105,4 +105,19 @@ public class DateTypeUtil {
 		}
 		throw new IllegalArgumentException("要转换为java.sql.Timestamp时，目前不支持传入的date参数类型["+date.getClass().getName()+"]");
 	}
+
+	/**
+	 * 判断是否是日期类型
+	 * @param value
+	 * @return
+	 */
+	public static boolean isDate(Object value) {
+		if(value == null) {
+			return false;
+		}
+		if(value instanceof Date || value instanceof java.sql.Date || value instanceof Timestamp) {
+			return true;
+		}
+		return ValidationUtil.isDate(value.toString());
+	}
 }
