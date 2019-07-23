@@ -25,4 +25,19 @@ public class ConverterUtil {
 		}
 		return converter.doConvert(name);
 	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param converterClass
+	 * @return
+	 */
+	public static String convert(String name, Converter converter) {
+		Converter converter_ = CONVERTERS.get(converter.getClass());
+		if(converter_ == null) {
+			converter_ = converter;
+			CONVERTERS.put(converter.getClass(), converter);
+		}
+		return converter_.doConvert(name);
+	}
 }
