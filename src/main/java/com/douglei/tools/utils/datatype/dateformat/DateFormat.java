@@ -1,4 +1,4 @@
-package com.douglei.tools.utils.datatype.date;
+package com.douglei.tools.utils.datatype.dateformat;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

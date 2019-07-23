@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import com.douglei.tools.utils.datatype.converter.ConvertException;
 import com.douglei.tools.utils.datatype.converter.Converter;
-import com.douglei.tools.utils.datatype.date.DateFormatUtil;
+import com.douglei.tools.utils.datatype.dateformat.DateFormatUtil;
 
 /**
  * 

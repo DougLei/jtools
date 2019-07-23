@@ -1,4 +1,4 @@
-package com.douglei.tools.utils.datatype.date.impl;
+package com.douglei.tools.utils.datatype.dateformat.impl;
 
 import com.douglei.tools.utils.datatype.VerifyTypeMatchUtil;
 

@@ -1,8 +1,8 @@
-package com.douglei.tools.utils.datatype.date.impl;
+package com.douglei.tools.utils.datatype.dateformat.impl;
 
 import java.util.regex.Pattern;
 
-import com.douglei.tools.utils.datatype.date.DateFormat;
+import com.douglei.tools.utils.datatype.dateformat.DateFormat;
 
 /**
  * 

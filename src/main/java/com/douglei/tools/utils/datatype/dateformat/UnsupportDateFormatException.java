@@ -1,4 +1,4 @@
-package com.douglei.tools.utils.datatype.date;
+package com.douglei.tools.utils.datatype.dateformat;
 
 /**
  * 不支持的DateFormat异常
