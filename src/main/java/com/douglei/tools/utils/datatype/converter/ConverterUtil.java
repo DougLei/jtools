@@ -30,9 +30,9 @@ public class ConverterUtil {
 	}
 	
 	/**
-	 * 加载converter.factories配置文件, 读取其中配置内容, register里面配置的转换器
+	 * 加载datatype.converter.factories配置文件, 读取其中配置内容, register里面配置的转换器
 	 * 
-	 * 如果提供的转换器不满足使用, 则可以在项目的根目录下添加converter.factories文件, 里面配置自定义的转换器, 配置的格式为每行一个转换器类全路径
+	 * 如果提供的转换器不满足使用, 则可以在项目的根目录下添加datatype.converter.factories文件, 里面配置自定义的转换器, 配置的格式为每行一个转换器类全路径
 	 * 自定义的转换器需要实现 {@link Converter} 接口
 	 */
 	private static void loadConverterFactories() {
