@@ -19,7 +19,7 @@ import com.douglei.tools.utils.reflect.IntrospectorUtil;
  * @author DougLei
  */
 public class ConverterUtil {
-	private static final Map<Class<?>, Converter> CONVERTERS = new HashMap<Class<?>, Converter>();
+	private static final Map<Class<?>, Converter> CONVERTERS = new HashMap<Class<?>, Converter>(16);
 	static {
 		ClassScanner cs = new ClassScanner();
 		List<String> classes = cs.scan(ConverterUtil.class.getPackage().getName() + ".impl");
@@ -36,7 +36,7 @@ public class ConverterUtil {
 	 * 自定义的转换器需要实现 {@link Converter} 接口
 	 */
 	private static void loadConverterFactories() {
-		InputStream in = ConverterUtil.class.getClassLoader().getResourceAsStream("converter.factories");
+		InputStream in = ConverterUtil.class.getClassLoader().getResourceAsStream("datatype.converter.factories");
 		if(in != null) {
 			InputStreamReader isr = null;
 			BufferedReader br = null;
@@ -47,7 +47,7 @@ public class ConverterUtil {
 					register((Converter)ConstructorUtil.newInstance(br.readLine()));
 				}
 			} catch (IOException e) {
-				throw new RuntimeException("在读取converter.factories配置文件时出现异常", e);
+				throw new RuntimeException("在读取datatype.converter.factories配置文件时出现异常", e);
 			} finally {
 				CloseUtil.closeIO(br, isr, in);
 			}
