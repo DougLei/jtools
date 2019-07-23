@@ -117,7 +117,7 @@ public class StringUtil {
 	 * @param string
 	 * @return
 	 */
-	public static int calcStringLength(String string) {
+	public static int computeStringLength(String string) {
 		if(string == null){
 			return 0;
 		}
