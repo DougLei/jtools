@@ -77,10 +77,12 @@ public class StringUtil {
 	}
 	
 	/**
+	 * <pre>
 	 * 	去掉前后指定的字符
 	 * 	[0]=要去掉的前面的字符, 如果没有返回null
 	 * 	[1]=要去掉的后面的字符, 如果没有返回null
 	 * 	[2]=去掉前后字符的string
+	 * </pre>
 	 * @param str
 	 * @param c
 	 * @return
