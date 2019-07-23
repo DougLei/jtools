@@ -1,14 +1,6 @@
 package com.douglei.tools.utils.http;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
 import javax.servlet.http.HttpServletRequest;
-
-import com.douglei.tools.utils.CloseUtil;
 
 /**
  * 
@@ -36,30 +28,5 @@ public class HttpRequestUtil {
 			return xff;
 		}
 		return xff.substring(0, clientIpIndex);
-	}
-
-	/**
-	 * 获取请求体字符串
-	 * @param request
-	 * @return
-	 */
-	public static String getRequestBody2String(HttpServletRequest request) {
-		StringBuilder sb = new StringBuilder(request.getContentLength());
-		BufferedReader br = null;
-		Reader r = null;
-		InputStream in = null; 
-		try {
-			in = request.getInputStream();
-			r = new InputStreamReader(in);
-			br = new BufferedReader(r);
-			while(br.ready()) {
-				sb.append(br.readLine());
-			}
-		} catch (IOException e) {
-			throw new RuntimeException("在从["+request.getClass().getName()+"]读取InputStream时, 出现异常", e);
-		} finally {
-			CloseUtil.closeIO(br);
-		}
-		return sb.toString();
 	}
 }
