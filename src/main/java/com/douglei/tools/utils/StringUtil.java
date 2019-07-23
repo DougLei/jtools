@@ -18,7 +18,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isEmpty(String string){
-		if(string == null || "".equals(string.trim())){
+		if(string == null || string.trim().length() == 0){
 			return true;
 		}
 		return false;
@@ -30,7 +30,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isEmpty(Object object){
-		if(object == null || "".equals(object.toString().trim())){
+		if(object == null || object.toString().trim().length() == 0){
 			return true;
 		}
 		return false;
