@@ -2,6 +2,7 @@ package com.douglei.tools.utils.naming.converter;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.douglei.tools.utils.reflect.ConstructorUtil;
 
 /**
@@ -17,27 +18,52 @@ public class ConverterUtil {
 	 * @param converterClass
 	 * @return
 	 */
-	public static String convert(String name, Class<? extends Converter> converterClass) {
-		Converter converter = CONVERTERS.get(converterClass);
-		if(converter == null) {
-			converter = (Converter) ConstructorUtil.newInstance(converterClass);
-			CONVERTERS.put(converterClass, converter);
+	public static String convert(String name, Class<? extends Converter> converter) {
+		Converter converter_ = CONVERTERS.get(converter);
+		if(converter_ == null) {
+			converter_ = (Converter) ConstructorUtil.newInstance(converter);
+			CONVERTERS.put(converter, converter_);
 		}
-		return converter.doConvert(name);
+		return converter_.doConvert(name);
 	}
 	
 	/**
 	 * 
 	 * @param name
-	 * @param converterClass
+	 * @param converter
 	 * @return
 	 */
 	public static String convert(String name, Converter converter) {
+		if(converter.getClass().isAnonymousClass()) {
+			throw new UnsupportAnonymousNamingConverterException();
+		}
 		Converter converter_ = CONVERTERS.get(converter.getClass());
 		if(converter_ == null) {
 			converter_ = converter;
-			CONVERTERS.put(converter.getClass(), converter);
+			CONVERTERS.put(converter.getClass(), converter_);
 		}
 		return converter_.doConvert(name);
+	}
+	
+	/**
+	 * 不经过缓存, 进行命名转换
+	 * 可以使用匿名类
+	 * @param name
+	 * @param converter
+	 * @return
+	 */
+	public static String convertNoCache(String name, Class<? extends Converter> converter) {
+		return ((Converter) ConstructorUtil.newInstance(converter)).doConvert(name);
+	}
+	
+	/**
+	 * 不经过缓存, 进行命名转换
+	 * 可以使用匿名类
+	 * @param name
+	 * @param converter
+	 * @return
+	 */
+	public static String convertNoCache(String name, Converter converter) {
+		return converter.doConvert(name);
 	}
 }
