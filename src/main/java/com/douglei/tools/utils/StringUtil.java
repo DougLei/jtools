@@ -61,27 +61,15 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String trim(String str, char c) {
-		int topIndex = 0;
-		int bottomIndex = str.length();
-		
-		while(topIndex < bottomIndex && str.charAt(topIndex) == c) {
-			topIndex++;
-		}
-		while(topIndex < bottomIndex && str.charAt(bottomIndex-1) == c) {
-			bottomIndex--;
-		}
-		if(topIndex > 0 || bottomIndex < str.length()) {
-			return str.substring(topIndex, bottomIndex);
-		}
-		return str;
+		return trim_(str, c)[1];
 	}
 	
 	/**
 	 * <pre>
 	 * 	去掉前后指定的字符
 	 * 	[0]=要去掉的前面的字符, 如果没有返回null
-	 * 	[1]=要去掉的后面的字符, 如果没有返回null
-	 * 	[2]=去掉前后字符的string
+	 * 	[1]=去掉前后字符的string
+	 * 	[2]=要去掉的后面的字符, 如果没有返回null
 	 * </pre>
 	 * @param str
 	 * @param c
@@ -106,10 +94,10 @@ public class StringUtil {
 			flag = true;
 		}
 		if(bottomIndex < str.length()) {
-			result[1] = str.substring(bottomIndex);
+			result[2] = str.substring(bottomIndex);
 			flag = true;
 		}
-		result[2] = flag?str.substring(topIndex, bottomIndex):str;
+		result[1] = flag?str.substring(topIndex, bottomIndex):str;
 		return result;
 	}
 	
