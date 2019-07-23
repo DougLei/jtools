@@ -55,61 +55,59 @@ public class StringUtil {
 	}
 	
 	/**
-	 * <pre>
-	 * 	去掉前后的下划线
-	 * </pre>
-	 * @param string
+	 * 	去掉前后指定的字符
+	 * @param str
+	 * @param c
 	 * @return
 	 */
-	public static String trimUnderline(String string) {
+	public static String trim(String str, char c) {
 		int topIndex = 0;
-		int bottomIndex = string.length();
+		int bottomIndex = str.length();
 		
-		while(topIndex < bottomIndex && string.charAt(topIndex) == '_') {
+		while(topIndex < bottomIndex && str.charAt(topIndex) == c) {
 			topIndex++;
 		}
-		while(topIndex < bottomIndex && string.charAt(bottomIndex-1) == '_') {
+		while(topIndex < bottomIndex && str.charAt(bottomIndex-1) == c) {
 			bottomIndex--;
 		}
-		if(topIndex > 0 || bottomIndex < string.length()) {
-			return string.substring(topIndex, bottomIndex);
+		if(topIndex > 0 || bottomIndex < str.length()) {
+			return str.substring(topIndex, bottomIndex);
 		}
-		return string;
+		return str;
 	}
 	
 	/**
-	 * <pre>
-	 * 	去掉前后的下划线
-	 * 	[0]=前下划线, 如果没有返回null
-	 * 	[1]=后下划线, 如果没有返回null
-	 * 	[2]=去掉前后下划线的string
-	 * </pre>
-	 * @param string
+	 * 	去掉前后指定的字符
+	 * 	[0]=要去掉的前面的字符, 如果没有返回null
+	 * 	[1]=要去掉的后面的字符, 如果没有返回null
+	 * 	[2]=去掉前后字符的string
+	 * @param str
+	 * @param c
 	 * @return
 	 */
-	public static String[] trimUnderline_(String string) {
+	public static String[] trim_(String str, char c) {
 		String[] result = new String[3];
 		
 		int topIndex = 0;
-		int bottomIndex = string.length();
+		int bottomIndex = str.length();
 		
-		while(topIndex < bottomIndex && string.charAt(topIndex) == '_') {
+		while(topIndex < bottomIndex && str.charAt(topIndex) == c) {
 			topIndex++;
 		}
-		while(topIndex < bottomIndex && string.charAt(bottomIndex-1) == '_') {
+		while(topIndex < bottomIndex && str.charAt(bottomIndex-1) == c) {
 			bottomIndex--;
 		}
 		
 		boolean flag = false;
 		if(topIndex > 0) {
-			result[0] = string.substring(0, topIndex);
+			result[0] = str.substring(0, topIndex);
 			flag = true;
 		}
-		if(bottomIndex < string.length()) {
-			result[1] = string.substring(bottomIndex);
+		if(bottomIndex < str.length()) {
+			result[1] = str.substring(bottomIndex);
 			flag = true;
 		}
-		result[2] = flag?string.substring(topIndex, bottomIndex):string;
+		result[2] = flag?str.substring(topIndex, bottomIndex):str;
 		return result;
 	}
 	
