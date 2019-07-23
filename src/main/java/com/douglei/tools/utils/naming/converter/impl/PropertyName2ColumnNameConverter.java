@@ -25,6 +25,7 @@ public class PropertyName2ColumnNameConverter implements Converter {
 			tmp = propertyName.charAt(i);
 			if(tmp > 64 && tmp < 91) {
 				cn.append("_");
+				tmp += 32;
 			}
 			cn.append(tmp);
 		}
@@ -32,6 +33,6 @@ public class PropertyName2ColumnNameConverter implements Converter {
 		if(pns[2] != null) {
 			cn.append(pns[2]);
 		}
-		return cn.toString().toLowerCase();
+		return cn.toString();
 	}
 }
