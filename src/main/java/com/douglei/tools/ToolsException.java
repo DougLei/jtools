@@ -4,8 +4,8 @@ package com.douglei.tools;
  * 
  * @author DougLei
  */
-public class ToolsException extends RuntimeException {
-	private static final long serialVersionUID = 6853162634170660728L;
+public class ToolsException extends RootRuntimeException {
+	private static final long serialVersionUID = -5954111735601027238L;
 
 	public ToolsException() {
 		super();
@@ -25,5 +25,10 @@ public class ToolsException extends RuntimeException {
 
 	public ToolsException(Throwable cause) {
 		super(cause);
+	}
+
+	@Override
+	public String getName() {
+		return "jtools";
 	}
 }
