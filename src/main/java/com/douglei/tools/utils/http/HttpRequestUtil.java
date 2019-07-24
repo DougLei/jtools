@@ -1,6 +1,12 @@
 package com.douglei.tools.utils.http;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+
 import javax.servlet.http.HttpServletRequest;
+
+import com.douglei.tools.utils.CloseUtil;
 
 /**
  * 
@@ -28,5 +34,29 @@ public class HttpRequestUtil {
 			return xff;
 		}
 		return xff.substring(0, clientIpIndex);
+	}
+	
+	/**
+	 * 获取请求体字符串
+	 * @param request
+	 * @return
+	 * @throws IOException 
+	 */
+	public static String getRequestBody2String(HttpServletRequest request) throws IOException {
+		Reader r = request.getReader();
+		if(request.getContentLength() > 0) {
+			BufferedReader br = null;
+			try {
+				StringBuilder requestBody = new StringBuilder(request.getContentLength());
+				br = new BufferedReader(request.getReader());
+				while(br.ready()) {
+					requestBody.append(br.readLine().trim());
+				}
+				return br.toString();
+			} finally {
+				CloseUtil.closeIO(br, r);
+			}
+		}
+		return null;
 	}
 }
