@@ -1,7 +1,7 @@
 package com.douglei.tools;
 
 /**
- * 所有异常的父类
+ * 
  * @author DougLei
  */
 public class ToolsException extends RuntimeException {
