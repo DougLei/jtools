@@ -1,6 +1,7 @@
 package com.douglei.tools.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,5 +25,14 @@ public class Collections {
 			return list;
 		}
 		return null;
+	}
+	
+	/**
+	 * 集合是否为空
+	 * @param collection
+	 * @return
+	 */
+	public static boolean isEmpty(Collection<?> collection) {
+		return collection == null || collection.isEmpty();
 	}
 }
