@@ -35,4 +35,14 @@ public class Collections {
 	public static boolean isEmpty(Collection<?> collection) {
 		return collection == null || collection.isEmpty();
 	}
+	
+
+	/**
+	 * 集合是否不为空
+	 * @param collection
+	 * @return
+	 */
+	public static boolean unEmpty(Collection<?> collection) {
+		return collection != null && collection.size() > 0;
+	}
 }
