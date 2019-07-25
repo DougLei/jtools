@@ -33,12 +33,12 @@ public class CryptographyUtil {
 			logger.debug("进行md5加密的字符串不能为空");
 			return null;
 		}
-		logger.trace("将字符串[{}]进行md5加密, 其盐值为[{}]", string, salt);
+		logger.debug("将字符串[{}]进行md5加密, 其盐值为[{}]", string, salt);
 		if(salt != null) {
 			string += salt;
 		}
 		String result = DigestUtils.md5Hex(string);
-		logger.trace("加密的结果为[{}]", result);
+		logger.debug("加密的结果为[{}]", result);
 		return result;
 	}
 	
