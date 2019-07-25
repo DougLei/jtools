@@ -26,7 +26,7 @@ public interface Converter {
 	 * 转换
 	 * @param object
 	 * @return
-	 * @throws ConvertException
+	 * @throws DataTypeConvertException
 	 */
-	Object doConvert(Object object) throws ConvertException;
+	Object doConvert(Object object) throws DataTypeConvertException;
 }

@@ -81,7 +81,7 @@ public class CloseUtil {
 				logger.warn("没有匹配到[{}]的io对象", io.getClass().getName());
 			}
 		} catch (IOException e) {
-			throw new RuntimeException("关闭io对象["+io.getClass().getName()+"]时, 出现异常", e);
+			throw new UtilException("关闭io对象["+io.getClass().getName()+"]时, 出现异常", e);
 		}
 	}
 	
@@ -109,7 +109,7 @@ public class CloseUtil {
 				logger.warn("没有匹配到[{}]的dbconn对象", dbconn.getClass().getName());
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException("关闭dbconn对象["+dbconn.getClass().getName()+"]时, 出现异常", e);
+			throw new UtilException("关闭dbconn对象["+dbconn.getClass().getName()+"]时, 出现异常", e);
 		}
 	}
 }

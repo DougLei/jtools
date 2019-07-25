@@ -1,7 +1,7 @@
 package com.douglei.tools.utils.datatype.converter.impl;
 
 import com.douglei.tools.utils.datatype.VerifyTypeMatchUtil;
-import com.douglei.tools.utils.datatype.converter.ConvertException;
+import com.douglei.tools.utils.datatype.converter.DataTypeConvertException;
 import com.douglei.tools.utils.datatype.converter.Converter;
 
 /**
@@ -16,11 +16,11 @@ public class LongConverter implements Converter {
 	}
 
 	@Override
-	public Long doConvert(Object object) throws ConvertException {
+	public Long doConvert(Object object) throws DataTypeConvertException {
 		String str = object.toString();
 		if(VerifyTypeMatchUtil.isLimitLong(str)) {
 			return Long.parseLong(str);
 		}
-		throw new ConvertException("将数据值转换为long类型时, 源数据值["+str+"]非long类型, 或长度超出long类型的范围");
+		throw new DataTypeConvertException("将数据值转换为long类型时, 源数据值["+str+"]非long类型, 或长度超出long类型的范围");
 	}
 }

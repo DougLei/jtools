@@ -134,7 +134,7 @@ public class FileScanner extends Scanner{
 			}
 			return in;
 		} catch (Exception e) {
-			throw new RuntimeException("给定的["+path+"], 不存在任何文件");
+			throw new ScannerException("给定的["+path+"], 不存在任何文件");
 		}
 	}
 }

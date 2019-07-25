@@ -11,6 +11,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.douglei.tools.utils.UtilException;
 import com.douglei.tools.utils.datatype.converter.ConverterUtil;
 
 
@@ -70,7 +71,7 @@ public class IntrospectorUtil {
 				}
 				return valueMap;
 			} catch (Exception e) {
-				throw new RuntimeException("["+introspectorClass+"]实例, 调用 "+toGetMethodName(propertyName)+"() 方法时, 出现异常", e);
+				throw new UtilException("["+introspectorClass+"]实例, 调用 "+toGetMethodName(propertyName)+"() 方法时, 出现异常", e);
 			}
 		}
 		return null;
@@ -130,7 +131,7 @@ public class IntrospectorUtil {
 					}
 				}
 			} catch (Exception e) {
-				throw new RuntimeException("["+introspectorClass+"]实例, 调用 "+toSetMethodName(propertyName)+"() 方法时, 出现异常", e);
+				throw new UtilException("["+introspectorClass+"]实例, 调用 "+toSetMethodName(propertyName)+"() 方法时, 出现异常", e);
 			}
 		}
 		return introspectorObject;

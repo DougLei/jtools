@@ -2,7 +2,7 @@ package com.douglei.tools.utils.datatype.converter.impl;
 
 import java.sql.Date;
 
-import com.douglei.tools.utils.datatype.converter.ConvertException;
+import com.douglei.tools.utils.datatype.converter.DataTypeConvertException;
 import com.douglei.tools.utils.datatype.converter.Converter;
 import com.douglei.tools.utils.datatype.dateformat.DateFormatUtil;
 
@@ -18,11 +18,11 @@ public class SqlDateConverter implements Converter {
 	}
 
 	@Override
-	public Date doConvert(Object object) throws ConvertException {
+	public Date doConvert(Object object) throws DataTypeConvertException {
 		try {
 			return DateFormatUtil.parseSqlDate(object);
 		} catch (Exception e) {
-			throw new ConvertException(object, Date.class, e);
+			throw new DataTypeConvertException(object, Date.class, e);
 		}
 	}
 }

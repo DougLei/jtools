@@ -48,7 +48,7 @@ public abstract class Scanner {
 		try {
 			return getClassLoader().getResources(basePath);
 		} catch (IOException e) {
-			throw new RuntimeException("在扫描["+basePath+"]路径, getResources()时, 出现异常:", e);
+			throw new ScannerException("在扫描["+basePath+"]路径, getResources()时, 出现异常:", e);
 		}
 	}
 	
@@ -130,7 +130,7 @@ public abstract class Scanner {
 				throw new UnsupportUrlConnectionException(urlConnection);
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("从jar扫描文件时出现异常", e);
+			throw new ScannerException("从jar扫描文件时出现异常", e);
 		} finally {
 			CloseUtil.closeIO(jarFile);
 		}

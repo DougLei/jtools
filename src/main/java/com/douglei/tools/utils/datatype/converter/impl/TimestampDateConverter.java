@@ -2,7 +2,7 @@ package com.douglei.tools.utils.datatype.converter.impl;
 
 import java.sql.Timestamp;
 
-import com.douglei.tools.utils.datatype.converter.ConvertException;
+import com.douglei.tools.utils.datatype.converter.DataTypeConvertException;
 import com.douglei.tools.utils.datatype.converter.Converter;
 import com.douglei.tools.utils.datatype.dateformat.DateFormatUtil;
 
@@ -18,11 +18,11 @@ public class TimestampDateConverter implements Converter {
 	}
 
 	@Override
-	public Timestamp doConvert(Object object) throws ConvertException {
+	public Timestamp doConvert(Object object) throws DataTypeConvertException {
 		try {
 			return DateFormatUtil.parseSqlTimestamp(object);
 		} catch (Exception e) {
-			throw new ConvertException(object, Timestamp.class, e);
+			throw new DataTypeConvertException(object, Timestamp.class, e);
 		}
 	}
 }

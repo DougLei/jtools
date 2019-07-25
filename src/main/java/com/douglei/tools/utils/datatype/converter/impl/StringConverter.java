@@ -1,6 +1,6 @@
 package com.douglei.tools.utils.datatype.converter.impl;
 
-import com.douglei.tools.utils.datatype.converter.ConvertException;
+import com.douglei.tools.utils.datatype.converter.DataTypeConvertException;
 import com.douglei.tools.utils.datatype.converter.Converter;
 
 /**
@@ -15,7 +15,7 @@ public class StringConverter implements Converter {
 	}
 
 	@Override
-	public String doConvert(Object object) throws ConvertException {
+	public String doConvert(Object object) throws DataTypeConvertException {
 		return object.toString();
 	}
 }

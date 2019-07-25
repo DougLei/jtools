@@ -47,7 +47,7 @@ public class ConverterUtil {
 					register((Converter)ConstructorUtil.newInstance(br.readLine()));
 				}
 			} catch (IOException e) {
-				throw new RuntimeException("在读取datatype.converter.factories配置文件时出现异常", e);
+				throw new DataTypeConvertException("在读取datatype.converter.factories配置文件时出现异常", e);
 			} finally {
 				CloseUtil.closeIO(br, isr, in);
 			}

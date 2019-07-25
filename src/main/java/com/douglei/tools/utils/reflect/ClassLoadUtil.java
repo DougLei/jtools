@@ -1,5 +1,7 @@
 package com.douglei.tools.utils.reflect;
 
+import com.douglei.tools.utils.UtilException;
+
 /**
  * 
  * @author DougLei
@@ -15,7 +17,7 @@ public class ClassLoadUtil {
 		try {
 			return Thread.currentThread().getContextClassLoader().loadClass(className);
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("没有找到className=["+className+"]的类");
+			throw new UtilException("没有找到className=["+className+"]的类");
 		}
 	}
 	
@@ -28,7 +30,9 @@ public class ClassLoadUtil {
 		try {
 			return Class.forName(className);
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("没有找到className=["+className+"]的类");
+			throw new UtilException("没有找到className=["+className+"]的类");
 		}
 	}
+	
+
 }

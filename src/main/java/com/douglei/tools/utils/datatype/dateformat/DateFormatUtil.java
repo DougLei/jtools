@@ -46,7 +46,7 @@ public class DateFormatUtil {
 					register((DateFormat)ConstructorUtil.newInstance(br.readLine()));
 				}
 			} catch (IOException e) {
-				throw new RuntimeException("在读取date.format.factories配置文件时出现异常", e);
+				throw new DateFormatException("在读取date.format.factories配置文件时出现异常", e);
 			} finally {
 				CloseUtil.closeIO(br, isr, in);
 			}

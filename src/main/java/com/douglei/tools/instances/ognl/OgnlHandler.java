@@ -65,7 +65,7 @@ public class OgnlHandler {
 		try {
 			return (boolean) Ognl.getValue(expression, context, root);
 		} catch (OgnlException e) {
-			throw new RuntimeException("getBooleanValue时出现异常: ", e);
+			throw new OgnlHandlerException("getBooleanValue时出现异常: ", e);
 		}
 	}
 	
@@ -80,7 +80,7 @@ public class OgnlHandler {
 		try {
 			return Ognl.getValue(expression, context, root);
 		} catch (OgnlException e) {
-			throw new RuntimeException("getObjectValue时出现异常: ", e);
+			throw new OgnlHandlerException("getObjectValue时出现异常: ", e);
 		}
 	}
 }
