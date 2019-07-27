@@ -1,9 +1,7 @@
-package com.douglei.tools.utils.exception;
+package com.douglei.tools.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import com.douglei.tools.utils.UtilException;
 
 
 /**
