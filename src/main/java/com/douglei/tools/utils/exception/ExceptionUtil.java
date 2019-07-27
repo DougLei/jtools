@@ -1,7 +1,9 @@
-package com.douglei.tools.utils;
+package com.douglei.tools.utils.exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import com.douglei.tools.utils.UtilException;
 
 
 /**
@@ -17,17 +19,17 @@ public class ExceptionUtil {
 	 * @return
 	 */
 	public static String getExceptionDetailMessage(Throwable t){
-		String exceptionDetailMessage = null;
+		PrintWriter pw = null;
 		try {
 			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
+			pw = new PrintWriter(sw);
 			t.printStackTrace(pw);
-			exceptionDetailMessage = sw.toString();
-			pw.close();
+			return sw.toString();
 		} catch (Exception e) {
-			exceptionDetailMessage = ExceptionUtil.class.getName()+".getExceptionDetailMessage(Throwable t)方法时出现异常";
-			e.printStackTrace();
+			throw new UtilException("在获取异常详细信息时出现异常", e);
+		} finally {
+			pw.close();
+			pw = null;
 		}
-		return exceptionDetailMessage;
 	}
 }
