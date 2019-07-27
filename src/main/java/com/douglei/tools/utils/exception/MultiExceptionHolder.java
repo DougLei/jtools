@@ -17,6 +17,6 @@ public class MultiExceptionHolder  {
 	}
 	
 	public void throwExceptions() {
-		throws new 
+		
 	}
 }
