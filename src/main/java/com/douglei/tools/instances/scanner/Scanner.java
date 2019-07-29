@@ -19,6 +19,7 @@ import com.douglei.tools.utils.CloseUtil;
  * @author DougLei
  */
 public abstract class Scanner {
+	protected PathDeDuplicationFilter filter = new PathDeDuplicationFilter(getType());
 	protected List<String> list = new LinkedList<String>();
 	private static ClassLoader classLoader;
 	protected String[] targetFileSuffix;
@@ -61,7 +62,7 @@ public abstract class Scanner {
 		File firstFile = new File(filePath);
 		if(firstFile.isFile()) {
 			if(isTargetFile(filePath)) {
-				list.add(firstFile.getAbsolutePath());
+				addFileToList(firstFile, param);
 			}
 			return;
 		}
@@ -213,19 +214,19 @@ public abstract class Scanner {
 	 * 
 	 * 是否搜索相同的路径
 	 * 
-	 * searchAllPath = false
+	 * searchAll = false
 	 * 扫描指定的某个路径时, 程序会先在当前项目中搜索该路径, 如果找到了, 则就在该路径下开始扫描目标, 同时, 如果jar中也存在相同的路径, 那么是不会被扫描的
 	 * 											             如果没找到, 则就去jar中搜索, 如果搜索到了, 就在该jar的路径下开始扫描, 同时, 如果其他jar中也存在相同路径, 那么是不会被扫描的
 	 * 即搜索到指定路径时, 就停止搜索其他相同的路径, 只扫描一个路径
 	 * 
-	 * searchAllPath = true
+	 * searchAll = true
 	 * 即搜索所有指定的路径, 对所有满足条件的路径进行扫描
 	 * 
-	 * @param searchAllPath
+	 * @param searchAll
 	 * @param basePath
 	 * @return 
 	 */
-	public abstract List<String> scan(boolean searchAllPath, String basePath);
+	public abstract List<String> scan(boolean searchAll, String basePath);
 	
 	/**
 	 * 根据包路径，重新扫描其下所有的类
@@ -237,11 +238,11 @@ public abstract class Scanner {
 	/**
 	 * 根据包路径，重新扫描其下所有的类
 	 * <p>会清空上一次扫描的类全名结果集</p>
-	 * @param searchAllPath @see scan(boolean searchAllPath, String basePath)
+	 * @param searchAll @see scan(boolean searchAll, String basePath)
 	 * @param basePath
 	 * @return
 	 */
-	public abstract List<String> rescan(boolean searchAllPath, String basePath);
+	public abstract List<String> rescan(boolean searchAll, String basePath);
 	
 	/**
 	 * 指定多个路径，多路径扫描，将最终的结果一次返回
@@ -251,11 +252,11 @@ public abstract class Scanner {
 	public abstract List<String> multiScan(String... basePaths);
 	/**
 	 * 指定多个路径，多路径扫描，将最终的结果一次返回
-	 * @param searchAllPath @see scan(boolean searchAllPath, String basePath)
+	 * @param searchAll @see scan(boolean searchAll, String basePath)
 	 * @param basePaths
 	 * @return
 	 */
-	public abstract List<String> multiScan(boolean searchAllPath, String... basePaths);
+	public abstract List<String> multiScan(boolean searchAll, String... basePaths);
 	
 	/**
 	 * 根据包路径，重新循环扫描其下所有的类
@@ -267,9 +268,15 @@ public abstract class Scanner {
 	/**
 	 * 根据包路径，重新循环扫描其下所有的类
 	 * <p>会清空上一次扫描的类全名结果集</p>
-	 * @param searchAllPath @see scan(boolean searchAllPath, String basePath)
+	 * @param searchAll @see scan(boolean searchAll, String basePath)
 	 * @param basePaths
 	 * @return
 	 */
-	public abstract List<String> reMultiScan(boolean searchAllPath, String... basePaths);
+	public abstract List<String> reMultiScan(boolean searchAll, String... basePaths);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public abstract ScannerType getType();
 }

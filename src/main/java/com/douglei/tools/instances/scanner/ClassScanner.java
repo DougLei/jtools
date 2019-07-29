@@ -25,13 +25,13 @@ public class ClassScanner extends Scanner{
 
 	// -----------------------------------------------------------------------------------------------------------
 	@Override
-	public List<String> scan(boolean searchAllPath, String basePackage) {
+	public List<String> scan(boolean searchAll, String basePackage) {
 		if(StringUtil.isEmpty(basePackage)){
 			throw new NullPointerException("basePackage 参数值不能为空");
 		}
 		
 		String packagePath = basePackage.replace(".", "/"); // 将包名的小数点，转换成url格式的分隔符，即'/'
-		if(searchAllPath) {
+		if(searchAll) {
 			Enumeration<URL> fileUrls = getResources(packagePath);
 			while(fileUrls.hasMoreElements()) {
 				scan_(fileUrls.nextElement(), basePackage, packagePath);
@@ -73,27 +73,28 @@ public class ClassScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> rescan(boolean searchAllPath, String basePackagePath) {
+	public List<String> rescan(boolean searchAll, String basePackagePath) {
 		if(list.size() > 0) {
 			list.clear();
 		}
-		return scan(searchAllPath, basePackagePath);
+		return scan(searchAll, basePackagePath);
 	}
 	
 	@Override
-	public List<String> multiScan(boolean searchAllPath, String... basePackagePaths){
+	public List<String> multiScan(boolean searchAll, String... basePackagePaths){
+		basePackagePaths = filter.doFilter(basePackagePaths);
 		for (String basePackagePath : basePackagePaths) {
-			scan(searchAllPath, basePackagePath);
+			scan(searchAll, basePackagePath);
 		}
 		return list;
 	}
 	
 	@Override
-	public List<String> reMultiScan(boolean searchAllPath, String... basePackagePaths) {
+	public List<String> reMultiScan(boolean searchAll, String... basePackagePaths) {
 		if(list.size() > 0) {
 			list.clear();
 		}
-		return multiScan(searchAllPath, basePackagePaths);
+		return multiScan(searchAll, basePackagePaths);
 	}
 	
 	@Override
@@ -114,5 +115,10 @@ public class ClassScanner extends Scanner{
 	@Override
 	public List<String> reMultiScan(String... basePackagePaths) {
 		return reMultiScan(false, basePackagePaths);
+	}
+
+	@Override
+	public ScannerType getType() {
+		return ScannerType.CLASS;
 	}
 }

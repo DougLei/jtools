@@ -2,7 +2,6 @@ package com.douglei.tools.instances.scanner;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Enumeration;
@@ -20,13 +19,20 @@ public class FileScanner extends Scanner{
 	}
 
 	// -----------------------------------------------------------------------------------------------------------
+	private String processPath(String path) {
+		if(path.indexOf("\\") != -1) {
+			return path.replace("\\", "/");
+		}
+		return path;
+	}
+	
 	@Override
-	public List<String> scan(boolean searchAllPath, String basePath) {
+	public List<String> scan(boolean searchAll, String basePath) {
 		if(basePath == null){
 			throw new NullPointerException("basePath 参数值不能为空");
 		}
-		
-		if(searchAllPath) {
+		basePath = processPath(basePath);
+		if(searchAll) {
 			Enumeration<URL> fileUrls = getResources(basePath);
 			while(fileUrls.hasMoreElements()) {
 				scan_(fileUrls.nextElement(), basePath);
@@ -58,7 +64,7 @@ public class FileScanner extends Scanner{
 
 	@Override
 	protected void addFileToList(File file, String param) {
-		list.add(file.getAbsolutePath());
+		list.add(processPath(file.getAbsolutePath()));
 	}
 	
 	@Override
@@ -67,27 +73,28 @@ public class FileScanner extends Scanner{
 	}
 	
 	@Override
-	public List<String> rescan(boolean searchAllPath, String basePath) {
+	public List<String> rescan(boolean searchAll, String basePath) {
 		if(list.size() > 0) {
 			list.clear();
 		}
-		return scan(searchAllPath, basePath);
+		return scan(searchAll, basePath);
 	}
 	
 	@Override
-	public List<String> multiScan(boolean searchAllPath, String... basePaths){
+	public List<String> multiScan(boolean searchAll, String... basePaths){
+		basePaths = filter.doFilter(basePaths);
 		for (String basePath : basePaths) {
-			scan(searchAllPath, basePath);
+			scan(searchAll, basePath);
 		}
 		return list;
 	}
 	
 	@Override
-	public List<String> reMultiScan(boolean searchAllPath, String... basePaths) {
+	public List<String> reMultiScan(boolean searchAll, String... basePaths) {
 		if(list.size() > 0) {
 			list.clear();
 		}
-		return multiScan(searchAllPath, basePaths);
+		return multiScan(searchAll, basePaths);
 	}
 	
 	@Override
@@ -117,7 +124,6 @@ public class FileScanner extends Scanner{
 	 * 根据扫描的path读取文件, 获取文件字节流
 	 * @param path
 	 * @return
-	 * @throws FileNotFoundException 
 	 */
 	public static InputStream readByScanPath(String path) {
 		InputStream in = null;
@@ -134,5 +140,10 @@ public class FileScanner extends Scanner{
 		} catch (Exception e) {
 			throw new ScannerException("给定的["+path+"], 不存在任何文件");
 		}
+	}
+	
+	@Override
+	public ScannerType getType() {
+		return ScannerType.FILE;
 	}
 }
