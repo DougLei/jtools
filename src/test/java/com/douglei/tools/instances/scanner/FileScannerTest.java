@@ -11,7 +11,7 @@ public class FileScannerTest {
 	public void scan(){
 //		String basePath = "com/douglei/tools/instances/scanner";
 		String basePath = "com\\douglei\\tools\\instances\\scanner";
-		List<String> allFileNames = new FileScanner("xml").scan(basePath);
+		List<String> allFileNames = new FileScanner("xml").multiScan(basePath, "com/douglei");
 		System.out.println(allFileNames.size());
 		for (String fileName : allFileNames) {
 			System.out.println(fileName);

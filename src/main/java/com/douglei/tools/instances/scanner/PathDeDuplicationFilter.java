@@ -30,8 +30,7 @@ public class PathDeDuplicationFilter {
 		PathWrapper[] wrapper = new PathWrapper[length];
 		byte index = 0;
 		for (String path : paths) {
-			wrapper[index] = new PathWrapper(index, path);
-			index++;
+			wrapper[index++] = new PathWrapper(path);
 		}
 		Arrays.sort(wrapper);
 		
@@ -54,6 +53,10 @@ public class PathDeDuplicationFilter {
 				}
 			}
 		}
+		
+		if(finalPaths.size() == length) {
+			return paths;
+		}
 		return finalPaths.toArray(new String[finalPaths.size()]);
 	}
 	
@@ -62,28 +65,26 @@ public class PathDeDuplicationFilter {
 	 * @author DougLei
 	 */
 	private class PathWrapper implements Comparable<PathWrapper>{
-		byte index;// 记录路径原来的下标
 		byte length;// 是路径的长度, 根据长度进行排序, 短的在前面, 长的在后面
 		String originPath;// 记录被操作的路径
-		PathWrapper(byte index, String originPath) {
-			this.index = index;
-			this.originPath = originPath;
+		PathWrapper(String originPath) {
 			switch(type) {
 				case FILE:
-					if(this.originPath.indexOf("\\") != -1) {
-						this.originPath = originPath.replace("\\", "/");
+					if(originPath.indexOf("\\") != -1) {
+						originPath = originPath.replace("\\", "/");
 					}
-					this.length = (byte) this.originPath.split("/").length;
+					this.length = (byte) originPath.split("/").length;
 					break;
 				case CLASS:
-					this.length = (byte) originPath.split(".").length;
+					this.length = (byte) originPath.split("\\.").length;
 					break;
 			}
+			this.originPath = originPath;
 		}
 		
 		@Override
 		public String toString() {
-			return "\nPathWrapper [index=" + index + ", length=" + length + ", originPath=" + originPath + "]";
+			return "\nPathWrapper [length=" + length + ", originPath=" + originPath + "]";
 		}
 
 		@Override
@@ -95,22 +96,6 @@ public class PathDeDuplicationFilter {
 			}else {
 				return 1;
 			}
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + index;
-			result = prime * result + length;
-			result = prime * result + originPath.hashCode();
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			PathWrapper other = (PathWrapper) obj;
-			return index == other.index && length == other.length && originPath.equals(other.originPath);
 		}
 	}
 }

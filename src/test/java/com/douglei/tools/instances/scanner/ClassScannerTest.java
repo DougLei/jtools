@@ -18,7 +18,7 @@ public class ClassScannerTest {
 	
 	@Test
 	public void scan() throws ClassNotFoundException{
-		List<String> allClassNames = new ClassScanner().scan(basePackagePath);
+		List<String> allClassNames = new ClassScanner().multiScan("com.douglei.tools.instances.scanner", basePackagePath);
 		for (String className : allClassNames) {
 			System.out.println(Class.forName(className));
 //			System.out.println(className);
