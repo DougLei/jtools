@@ -70,7 +70,10 @@ public class PathDeDuplicationFilter {
 			this.originPath = originPath;
 			switch(type) {
 				case FILE:
-					this.length = (byte) originPath.split("/").length;
+					if(this.originPath.indexOf("\\") != -1) {
+						this.originPath = originPath.replace("\\", "/");
+					}
+					this.length = (byte) this.originPath.split("/").length;
 					break;
 				case CLASS:
 					this.length = (byte) originPath.split(".").length;
