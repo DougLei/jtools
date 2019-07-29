@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class PathDeDuplicationFilter {
 	
-	private final ScannerType type;
-	public PathDeDuplicationFilter(ScannerType type) {
-		this.type = type;
+	private final Scanner scanner;
+	public PathDeDuplicationFilter(Scanner scanner) {
+		this.scanner = scanner;
 	}
 
 	/**
@@ -68,18 +68,8 @@ public class PathDeDuplicationFilter {
 		byte length;// 是路径的长度, 根据长度进行排序, 短的在前面, 长的在后面
 		String originPath;// 记录被操作的路径
 		PathWrapper(String originPath) {
-			switch(type) {
-				case FILE:
-					if(originPath.indexOf("\\") != -1) {
-						originPath = originPath.replace("\\", "/");
-					}
-					this.length = (byte) originPath.split("/").length;
-					break;
-				case CLASS:
-					this.length = (byte) originPath.split("\\.").length;
-					break;
-			}
-			this.originPath = originPath;
+			this.originPath = scanner.replacePathDelimiter(originPath);
+			this.length = scanner.pathSplitLength(this.originPath);
 		}
 		
 		@Override

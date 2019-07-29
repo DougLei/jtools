@@ -118,7 +118,12 @@ public class ClassScanner extends Scanner{
 	}
 
 	@Override
-	public ScannerType getType() {
-		return ScannerType.CLASS;
+	protected String replacePathDelimiter(String path) {
+		return path;
+	}
+
+	@Override
+	protected byte pathSplitLength(String path) {
+		return (byte) path.split("\\.").length;
 	}
 }

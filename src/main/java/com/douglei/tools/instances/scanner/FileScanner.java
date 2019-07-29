@@ -19,19 +19,12 @@ public class FileScanner extends Scanner{
 	}
 
 	// -----------------------------------------------------------------------------------------------------------
-	private String processPath(String path) {
-		if(path.indexOf("\\") != -1) {
-			return path.replace("\\", "/");
-		}
-		return path;
-	}
-	
 	@Override
 	public List<String> scan(boolean searchAll, String basePath) {
 		if(basePath == null){
 			throw new NullPointerException("basePath 参数值不能为空");
 		}
-		basePath = processPath(basePath);
+		basePath = replacePathDelimiter(basePath);
 		if(searchAll) {
 			Enumeration<URL> fileUrls = getResources(basePath);
 			while(fileUrls.hasMoreElements()) {
@@ -64,7 +57,7 @@ public class FileScanner extends Scanner{
 
 	@Override
 	protected void addFileToList(File file, String param) {
-		list.add(processPath(file.getAbsolutePath()));
+		list.add(replacePathDelimiter(file.getAbsolutePath()));
 	}
 	
 	@Override
@@ -117,6 +110,19 @@ public class FileScanner extends Scanner{
 		return reMultiScan(false, basePaths);
 	}
 	
+	@Override
+	protected String replacePathDelimiter(String path) {
+		if(path.indexOf("\\") != -1) {
+			path = path.replace("\\", "/");
+		}
+		return path;
+	}
+
+	@Override
+	protected byte pathSplitLength(String path) {
+		return (byte) path.split("/").length;
+	}
+	
 	// -----------------------------------------------------------------------------------------------------------
 	private static final String JAR_FILE_PREFIX = "_JAR_FILE_";// 读取jar包中文件路径的前缀
 	
@@ -140,10 +146,5 @@ public class FileScanner extends Scanner{
 		} catch (Exception e) {
 			throw new ScannerException("给定的["+path+"], 不存在任何文件");
 		}
-	}
-	
-	@Override
-	public ScannerType getType() {
-		return ScannerType.FILE;
 	}
 }

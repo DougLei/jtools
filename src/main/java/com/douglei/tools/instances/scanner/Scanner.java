@@ -19,7 +19,7 @@ import com.douglei.tools.utils.CloseUtil;
  * @author DougLei
  */
 public abstract class Scanner {
-	protected PathDeDuplicationFilter filter = new PathDeDuplicationFilter(getType());
+	protected PathDeDuplicationFilter filter = new PathDeDuplicationFilter(this);
 	protected List<String> list = new LinkedList<String>();
 	private static ClassLoader classLoader;
 	protected String[] targetFileSuffix;
@@ -275,8 +275,16 @@ public abstract class Scanner {
 	public abstract List<String> reMultiScan(boolean searchAll, String... basePaths);
 	
 	/**
-	 * 
+	 * 替换路径的分隔符
+	 * @param path
 	 * @return
 	 */
-	public abstract ScannerType getType();
+	protected abstract String replacePathDelimiter(String path);
+	
+	/**
+	 * 路径split后的长度
+	 * @param path
+	 * @return
+	 */
+	protected abstract byte pathSplitLength(String path);
 }
