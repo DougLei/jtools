@@ -27,7 +27,7 @@ public class ClassScanner extends Scanner{
 	@Override
 	public List<String> scan(boolean searchAllPath, String basePackage) {
 		if(StringUtil.isEmpty(basePackage)){
-			throw new NullPointerException("basePackagePath 参数值不能为空");
+			throw new NullPointerException("basePackage 参数值不能为空");
 		}
 		
 		String packagePath = basePackage.replace(".", "/"); // 将包名的小数点，转换成url格式的分隔符，即'/'

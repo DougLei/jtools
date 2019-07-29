@@ -9,8 +9,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 
-import com.douglei.tools.utils.StringUtil;
-
 /**
  * 文件扫描器
  * @author StoneKing
@@ -24,7 +22,7 @@ public class FileScanner extends Scanner{
 	// -----------------------------------------------------------------------------------------------------------
 	@Override
 	public List<String> scan(boolean searchAllPath, String basePath) {
-		if(StringUtil.isEmpty(basePath)){
+		if(basePath == null){
 			throw new NullPointerException("basePath 参数值不能为空");
 		}
 		
