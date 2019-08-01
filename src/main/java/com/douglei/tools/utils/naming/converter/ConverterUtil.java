@@ -26,44 +26,4 @@ public class ConverterUtil {
 		}
 		return converter_.doConvert(name);
 	}
-	
-	/**
-	 * 
-	 * @param name
-	 * @param converter
-	 * @return
-	 */
-	public static String convert(String name, Converter converter) {
-		if(converter.getClass().isAnonymousClass()) {
-			throw new UnsupportAnonymousNamingConverterException();
-		}
-		Converter converter_ = CONVERTERS.get(converter.getClass());
-		if(converter_ == null) {
-			converter_ = converter;
-			CONVERTERS.put(converter.getClass(), converter_);
-		}
-		return converter_.doConvert(name);
-	}
-	
-	/**
-	 * 不经过缓存, 进行命名转换
-	 * 可以使用匿名类
-	 * @param name
-	 * @param converter
-	 * @return
-	 */
-	public static String convertNoCache(String name, Class<? extends Converter> converter) {
-		return ((Converter) ConstructorUtil.newInstance(converter)).doConvert(name);
-	}
-	
-	/**
-	 * 不经过缓存, 进行命名转换
-	 * 可以使用匿名类
-	 * @param name
-	 * @param converter
-	 * @return
-	 */
-	public static String convertNoCache(String name, Converter converter) {
-		return converter.doConvert(name);
-	}
 }
