@@ -10,20 +10,30 @@ import com.douglei.tools.utils.reflect.ConstructorUtil;
  * @author DougLei
  */
 public class ConverterUtil {
-	private static final Map<Class<?>, Converter> CONVERTERS = new HashMap<Class<?>, Converter>(4);
+	private static final Map<Class<?>, Converter> converters = new HashMap<Class<?>, Converter>(4);
 	
 	/**
 	 * 
-	 * @param name
+	 * @param originName
 	 * @param converterClass
 	 * @return
 	 */
-	public static String convert(String name, Class<? extends Converter> converter) {
-		Converter converter_ = CONVERTERS.get(converter);
+	public static String convert(String originName, Class<? extends Converter> converter) {
+		Converter converter_ = converters.get(converter);
 		if(converter_ == null) {
 			converter_ = (Converter) ConstructorUtil.newInstance(converter);
-			CONVERTERS.put(converter, converter_);
+			converters.put(converter, converter_);
 		}
-		return converter_.doConvert(name);
+		return converter_.doConvert(originName);
+	}
+	
+	/**
+	 * 
+	 * @param originName
+	 * @param converter
+	 * @return
+	 */
+	public static String convert(String originName, Converter converter) {
+		return converter.doConvert(originName);
 	}
 }
