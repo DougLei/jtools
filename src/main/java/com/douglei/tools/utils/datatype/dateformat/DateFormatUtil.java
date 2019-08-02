@@ -57,7 +57,7 @@ public class DateFormatUtil {
 	 * 注册日期格式化实例
 	 * @param dateFormat
 	 */
-	public static void register(DateFormat dateFormat) {
+	private static void register(DateFormat dateFormat) {
 		DATE_FORMATS.add(dateFormat);
 	}
 	

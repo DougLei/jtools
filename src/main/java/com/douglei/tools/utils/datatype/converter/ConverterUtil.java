@@ -58,7 +58,7 @@ public class ConverterUtil {
 	 * 注册类型转换器, 如果有重复, 则用最新的替换
 	 * @param converter
 	 */
-	public static void register(Converter converter) {
+	private static void register(Converter converter) {
 		for(Class<?> clz: converter.targetClasses()) {
 			CONVERTERS.put(clz, converter);
 		}

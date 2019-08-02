@@ -14,7 +14,7 @@ public class SimpleDateFormat_ extends DateFormat {
 	
 	@Override
 	protected boolean match(String dateString) {
-		return false;
+		return pattern.matcher(dateString).matches();
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class SimpleDateFormat_ extends DateFormat {
 		return "yyyy-MM-dd";
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(pattern.matcher("2018-09-8").matches());
-	}
+//	public static void main(String[] args) {
+//		System.out.println(pattern.matcher("2018-09-8").matches());
+//	}
 }
