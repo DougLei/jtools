@@ -21,8 +21,8 @@ public class VerifyTypeMatchUtil {
 	 */
 	public static boolean isLimitByte(String value){
 		if(value != null){
-			long l;
-			if((l =isInteger_(value))!=-1) {
+			Long l;
+			if((l =isInteger_(value))!=null) {
 				return l>= Byte.MIN_VALUE && l<= Byte.MAX_VALUE;
 			}
 		}
@@ -39,8 +39,8 @@ public class VerifyTypeMatchUtil {
 	 */
 	public static boolean isLimitShort(String value){
 		if(value != null){
-			long l;
-			if((l =isInteger_(value))!=-1) {
+			Long l;
+			if((l =isInteger_(value))!=null) {
 				return l>= Short.MIN_VALUE && l<= Short.MAX_VALUE;
 			}
 		}
@@ -57,8 +57,8 @@ public class VerifyTypeMatchUtil {
 	 */
 	public static boolean isLimitInteger(String value){
 		if(value != null){
-			long l;
-			if((l =isInteger_(value))!=-1) {
+			Long l;
+			if((l =isInteger_(value))!=null) {
 				return l>= Integer.MIN_VALUE && l<= Integer.MAX_VALUE;
 			}
 		}
@@ -75,8 +75,8 @@ public class VerifyTypeMatchUtil {
 	 */
 	public static boolean isLimitLong(String value){
 		if(value != null){
-			long l;
-			if((l =isInteger_(value))!=-1) {
+			Long l;
+			if((l =isInteger_(value))!=null) {
 				return l>= Long.MIN_VALUE && l<= Long.MAX_VALUE;
 			}
 		}
@@ -84,11 +84,11 @@ public class VerifyTypeMatchUtil {
 	}
 	
 	// 是否是整数, 并返回转换为long类型的值, 如果返回-1则证明不是整数
-	private static long isInteger_(String value) {
+	private static Long isInteger_(String value) {
 		if(integerTypePattern.matcher(value).matches()){
 			return Long.parseLong(value);
 		}
-		return -1;
+		return null;
 	}
 	
 	/**
