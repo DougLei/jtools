@@ -1,16 +1,12 @@
 package com.douglei.tools.utils.datatype.dateformat;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.douglei.tools.instances.reader.ResourcesReader;
 import com.douglei.tools.instances.scanner.ClassScanner;
-import com.douglei.tools.utils.CloseUtil;
 import com.douglei.tools.utils.datatype.converter.ConverterUtil;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
 
@@ -35,22 +31,14 @@ public class DateFormatUtil {
 	 * 自定义的格式化实例需要继承 {@link DateFormat}
 	 */
 	private static void loadDateFormatFactories() {
-		InputStream in = DateFormatUtil.class.getClassLoader().getResourceAsStream("date.format.factories");
-		if(in != null) {
-			InputStreamReader isr = null;
-			BufferedReader br = null;
-			try {
-				isr = new InputStreamReader(in);
-				br = new BufferedReader(isr);
-				while(br.ready()) {
-					register((DateFormat)ConstructorUtil.newInstance(br.readLine()));
-				}
-			} catch (IOException e) {
-				throw new DateFormatException("在读取date.format.factories配置文件时出现异常", e);
-			} finally {
-				CloseUtil.closeIO(br, isr, in);
-			}
+		ResourcesReader reader = new ResourcesReader("date.format.factories");
+		while(reader.ready()) {
+			register((DateFormat)ConstructorUtil.newInstance(reader.readLine()));
 		}
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(DateFormatUtil.parseDate(new Date()));
 	}
 	
 	/**

@@ -11,20 +11,26 @@ import com.douglei.tools.utils.CloseUtil;
 import com.douglei.tools.utils.ExceptionUtil;
 
 /**
- * 项目配置资源阅读器
- * 
- * 项目配置资源指的是在resources目录下的文件
+ * 资源阅读器
+ *指的是在resources目录下的文件
  * @author DougLei
  */
-public class ProjectConfigurationResourceReader extends Reader {
-	private static final Logger logger = LoggerFactory.getLogger(ProjectConfigurationResourceReader.class);
+public class ResourcesReader extends Reader {
+	private static final Logger logger = LoggerFactory.getLogger(ResourcesReader.class);
 	
 	private BufferedReader bufferedReader;
 	
-	public ProjectConfigurationResourceReader(String projectConfigurationResourcePath) {
+	public ResourcesReader(String projectConfigurationResourcePath) {
 		super(projectConfigurationResourcePath);
+		if(super.ready()) {
+			bufferedReader = new BufferedReader(new InputStreamReader(in));
+		}
 	}
 	
+	@Override
+	public boolean ready() {
+		return bufferedReader != null;
+	}
 	/**
 	 * 读取配置文件中的所有内容
 	 * 读取完成后, 该方法会关闭阅读器
@@ -43,10 +49,9 @@ public class ProjectConfigurationResourceReader extends Reader {
 	public StringBuilder readAll(int capacity) {
 		if(ready()) {
 			StringBuilder tmt = new StringBuilder(capacity);
-			bufferedReader = new BufferedReader(new InputStreamReader(in));
 			try {
 				while(bufferedReader.ready()) {
-					tmt.append(bufferedReader.readLine());
+					tmt.append(bufferedReader.readLine().trim());
 				}
 				return tmt;
 			} catch (IOException e) {
@@ -64,21 +69,21 @@ public class ProjectConfigurationResourceReader extends Reader {
 	 * @return
 	 */
 	public String readLine() {
-		if(ready() && bufferedReady()) {
+		if(ready()) {
 			try {
-				return bufferedReader.readLine();
+				if(bufferedReader.ready()) {
+					return bufferedReader.readLine().trim();
+				}
 			} catch (IOException e) {
 				logger.error("读取文件["+path+"]时出现异常: {}", ExceptionUtil.getExceptionDetailMessage(e));
 			}
+			close();
 		}
-	}
-	
-	private boolean bufferedReady() {
-		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
-	private void close() {
+	@Override
+	protected void close() {
 		if(bufferedReader != null) {
 			CloseUtil.closeIO(bufferedReader);
 			bufferedReader = null;

@@ -1,16 +1,12 @@
 package com.douglei.tools.utils.datatype.converter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.douglei.tools.instances.reader.ResourcesReader;
 import com.douglei.tools.instances.scanner.ClassScanner;
-import com.douglei.tools.utils.CloseUtil;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
 import com.douglei.tools.utils.reflect.IntrospectorUtil;
 
@@ -36,21 +32,9 @@ public class ConverterUtil {
 	 * 自定义的转换器需要实现 {@link Converter} 接口
 	 */
 	private static void loadConverterFactories() {
-		InputStream in = ConverterUtil.class.getClassLoader().getResourceAsStream("datatype.converter.factories");
-		if(in != null) {
-			InputStreamReader isr = null;
-			BufferedReader br = null;
-			try {
-				isr = new InputStreamReader(in);
-				br = new BufferedReader(isr);
-				while(br.ready()) {
-					register((Converter)ConstructorUtil.newInstance(br.readLine()));
-				}
-			} catch (IOException e) {
-				throw new DataTypeConvertException("在读取datatype.converter.factories配置文件时出现异常", e);
-			} finally {
-				CloseUtil.closeIO(br, isr, in);
-			}
+		ResourcesReader reader = new ResourcesReader("datatype.converter.factories");
+		while(reader.ready()) {
+			register((Converter)ConstructorUtil.newInstance(reader.readLine()));
 		}
 	}
 	
