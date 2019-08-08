@@ -24,18 +24,24 @@ public class PropertiesReader extends Reader{
 	}
 	
 	private void setProperties() {
-		if(ready()) {
+		if(in != null) {
 			properties = new Properties();
 			try {
 				properties.load(in);
 			} catch (IOException e) {
+				properties = null;
 				logger.error("读取配置文件[{}]时出现异常: {}", path, ExceptionUtil.getExceptionDetailMessage(e));
 			} finally {
 				close();
 			}
 		}
 	}
-
+	
+	@Override
+	public boolean ready() {
+		return properties != null;
+	}
+	
 	public String readProperty(String key) {
 		return readProperty(key, null);
 	}

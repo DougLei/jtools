@@ -22,7 +22,7 @@ public class ResourcesReader extends Reader {
 	
 	public ResourcesReader(String projectConfigurationResourcePath) {
 		super(projectConfigurationResourcePath);
-		if(super.ready()) {
+		if(in != null) {
 			bufferedReader = new BufferedReader(new InputStreamReader(in));
 		}
 	}

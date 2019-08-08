@@ -17,9 +17,7 @@ public abstract class Reader {
 		in = Reader.class.getClassLoader().getResourceAsStream(path);
 	}
 	
-	public boolean ready() {
-		return in != null;
-	}
+	public abstract boolean ready();
 	
 	protected void close() {
 		if(in != null) {
