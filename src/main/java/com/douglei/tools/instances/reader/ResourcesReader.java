@@ -3,6 +3,8 @@ package com.douglei.tools.instances.reader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +24,16 @@ public class ResourcesReader extends Reader {
 	
 	public ResourcesReader(String projectConfigurationResourcePath) {
 		super(projectConfigurationResourcePath);
+		setBufferedReader(StandardCharsets.UTF_8);
+	}
+	public ResourcesReader(String projectConfigurationResourcePath, Charset charset) {
+		super(projectConfigurationResourcePath);
+		setBufferedReader(charset);
+	}
+	
+	private void setBufferedReader(Charset charset) {
 		if(in != null) {
-			bufferedReader = new BufferedReader(new InputStreamReader(in));
+			bufferedReader = new BufferedReader(new InputStreamReader(in, charset));
 		}
 	}
 	
