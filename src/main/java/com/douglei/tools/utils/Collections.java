@@ -3,6 +3,8 @@ package com.douglei.tools.utils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 集合操作工具类
@@ -45,4 +47,55 @@ public class Collections {
 	public static boolean unEmpty(Collection<?> collection) {
 		return collection != null && collection.size() > 0;
 	}
+	
+	/**
+	 * 集合是否为空
+	 * @param map
+	 * @return
+	 */
+	public static <K, V> boolean isEmpty(Map<K, V> map) {
+		return map == null || map.isEmpty();
+	}
+	
+	/**
+	 * 集合是否不为空
+	 * @param map
+	 * @return
+	 */
+	public static <K, V> boolean unEmpty(Map<K, V> map) {
+		return map != null && map.size() > 0;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static <T> List<T> emptyList() {
+		return java.util.Collections.emptyList();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+    public static <K,V> Map<K,V> emptyMap() {
+    	return java.util.Collections.emptyMap();
+    }
+	
+	/**
+	 * 
+	 * @return
+	 */
+    public static <T> Set<T> emptySet() {
+    	return java.util.Collections.emptySet();
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public static Object[] emptyArray() {
+    	return EMPTY_ARRAY;
+    }
+    private static final Object[] EMPTY_ARRAY = new Object[0];    
 }
