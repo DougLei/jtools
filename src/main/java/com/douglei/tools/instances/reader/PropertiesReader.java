@@ -1,9 +1,12 @@
 package com.douglei.tools.instances.reader;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +26,22 @@ public class PropertiesReader extends Reader{
 	
 	public PropertiesReader(String propertiesPath) {
 		super(propertiesPath);
-		setProperties(null);
+		setProperties();
 	}
 	public PropertiesReader(String propertiesPath, Charset charset) {
-		super(propertiesPath);
-		setProperties(charset);
+		super(propertiesPath, charset);
+		setProperties();
+	}
+	public PropertiesReader(InputStream in) {
+		super(in);
+		setProperties();
+	}
+	public PropertiesReader(InputStream in, Charset charset) {
+		super(in, charset);
+		setProperties();
 	}
 	
-	private void setProperties(Charset charset) {
+	private void setProperties() {
 		if(in != null) {
 			properties = new Properties();
 			try {
@@ -56,7 +67,7 @@ public class PropertiesReader extends Reader{
 	
 	@Override
 	public boolean ready() {
-		return properties != null;
+		return properties != null && properties.size() > 0;
 	}
 	
 	public String readProperty(String key) {
@@ -71,5 +82,9 @@ public class PropertiesReader extends Reader{
 			}
 		}
 		return defaultValue;
+	}
+	
+	public Set<Entry<Object, Object>> entrySet() {
+		return properties.entrySet();
 	}
 }
