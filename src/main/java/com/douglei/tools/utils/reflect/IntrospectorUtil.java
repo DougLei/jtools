@@ -35,12 +35,12 @@ public class IntrospectorUtil {
 		if(introspectorObject == null) {
 			throw new NullPointerException("getProperyValues时, 传入的introspectorObject实例=null");
 		}
-		Class<?> introspectorClass = introspectorObject.getClass();
-		if(logger.isDebugEnabled()) {
-			logger.debug("获取[{}]实例, {} 属性值集合", introspectorClass, propertyNames);
-		}
-		
 		if(propertyNames != null && propertyNames.size() > 0) {
+			Class<?> introspectorClass = introspectorObject.getClass();
+			if(logger.isDebugEnabled()) {
+				logger.debug("获取[{}]实例, {} 属性值集合", introspectorClass, propertyNames);
+			}
+			
 			String propertyName = null;
 			try {
 				BeanInfo beanInfo = Introspector.getBeanInfo(introspectorClass);
@@ -93,12 +93,12 @@ public class IntrospectorUtil {
 		if(introspectorObject == null) {
 			throw new NullPointerException("setProperyValues时, 传入的introspectorObject实例=null");
 		}
-		Class<?> introspectorClass = introspectorObject.getClass();
-		if(logger.isDebugEnabled()) {
-			logger.debug("给[{}]实例, set {} 属性值map集合", introspectorClass, propertyMap);
-		}
-		
 		if(propertyMap != null && propertyMap.size() > 0) {
+			Class<?> introspectorClass = introspectorObject.getClass();
+			if(logger.isDebugEnabled()) {
+				logger.debug("给[{}]实例, set {} 属性值map集合", introspectorClass, propertyMap);
+			}
+			
 			String propertyName = null;
 			try {
 				BeanInfo beanInfo = Introspector.getBeanInfo(introspectorClass);

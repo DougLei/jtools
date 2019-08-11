@@ -10,7 +10,7 @@ import com.douglei.tools.utils.CloseUtil;
  * @author DougLei
  */
 public abstract class Reader {
-	private static final String DEFAULT_PATH="passed in argument type is java.io.InputStream";
+	public static final String DEFAULT_PATH="passed in argument type is java.io.InputStream";
 	
 	protected String path;
 	protected InputStream in;
