@@ -21,6 +21,12 @@ public class BooleanConverter implements Converter {
 		if(VerifyTypeMatchUtil.isBoolean(str)) {
 			return Boolean.parseBoolean(str);
 		}
+		if(str.equals("1")) {
+			return true;
+		}
+		if(str.equals("0")) {
+			return false;
+		}
 		throw new DataTypeConvertException("将数据值转换为boolean类型时, 源数据值["+str+"]非boolean类型");
 	}
 }
