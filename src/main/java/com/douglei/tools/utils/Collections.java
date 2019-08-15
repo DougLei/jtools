@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * 集合操作工具类
@@ -70,26 +69,10 @@ public class Collections {
 	 * 
 	 * @return
 	 */
-	public static <T> List<T> emptyList() {
-		return java.util.Collections.emptyList();
+	public static <T> List<T> emptyArrayList() {
+		return new ArrayList<T>();
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-    public static <K,V> Map<K,V> emptyMap() {
-    	return java.util.Collections.emptyMap();
-    }
-	
-	/**
-	 * 
-	 * @return
-	 */
-    public static <T> Set<T> emptySet() {
-    	return java.util.Collections.emptySet();
-    }
-    
     /**
      * 
      * @return
