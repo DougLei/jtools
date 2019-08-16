@@ -65,14 +65,6 @@ public class Collections {
 		return map != null && map.size() > 0;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public static <T> List<T> emptyArrayList() {
-		return new ArrayList<T>();
-	}
-	
     /**
      * 
      * @return
