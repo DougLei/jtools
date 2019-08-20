@@ -29,6 +29,25 @@ public class Collections {
 	}
 	
 	/**
+	 * 将数组转换为 {@link List}
+	 * @param targetClass
+	 * @param objects
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> toList(Class<T> targetClass, T...ts){
+		if(ts.length > 0) {
+			List<T> list = new ArrayList<T>(ts.length);
+			for (T t : ts) {
+				list.add(t);
+			}
+			ts = null;
+			return list;
+		}
+		return null;
+	}
+	
+	/**
 	 * 集合是否为空
 	 * @param collection
 	 * @return
