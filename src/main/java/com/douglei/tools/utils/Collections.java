@@ -17,15 +17,7 @@ public class Collections {
 	 * @return
 	 */
 	public static List<Object> toList(Object...objects){
-		if(objects.length > 0) {
-			List<Object> list = new ArrayList<Object>(objects.length);
-			for (Object object : objects) {
-				list.add(object);
-			}
-			objects = null;
-			return list;
-		}
-		return null;
+		return toList(Object.class, objects);
 	}
 	
 	/**
