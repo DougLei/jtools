@@ -42,7 +42,10 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean notEmpty(String string){
-		return !isEmpty(string);
+		if(string == null || string.trim().length() == 0){
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -51,7 +54,10 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean notEmpty(Object object){
-		return !isEmpty(object);
+		if(object == null || object.toString().trim().length() == 0){
+			return false;
+		}
+		return true;
 	}
 	
 	/**
