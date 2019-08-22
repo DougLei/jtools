@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.douglei.tools.utils.CloseUtil;
+import com.douglei.tools.utils.Collections;
 import com.douglei.tools.utils.ExceptionUtil;
 import com.douglei.tools.utils.StringUtil;
 
@@ -67,7 +68,7 @@ public class PropertiesReader extends Reader{
 	
 	@Override
 	public boolean ready() {
-		return properties != null && properties.size() > 0;
+		return Collections.unEmpty(properties);
 	}
 	
 	public String readProperty(String key) {
