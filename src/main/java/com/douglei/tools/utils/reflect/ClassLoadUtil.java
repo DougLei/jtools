@@ -13,9 +13,10 @@ public class ClassLoadUtil {
 	 * @param className
 	 * @return
 	 */
-	public static Class<?> loadClass(String className){
+	@SuppressWarnings("unchecked")
+	public static <T> Class<T> loadClass(String className){
 		try {
-			return Thread.currentThread().getContextClassLoader().loadClass(className);
+			return (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(className);
 		} catch (ClassNotFoundException e) {
 			throw new UtilException("没有找到className=["+className+"]的类");
 		}
@@ -26,9 +27,10 @@ public class ClassLoadUtil {
 	 * @param className
 	 * @return
 	 */
-	public static Class<?> loadClassWithStatic(String className){
+	@SuppressWarnings("unchecked")
+	public static <T> Class<T> loadClassWithStatic(String className){
 		try {
-			return Class.forName(className);
+			return (Class<T>) Class.forName(className);
 		} catch (ClassNotFoundException e) {
 			throw new UtilException("没有找到className=["+className+"]的类");
 		}
