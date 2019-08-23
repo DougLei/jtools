@@ -67,7 +67,16 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String trim(String str, char c) {
-		return trim_(str, c)[1];
+		int topIndex = 0;
+		int bottomIndex = str.length();
+		
+		while(topIndex < bottomIndex && str.charAt(topIndex) == c) {
+			topIndex++;
+		}
+		while(topIndex < bottomIndex && str.charAt(bottomIndex-1) == c) {
+			bottomIndex--;
+		}
+		return (topIndex > 0 || bottomIndex < str.length())?str.substring(topIndex, bottomIndex):str;
 	}
 	
 	/**
