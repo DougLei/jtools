@@ -44,7 +44,7 @@ public class Collections {
 	 * @param collection
 	 * @return
 	 */
-	public static boolean isEmpty(Collection<?> collection) {
+	public static <E> boolean isEmpty(Collection<E> collection) {
 		return collection == null || collection.isEmpty();
 	}
 	
@@ -54,7 +54,7 @@ public class Collections {
 	 * @param collection
 	 * @return
 	 */
-	public static boolean unEmpty(Collection<?> collection) {
+	public static <E> boolean unEmpty(Collection<E> collection) {
 		return collection != null && collection.size() > 0;
 	}
 	
@@ -74,6 +74,26 @@ public class Collections {
 	 */
 	public static <K, V> boolean unEmpty(Map<K, V> map) {
 		return map != null && map.size() > 0;
+	}
+	
+	/**
+	 * 清空集合
+	 * @param collection
+	 */
+	public static <E> void clear(Collection<E> collection) {
+		if(unEmpty(collection)) {
+			collection.clear();
+		}
+	}
+	
+	/**
+	 * 清空集合
+	 * @param map
+	 */
+	public static <K, V> void clear(Map<K, V> map) {
+		if(unEmpty(map)) {
+			map.clear();
+		}
 	}
 	
     /**
