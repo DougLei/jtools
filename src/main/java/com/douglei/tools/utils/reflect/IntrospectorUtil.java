@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.douglei.tools.utils.Collections;
+import com.douglei.tools.utils.StringUtil;
 import com.douglei.tools.utils.UtilException;
 import com.douglei.tools.utils.datatype.converter.ConverterUtil;
 
@@ -24,10 +25,46 @@ public class IntrospectorUtil {
 	private static final Logger logger = LoggerFactory.getLogger(IntrospectorUtil.class);
 	
 	/**
-	 * <pre>
-	 * 	通过内省, 获取对象的属性值集合
-	 * 	只支持基础数据类型
-	 * </pre>
+	 * 通过内省, 获取对象指定的属性值
+	 * @param introspectorObject
+	 * @param propertyName
+	 * @return
+	 */
+	public static Object getProperyValue(Object introspectorObject, String propertyName) {
+		if(introspectorObject == null) {
+			throw new NullPointerException("getProperyValue时, 传入的introspectorObject实例=null");
+		}
+		if(StringUtil.notEmpty(propertyName)) {
+			Class<?> introspectorClass = introspectorObject.getClass();
+			if(logger.isDebugEnabled()) {
+				logger.debug("获取[{}]实例, {} 属性值", introspectorClass, propertyName);
+			}
+			
+			try {
+				BeanInfo beanInfo = Introspector.getBeanInfo(introspectorClass);
+				PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
+				
+				Method getter = null;
+				for (PropertyDescriptor pd : pds) {
+					if(pd.getName().equals(propertyName)) {
+						getter = pd.getReadMethod();
+						if(getter == null) {
+							throw new NullPointerException("无法调用 "+introspectorClass+"."+toGetMethodName(propertyName)+"方法, 程序没有获取到该方法");
+						}
+						if(logger.isDebugEnabled()) {
+							logger.debug("调用 {}.{}, get出的参数值为 {}, 值类型为 {}", introspectorClass, getter.getName(), propertyName, pd.getPropertyType());
+						}
+						return getter.invoke(introspectorObject);
+					}
+				}
+			} catch (Exception e) {
+				throw new UtilException("["+introspectorClass+"]实例, 调用 "+toGetMethodName(propertyName)+"() 方法时, 出现异常", e);
+			}
+		}
+		return null;
+	}
+	/**
+	 * 通过内省, 获取对象的属性值集合
 	 * @param introspectorObject
 	 * @param propertyNames
 	 * @return
@@ -82,10 +119,48 @@ public class IntrospectorUtil {
 	}
 	
 	/**
-	 * <pre>
-	 * 	通过内省, 给对象的属性赋值
-	 * 	只支持基础数据类型
-	 * </pre>
+	 * 通过内省, 给对象的属性赋值
+	 * @param introspectorObject
+	 * @param propertyName
+	 * @param propertyValue
+	 * @return
+	 */
+	public static Object setProperyValue(Object introspectorObject, String propertyName, Object propertyValue) {
+		if(introspectorObject == null) {
+			throw new NullPointerException("setProperyValue时, 传入的introspectorObject实例=null");
+		}
+		if(StringUtil.notEmpty(propertyName) && propertyValue != null) {
+			Class<?> introspectorClass = introspectorObject.getClass();
+			if(logger.isDebugEnabled()) {
+				logger.debug("给[{}]实例, set {} 属性值 {}", introspectorClass, propertyName, propertyValue);
+			}
+			
+			try {
+				BeanInfo beanInfo = Introspector.getBeanInfo(introspectorClass);
+				PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
+				
+				Method setter;
+				for (PropertyDescriptor pd : pds) {
+					if(pd.getName().equals(propertyName)) {
+						setter = pd.getWriteMethod();
+						if(setter == null) {
+							throw new NullPointerException("无法调用 "+introspectorClass+"."+toSetMethodName(propertyName)+"() 方法, 程序没有获取到该方法");
+						}
+						if(logger.isDebugEnabled()) {
+							logger.debug("调用 {}.{}, set进的参数值为 {}, 值类型为 {}", introspectorClass, setter.getName(), propertyValue, pd.getPropertyType());
+						}
+						setter.invoke(introspectorObject, ConverterUtil.convert(propertyValue, pd.getPropertyType()));
+						break;
+					}
+				}
+			} catch (Exception e) {
+				throw new UtilException("["+introspectorClass+"]实例, 调用 "+toSetMethodName(propertyName)+"() 方法时, 出现异常", e);
+			}
+		}
+		return introspectorObject;
+	}
+	/**
+	 * 通过内省, 给对象的属性赋值
 	 * @param introspectorObject
 	 * @param propertyMap
 	 * @return
