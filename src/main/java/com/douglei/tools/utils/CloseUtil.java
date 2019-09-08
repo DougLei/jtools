@@ -26,7 +26,7 @@ public class CloseUtil {
 	 * @param ios
 	 */
 	public static void closeIO(Object... ios){
-		if(ios == null || ios.length == 0){
+		if(ios.length == 0){
 			logger.debug("要关闭的ios对象集合为空");
 			return;
 		}
@@ -40,7 +40,7 @@ public class CloseUtil {
 	 * @param dbconns
 	 */
 	public static void closeDBConn(Object... dbconns){
-		if(dbconns == null || dbconns.length == 0){
+		if(dbconns.length == 0){
 			logger.debug("要关闭的dbconns对象集合为空");
 			return;
 		}
