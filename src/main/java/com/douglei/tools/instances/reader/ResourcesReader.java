@@ -22,24 +22,23 @@ public class ResourcesReader extends Reader {
 	
 	private BufferedReader bufferedReader;
 	
+	public ResourcesReader() {
+	}
 	public ResourcesReader(String projectConfigurationResourcePath) {
 		super(projectConfigurationResourcePath);
-		setBufferedReader();
 	}
 	public ResourcesReader(String projectConfigurationResourcePath, Charset charset) {
 		super(projectConfigurationResourcePath, charset);
-		setBufferedReader();
 	}
 	public ResourcesReader(InputStream in) {
 		super(in);
-		setBufferedReader();
 	}
 	public ResourcesReader(InputStream in, Charset charset) {
 		super(in, charset);
-		setBufferedReader();
 	}
 	
-	private void setBufferedReader() {
+	@Override
+	protected void initialSettings() {// setBufferedReader
 		if(in != null) {
 			bufferedReader = new BufferedReader(charset==null?new InputStreamReader(in):new InputStreamReader(in, charset));
 		}

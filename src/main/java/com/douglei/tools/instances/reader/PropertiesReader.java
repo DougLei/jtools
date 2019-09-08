@@ -26,22 +26,19 @@ public class PropertiesReader extends Reader{
 	
 	public PropertiesReader(String propertiesPath) {
 		super(propertiesPath);
-		setProperties();
 	}
 	public PropertiesReader(String propertiesPath, Charset charset) {
 		super(propertiesPath, charset);
-		setProperties();
 	}
 	public PropertiesReader(InputStream in) {
 		super(in);
-		setProperties();
 	}
 	public PropertiesReader(InputStream in, Charset charset) {
 		super(in, charset);
-		setProperties();
 	}
 	
-	private void setProperties() {
+	@Override
+	protected void initialSettings() {// setProperties
 		if(in != null) {
 			properties = new Properties();
 			try {
