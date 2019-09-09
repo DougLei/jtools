@@ -15,6 +15,7 @@ import com.douglei.tools.utils.CloseUtil;
  * @author DougLei
  */
 public class FileBufferedWriter {
+	private File file;
 	private BufferedWriter writer;
 	
 	public FileBufferedWriter() {
@@ -33,6 +34,7 @@ public class FileBufferedWriter {
 	}
 	
 	public void setFile(File file) {
+		this.file = file;
 		if(file.exists()) {
 			try {
 				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
@@ -42,6 +44,7 @@ public class FileBufferedWriter {
 		}
 	}
 	public void setFile(File file, Charset charset) {
+		this.file = file;
 		if(file.exists()) {
 			try {
 				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
@@ -51,6 +54,7 @@ public class FileBufferedWriter {
 		}
 	}
 	public void setFile(File file, boolean append) {
+		this.file = file;
 		if(file.exists()) {
 			try {
 				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append)));
@@ -60,6 +64,7 @@ public class FileBufferedWriter {
 		}
 	}
 	public void setFile(File file, Charset charset, boolean append) {
+		this.file = file;
 		if(file.exists()) {
 			try {
 				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append), charset));
@@ -69,12 +74,20 @@ public class FileBufferedWriter {
 		}
 	}
 	
+	public File getTargetFile() {
+		return file;
+	}
 	public boolean ready() {
 		return writer != null;
 	}
 	public void newLine() throws IOException {
 		if(ready()) {
 			writer.newLine();
+		}
+	}
+	public void write(char c) throws IOException {
+		if(ready()) {
+			writer.write(c);
 		}
 	}
 	public void write(String str) throws IOException {
