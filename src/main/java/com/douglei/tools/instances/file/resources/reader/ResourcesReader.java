@@ -1,4 +1,4 @@
-package com.douglei.tools.instances.reader;
+package com.douglei.tools.instances.file.resources.reader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,10 +14,9 @@ import com.douglei.tools.utils.ExceptionUtil;
 
 /**
  * 资源阅读器
- *指的是在resources目录下的文件
  * @author DougLei
  */
-public class ResourcesReader extends Reader {
+public class ResourcesReader extends AbstractResourcesReader {
 	private static final Logger logger = LoggerFactory.getLogger(ResourcesReader.class);
 	
 	private BufferedReader bufferedReader;

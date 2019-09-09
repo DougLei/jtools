@@ -1,4 +1,4 @@
-package com.douglei.tools.instances.reader;
+package com.douglei.tools.instances.file.resources.reader;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -9,25 +9,25 @@ import com.douglei.tools.utils.CloseUtil;
  * 
  * @author DougLei
  */
-public abstract class Reader {
+public abstract class AbstractResourcesReader {
 	public static final String DEFAULT_PATH = "passed in argument type is java.io.InputStream";
 	
 	protected String path;
 	protected InputStream in;
 	protected Charset charset;
 	
-	public Reader() {
+	public AbstractResourcesReader() {
 	}
-	public Reader(String path) {
+	public AbstractResourcesReader(String path) {
 		setPath(path);
 	}
-	public Reader(String path, Charset charset) {
+	public AbstractResourcesReader(String path, Charset charset) {
 		setPath(path, charset);
 	}
-	public Reader(InputStream in) {
+	public AbstractResourcesReader(InputStream in) {
 		setInputStream(in);
 	}
-	public Reader(InputStream in, Charset charset) {
+	public AbstractResourcesReader(InputStream in, Charset charset) {
 		setInputStream(in, charset);
 	}
 	
@@ -36,7 +36,7 @@ public abstract class Reader {
 	}
 	public void setPath(String path, Charset charset) {
 		this.path = path;
-		in = Reader.class.getClassLoader().getResourceAsStream(path);
+		in = AbstractResourcesReader.class.getClassLoader().getResourceAsStream(path);
 		this.charset = charset;
 		initialSettings();
 	}

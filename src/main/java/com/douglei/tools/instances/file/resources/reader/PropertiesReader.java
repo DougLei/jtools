@@ -1,4 +1,4 @@
-package com.douglei.tools.instances.reader;
+package com.douglei.tools.instances.file.resources.reader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +19,7 @@ import com.douglei.tools.utils.StringUtil;
  * properties资源阅读器
  * @author DougLei
  */
-public class PropertiesReader extends Reader{
+public class PropertiesReader extends AbstractResourcesReader{
 	private static final Logger logger = LoggerFactory.getLogger(PropertiesReader.class);
 	
 	private Properties properties;

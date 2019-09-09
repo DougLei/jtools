@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.douglei.tools.instances.reader.ResourcesReader;
+import com.douglei.tools.instances.file.resources.reader.ResourcesReader;
 import com.douglei.tools.instances.scanner.ClassScanner;
 import com.douglei.tools.utils.datatype.converter.ConverterUtil;
 import com.douglei.tools.utils.reflect.ConstructorUtil;

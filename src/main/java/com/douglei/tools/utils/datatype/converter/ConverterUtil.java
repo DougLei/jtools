@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.douglei.tools.instances.reader.ResourcesReader;
+import com.douglei.tools.instances.file.resources.reader.ResourcesReader;
 import com.douglei.tools.instances.scanner.ClassScanner;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
 import com.douglei.tools.utils.reflect.IntrospectorUtil;
