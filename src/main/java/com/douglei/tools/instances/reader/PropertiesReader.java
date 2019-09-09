@@ -24,6 +24,8 @@ public class PropertiesReader extends Reader{
 	
 	private Properties properties;
 	
+	public PropertiesReader() {
+	}
 	public PropertiesReader(String propertiesPath) {
 		super(propertiesPath);
 	}
