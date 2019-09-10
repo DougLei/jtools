@@ -2,7 +2,6 @@ package com.douglei.tools.instances.file.writer;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -34,44 +33,48 @@ public class FileBufferedWriter {
 	}
 	
 	public void setFile(File file) {
-		this.file = file;
-		if(file.exists()) {
-			try {
-				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+		try {
+			setFile_(file);
+			this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	public void setFile(File file, Charset charset) {
-		this.file = file;
-		if(file.exists()) {
-			try {
-				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+		try {
+			setFile_(file);
+			this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	public void setFile(File file, boolean append) {
-		this.file = file;
-		if(file.exists()) {
-			try {
-				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append)));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+		try {
+			setFile_(file);
+			this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append)));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	public void setFile(File file, Charset charset, boolean append) {
-		this.file = file;
-		if(file.exists()) {
-			try {
-				this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append), charset));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+		try {
+			setFile_(file);
+			this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append), charset));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
+	
+	// 如果file不存在, 则创建
+	private void setFile_(File file) throws IOException {
+		if(!file.exists()) {
+			File folder = file.getParentFile();
+			if(!folder.exists()) {
+				folder.mkdirs();
+			}
+			file.createNewFile();
+		}
+		this.file = file;
 	}
 	
 	public File getTargetFile() {
