@@ -80,27 +80,16 @@ public class FileBufferedWriter {
 	public File getTargetFile() {
 		return file;
 	}
-	public boolean ready() {
-		return writer != null;
-	}
 	public void newLine() throws IOException {
-		if(ready()) {
-			writer.newLine();
-		}
+		writer.newLine();
 	}
 	public void write(char c) throws IOException {
-		if(ready()) {
-			writer.write(c);
-		}
+		writer.write(c);
 	}
 	public void write(String str) throws IOException {
-		if(ready()) {
-			writer.write(str);
-		}
+		writer.write(str);
 	}
 	public void close() {
-		if(ready()) {
-			CloseUtil.closeIO(writer);
-		}
+		CloseUtil.closeIO(writer);
 	}
 }
