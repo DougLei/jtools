@@ -100,8 +100,17 @@ public class Collections {
      * 
      * @return
      */
-    public static Object[] emptyArray() {
-    	return EMPTY_ARRAY;
+    public static Object[] emptyObjectArray() {
+    	return EMPTY_OBJECT_ARRAY;
     }
-    private static final Object[] EMPTY_ARRAY = new Object[0];    
+    private static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];    
+    
+    /**
+     * 
+     * @return
+     */
+    public static String[] emptyStringArray() {
+    	return EMPTY_STRING_ARRAY;
+    }
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];  
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * 防止重复扫描同一个文件或路径
  * @author DougLei
  */
-public class PathDeDuplicationFilter {
+class PathDeDuplicationFilter {
 	
 	private final Scanner scanner;
 	public PathDeDuplicationFilter(Scanner scanner) {
