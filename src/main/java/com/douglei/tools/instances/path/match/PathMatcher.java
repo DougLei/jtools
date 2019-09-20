@@ -13,7 +13,9 @@ import org.slf4j.LoggerFactory;
  */
 public class PathMatcher {
 	private static final Logger logger = LoggerFactory.getLogger(PathMatcher.class);
+	public static final PathMatcher EMPTY = new PathMatcher();
 	private List<Pattern> patterns;// 正则数组
+	
 	
 	public PathMatcher() {
 	}
