@@ -26,14 +26,4 @@ public class ConverterUtil {
 		}
 		return converter_.doConvert(originName);
 	}
-	
-	/**
-	 * 
-	 * @param originName
-	 * @param converter
-	 * @return
-	 */
-	public static String convert(String originName, Converter converter) {
-		return converter.doConvert(originName);
-	}
 }

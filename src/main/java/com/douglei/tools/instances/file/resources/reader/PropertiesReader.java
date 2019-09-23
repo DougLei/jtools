@@ -1,27 +1,18 @@
 package com.douglei.tools.instances.file.resources.reader;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.douglei.tools.utils.CloseUtil;
-import com.douglei.tools.utils.ExceptionUtil;
 import com.douglei.tools.utils.StringUtil;
 
 /**
  * properties资源阅读器
  * @author DougLei
  */
-public class PropertiesReader extends AbstractResourcesReader{
-	private static final Logger logger = LoggerFactory.getLogger(PropertiesReader.class);
-	
+public class PropertiesReader extends AbstractPropertiesReader{
 	private Properties properties;
 	
 	public PropertiesReader() {
@@ -41,27 +32,7 @@ public class PropertiesReader extends AbstractResourcesReader{
 	
 	@Override
 	protected void initialSettings() {// setProperties
-		if(in != null) {
-			properties = new Properties();
-			try {
-				if(charset == null) {
-					properties.load(in);
-				}else {
-					java.io.Reader reader = null;
-					try {
-						reader = new InputStreamReader(in, charset);
-						properties.load(reader);
-					} finally {
-						CloseUtil.closeIO(reader);
-					}
-				}
-			} catch (IOException e) {
-				properties = null;
-				logger.error("读取配置文件[{}]时出现异常: {}", path, ExceptionUtil.getExceptionDetailMessage(e));
-			} finally {
-				close();
-			}
-		}
+		properties= loadProperties();
 	}
 	
 	@Override
