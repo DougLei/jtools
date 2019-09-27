@@ -89,6 +89,10 @@ public class FileBufferedWriter implements AutoCloseable{
 	public void write(String str) throws IOException {
 		writer.write(str);
 	}
+	public void writeln(String str) throws IOException {
+		writer.write(str);
+		writer.newLine();
+	}
 	public void close() {
 		CloseUtil.closeIO(writer);
 	}
