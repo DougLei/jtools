@@ -13,7 +13,7 @@ import com.douglei.tools.utils.CloseUtil;
  * 
  * @author DougLei
  */
-public class FileBufferedWriter {
+public class FileBufferedWriter implements AutoCloseable{
 	private File file;
 	private BufferedWriter writer;
 	
