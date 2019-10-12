@@ -17,23 +17,23 @@ import com.douglei.tools.utils.reflect.IntrospectorUtil;
  * @author DougLei
  */
 public class PropertiesConfigurationBeanReader extends AbstractPropertiesReader{
-	private Object propertiesConfigurationBean;
+	private Map<String, Object> propertyMap;
 	
 	public PropertiesConfigurationBeanReader(String propertiesPath, Object propertiesConfigurationBean) {
 		super(propertiesPath);
-		this.propertiesConfigurationBean = propertiesConfigurationBean;
+		IntrospectorUtil.setProperyValues(propertiesConfigurationBean, propertyMap);
 	}
 	public PropertiesConfigurationBeanReader(String propertiesPath, Object propertiesConfigurationBean, Charset charset) {
 		super(propertiesPath, charset);
-		this.propertiesConfigurationBean = propertiesConfigurationBean;
+		IntrospectorUtil.setProperyValues(propertiesConfigurationBean, propertyMap);
 	}
 	public PropertiesConfigurationBeanReader(InputStream in, Object propertiesConfigurationBean) {
 		super(in);
-		this.propertiesConfigurationBean = propertiesConfigurationBean;
+		IntrospectorUtil.setProperyValues(propertiesConfigurationBean, propertyMap);
 	}
 	public PropertiesConfigurationBeanReader(InputStream in, Object propertiesConfigurationBean, Charset charset) {
 		super(in, charset);
-		this.propertiesConfigurationBean = propertiesConfigurationBean;
+		IntrospectorUtil.setProperyValues(propertiesConfigurationBean, propertyMap);
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class PropertiesConfigurationBeanReader extends AbstractPropertiesReader{
 		Properties properties = loadProperties();
 		if(properties != null) {
 			if(properties.size() > 0) {
-				final Map<String, Object> propertyMap = new HashMap<String, Object>(16);
+				propertyMap = new HashMap<String, Object>(16);
 				Set<Entry<Object, Object>> kvs = properties.entrySet();
 				kvs.forEach(k -> {
 					if(k.getValue() != null) {
@@ -49,11 +49,6 @@ public class PropertiesConfigurationBeanReader extends AbstractPropertiesReader{
 					}
 				});
 				properties.clear();
-				
-				if(propertyMap.size() > 0) {
-					IntrospectorUtil.setProperyValues(propertiesConfigurationBean, propertyMap);
-					propertyMap.clear();
-				}
 			}
 			properties = null;
 		}
