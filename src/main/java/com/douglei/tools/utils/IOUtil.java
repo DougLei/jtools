@@ -32,7 +32,7 @@ public class IOUtil {
 		try(BufferedInputStream reader=new BufferedInputStream(new FileInputStream(srcFile))){
 			byte[] b = new byte[1024];
 			short len;
-			while((len =(short) reader.read(b)) != -1) {
+			while((len =(short) reader.read(b)) > 0) {
 				out.write(b, 0, len);
 			}
 		}
@@ -79,7 +79,7 @@ public class IOUtil {
 			byte[] b = new byte[1024];
 			short len;
 			zipWriter.putNextEntry(new ZipEntry((parentName==null?srcFile.getName():(parentName+File.separatorChar+srcFile.getName()))));
-			while((len =(short) reader.read(b)) != -1) {
+			while((len =(short) reader.read(b)) > 0) {
 				zipWriter.write(b, 0, len);
 			}
 			zipWriter.closeEntry();
