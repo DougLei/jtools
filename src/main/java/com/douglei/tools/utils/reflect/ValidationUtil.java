@@ -1,5 +1,7 @@
 package com.douglei.tools.utils.reflect;
 
+import com.douglei.tools.utils.StringUtil;
+
 /**
  * 验证工具类
  * @author DougLei
@@ -18,6 +20,23 @@ public class ValidationUtil {
 				if(interface_ == targetInterface) {
 					return true;
 				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 指定的class是否存在
+	 * @param classpath
+	 * @return
+	 */
+	public static boolean classExists(String classpath) {
+		if(StringUtil.notEmpty(classpath)) {
+			try {
+				Thread.currentThread().getContextClassLoader().loadClass(classpath);
+				return true;
+			} catch (ClassNotFoundException e) {
+				return false;
 			}
 		}
 		return false;
