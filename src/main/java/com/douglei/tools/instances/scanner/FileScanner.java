@@ -135,7 +135,7 @@ public class FileScanner extends Scanner{
 		InputStream in = null;
 		try {
 			if(path.startsWith(JAR_FILE_PREFIX)) {
-				in = getClassLoader().getResourceAsStream(path.substring(JAR_FILE_PREFIX.length()));
+				in = fileScannerClassLoader.getResourceAsStream(path.substring(JAR_FILE_PREFIX.length()));
 				if(in == null) {
 					throw new NullPointerException();
 				}
@@ -147,4 +147,5 @@ public class FileScanner extends Scanner{
 			throw new ScannerException("给定的["+path+"], 不存在任何文件");
 		}
 	}
+	private static final ClassLoader fileScannerClassLoader = FileScanner.class.getClassLoader();
 }

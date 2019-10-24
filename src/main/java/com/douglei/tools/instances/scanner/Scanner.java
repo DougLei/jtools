@@ -21,10 +21,10 @@ import com.douglei.tools.utils.CloseUtil;
 public abstract class Scanner {
 	protected PathDeDuplicationFilter filter = new PathDeDuplicationFilter(this);
 	protected List<String> list = new LinkedList<String>();
-	private static ClassLoader classLoader;
+	private ClassLoader classLoader;
 	protected String[] targetFileSuffix;
 	
-	protected static ClassLoader getClassLoader() {
+	private ClassLoader getClassLoader() {
 		if(classLoader == null) {
 			classLoader = Scanner.class.getClassLoader();
 		}
@@ -196,6 +196,16 @@ public abstract class Scanner {
 	}
 	
 	/**
+	 * 设置类加载器
+	 * @param classLoader
+	 * @return
+	 */
+	public Scanner setClassLoader(ClassLoader classLoader) {
+		this.classLoader = classLoader;
+		return this;
+	}
+	
+	/**
 	 * 销毁对象
 	 */
 	public void destroy() {
@@ -282,7 +292,7 @@ public abstract class Scanner {
 	protected abstract String replacePathDelimiter(String path);
 	
 	/**
-	 * 路径split后的长度
+	 * 获取路径split后的长度
 	 * @param path
 	 * @return
 	 */
