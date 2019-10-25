@@ -201,9 +201,7 @@ public abstract class Scanner {
 	 * @return
 	 */
 	public Scanner setClassLoader(ClassLoader classLoader) {
-		if(classLoader != null) {
-			this.classLoader = classLoader;
-		}
+		this.classLoader = classLoader;
 		return this;
 	}
 	
