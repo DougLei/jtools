@@ -35,6 +35,4 @@ public class ClassLoadUtil {
 			throw new UtilException("没有找到className=["+className+"]的类");
 		}
 	}
-	
-
 }
