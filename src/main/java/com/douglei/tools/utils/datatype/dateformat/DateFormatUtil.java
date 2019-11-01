@@ -37,10 +37,6 @@ public class DateFormatUtil {
 		}
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(DateFormatUtil.parseDate(new Date()));
-	}
-	
 	/**
 	 * 注册日期格式化实例
 	 * @param dateFormat
