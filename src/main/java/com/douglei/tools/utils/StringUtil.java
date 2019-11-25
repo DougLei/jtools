@@ -135,30 +135,4 @@ public class StringUtil {
 	}
 	// 匹配汉字
 	private static final Pattern chineseCharacterPattern = Pattern.compile("[\u4e00-\u9fa5]");
-	
-	
-	/**
-	 * 获取正则表达式, 如果有正则表达式的关键字, 则追加\进行转义
-	 * @param pattern
-	 * @return
-	 */
-	public static String toPatternString(String pattern) {
-		StringBuilder sp = new StringBuilder(pattern.length()*2);
-		char s;
-		for(byte i=0;i<pattern.length();i++) {
-			s = pattern.charAt(i);
-			for(char c : pattern_keys) {
-				if(s == c) {
-					sp.append('\\');
-					break;
-				}
-			}
-			sp.append(s);
-		}
-		if(sp.length() == pattern.length()) {
-			return pattern;
-		}
-		return sp.toString();
-	}
-	private static final char[] pattern_keys = {'$', '(', ')', '*', '+', '.', '[', '?', '\\', '^', '{', '|'};
 }
