@@ -8,11 +8,11 @@ public class RegularExpressionUtil {
 	private static final char[] regular_expression_keys = {'$', '(', ')', '*', '+', '.', '[', '?', '\\', '^', '{', '|'};
 	
 	/**
-	 * 获取正则表达式, 如果有正则表达式的关键字, 则追加\进行转义
+	 * 对字符串中正则表达式关键字的字符进行转义, 前加\
 	 * @param str
 	 * @return
 	 */
-	public static String toRegularExpressionString(String str) {
+	public static String transferRegularExpressionKey(String str) {
 		StringBuilder sp = new StringBuilder(str.length()*2);
 		char s;
 		for(byte i=0;i<str.length();i++) {
