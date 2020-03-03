@@ -55,7 +55,7 @@ public class Collections {
 	 * @return
 	 */
 	public static <E> boolean unEmpty(Collection<E> collection) {
-		return collection != null && collection.size() > 0;
+		return collection != null && !collection.isEmpty();
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class Collections {
 	 * @return
 	 */
 	public static <K, V> boolean unEmpty(Map<K, V> map) {
-		return map != null && map.size() > 0;
+		return map != null && !map.isEmpty();
 	}
 	
 	/**
