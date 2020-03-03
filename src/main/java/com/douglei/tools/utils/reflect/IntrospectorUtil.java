@@ -13,7 +13,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.douglei.tools.utils.Collections;
+import com.douglei.tools.utils.CollectionUtil;
 import com.douglei.tools.utils.StringUtil;
 import com.douglei.tools.utils.UtilException;
 import com.douglei.tools.utils.datatype.converter.ConverterUtil;
@@ -75,7 +75,7 @@ public class IntrospectorUtil {
 		if(introspectorObject == null) {
 			throw new NullPointerException("getProperyValues时, 传入的introspectorObject实例=null");
 		}
-		if(Collections.unEmpty(propertyNames)) {
+		if(CollectionUtil.unEmpty(propertyNames)) {
 			Class<?> introspectorClass = introspectorObject.getClass();
 			if(logger.isDebugEnabled()) {
 				logger.debug("获取[{}]实例, {} 属性值集合", introspectorClass, propertyNames);
@@ -171,7 +171,7 @@ public class IntrospectorUtil {
 		if(introspectorObject == null) {
 			throw new NullPointerException("setProperyValues时, 传入的introspectorObject实例=null");
 		}
-		if(Collections.unEmpty(propertyMap)) {
+		if(CollectionUtil.unEmpty(propertyMap)) {
 			Class<?> introspectorClass = introspectorObject.getClass();
 			if(logger.isDebugEnabled()) {
 				logger.debug("给[{}]实例, set {} 属性值map集合", introspectorClass, propertyMap);

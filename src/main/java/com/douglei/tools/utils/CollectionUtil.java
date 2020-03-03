@@ -9,7 +9,7 @@ import java.util.Map;
  * 集合操作工具类
  * @author DougLei
  */
-public class Collections {
+public class CollectionUtil {
 	
 	/**
 	 * 将数组转换为 {@link List}
