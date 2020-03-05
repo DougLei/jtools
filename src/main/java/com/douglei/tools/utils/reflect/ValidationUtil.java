@@ -9,19 +9,24 @@ import com.douglei.tools.utils.StringUtil;
 public class ValidationUtil {
 	
 	/**
-	 * 是否实现了targetInterface
+	 * clz是否实现了targetInterface
+	 * @param clz
 	 * @param targetInterface
-	 * @param interfaces
 	 * @return
 	 */
-	public static boolean isImplementInterface(Class<?> targetInterface, Class<?>[] interfaces) {
-		if(targetInterface != null && interfaces != null && interfaces.length > 0) {
-			for (Class<?> interface_ : interfaces) {
-				if(interface_ == targetInterface) {
-					return true;
+	public static boolean isImplementInterface(Class<?> clz, Class<?> targetInterface) {
+		Class<?>[] interfaces;
+		do {
+			interfaces = clz.getInterfaces();
+			if(interfaces.length > 0) {
+				for (Class<?> interface_ : interfaces) {
+					if(interface_ == targetInterface) {
+						return true;
+					}
 				}
 			}
-		}
+			clz = clz.getSuperclass();
+		}while(clz != Object.class);
 		return false;
 	}
 	
