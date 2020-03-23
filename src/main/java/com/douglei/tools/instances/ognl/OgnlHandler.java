@@ -44,24 +44,12 @@ public class OgnlHandler {
 	}
 	
 	/**
-	 * 判断root参数是否为空
-	 * @param expression
-	 * @param root
-	 */
-	private void rootIsNull(String expression, Object root) {
-		if(root == null) {
-			throw new NullPointerException("获取表达式["+expression+"]对应的值时, 传入的对象为null");
-		}
-	}
-	
-	/**
 	 * 获取boolean值
 	 * @param expression
 	 * @param root
 	 * @return
 	 */
 	public boolean getBooleanValue(String expression, Object root) {
-		rootIsNull(expression, root);
 		try {
 			return (boolean) Ognl.getValue(expression, context, root);
 		} catch (OgnlException e) {
@@ -76,7 +64,6 @@ public class OgnlHandler {
 	 * @return
 	 */
 	public Object getObjectValue(String expression, Object root) {
-		rootIsNull(expression, root);
 		try {
 			return Ognl.getValue(expression, context, root);
 		} catch (OgnlException e) {

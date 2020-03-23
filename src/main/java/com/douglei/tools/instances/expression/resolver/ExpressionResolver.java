@@ -11,12 +11,22 @@ import com.douglei.tools.utils.StringUtil;
  * 表达式解析器
  * @author DougLei
  */
-class ExpressionResolver {
+public class ExpressionResolver {
 	private String expression;// 要解析的表达式
 	private Map<String, Object> map;
 	private String postfixExpression;// 后缀表达式
 
-	private Object resolve() {
+	public ExpressionResolver() {
+	}
+	public ExpressionResolver(String expression) {
+		this(expression, null);
+	}
+	public ExpressionResolver(String expression, Map<String, Object> map) {
+		updateExpression(expression);
+		updateMap(map);
+	}
+	
+	public Object resolve() {
 		Stack<OperatorType> operatorTypes = new Stack<OperatorType>();// 操作符类型栈
 		Stack<Object> result = new Stack<Object>();// 操作结果值栈
 		
@@ -118,27 +128,16 @@ class ExpressionResolver {
 		return valueString;
 	}
 	
-	/**
-	 * 根据map，解析表达式
-	 * @param expression
-	 * @param map
-	 * @return
-	 */
-	protected Object resolve(String expression, Map<String, Object> map){
-		setExpression(expression);
-		setMap(map);
-		return resolve();
-	}
-
-	private void setExpression(String expression) {
+	public void updateExpression(String expression) {
 		if(StringUtil.isEmpty(expression)){
 			throw new NullPointerException("要解析的表达式不能为空");
 		}
 		this.expression = expression.trim();
 	}
-	private void setMap(Map<String, Object> map) {
+	public void updateMap(Map<String, Object> map) {
 		this.map = map;
 	}
+	
 	public String getExpression() {
 		return expression;
 	}
