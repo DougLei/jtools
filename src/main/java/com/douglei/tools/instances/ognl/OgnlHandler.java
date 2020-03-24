@@ -46,6 +46,15 @@ public class OgnlHandler {
 	/**
 	 * 获取boolean值
 	 * @param expression
+	 * @return
+	 */
+	public boolean getBooleanValue(String expression) {
+		return getBooleanValue(expression, null);
+	}
+	
+	/**
+	 * 获取boolean值
+	 * @param expression
 	 * @param root
 	 * @return
 	 */
@@ -55,6 +64,15 @@ public class OgnlHandler {
 		} catch (OgnlException e) {
 			throw new OgnlHandlerException("getBooleanValue时出现异常: ", e);
 		}
+	}
+	
+	/**
+	 * 获取Object值
+	 * @param expression
+	 * @return
+	 */
+	public Object getObjectValue(String expression) {
+		return getObjectValue(expression, null);
 	}
 	
 	/**
