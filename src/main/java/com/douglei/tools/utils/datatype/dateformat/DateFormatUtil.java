@@ -101,7 +101,7 @@ public class DateFormatUtil {
 			return (Date)date;
 		}else if(date instanceof java.sql.Date || date instanceof java.sql.Timestamp) {
 			return new Date(((Date)date).getTime());
-		}else if(date instanceof Long || date.getClass() == long.class) {
+		}else if(date instanceof Long) {
 			return new Date((long)date);
 		}
 		throw new IllegalArgumentException("转换为java.util.Date时，目前不支持传入的date参数类型["+date.getClass().getName()+"]");
