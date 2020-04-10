@@ -4,24 +4,12 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 
  * @author DougLei
  */
 public abstract class DateFormat {
-	private static final Map<String, SimpleDateFormat> SDF_CACHE = new HashMap<String, SimpleDateFormat>(8);
-	
-	private SimpleDateFormat getSimpleDateFormat(String pattern) {
-		SimpleDateFormat sdf = SDF_CACHE.get(pattern);
-		if(sdf == null) {
-			sdf = new SimpleDateFormat(pattern);
-			SDF_CACHE.put(pattern, sdf);
-		}
-		return sdf;
-	}
 	
 	/**
 	 * 判断object是否是日期类型
@@ -43,7 +31,13 @@ public abstract class DateFormat {
 	 * 获取格式化模式的字符串
 	 * @return
 	 */
-	protected abstract String dateFormatPattern();
+	protected abstract String formatPattern();
+	
+	/**
+	 * 获取格式化实例
+	 * @return
+	 */
+	protected abstract SimpleDateFormat sdf();
 	
 	/**
 	 * 处理dateString, 获取最终需要的
@@ -61,9 +55,9 @@ public abstract class DateFormat {
 	 */
 	final Date parse(String dateString) {
 		try {
-			return getSimpleDateFormat(dateFormatPattern()).parse(processDateString(dateString));
+			return sdf().parse(dateString);
 		} catch (ParseException e) {
-			throw new DateFormatException(dateString, dateFormatPattern(), e);
+			throw new DateFormatException(dateString, formatPattern(), e);
 		}
 	}
 	
@@ -73,6 +67,6 @@ public abstract class DateFormat {
 	 * @return
 	 */
 	final String format(Date date) {
-		return getSimpleDateFormat(dateFormatPattern()).format(date);
+		return sdf().format(date);
 	}
 }

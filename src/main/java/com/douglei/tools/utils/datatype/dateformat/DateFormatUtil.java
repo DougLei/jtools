@@ -1,9 +1,12 @@
 package com.douglei.tools.utils.datatype.dateformat;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.douglei.tools.instances.file.resources.reader.ResourcesReader;
 import com.douglei.tools.instances.scanner.ClassScanner;
@@ -15,7 +18,8 @@ import com.douglei.tools.utils.reflect.ConstructorUtil;
  * @author DougLei
  */
 public class DateFormatUtil {
-	private static final List<DateFormat> DATE_FORMATS = new ArrayList<DateFormat>(8);
+	private static final Map<String, DateFormat> DATE_FORMAT_MAP = new HashMap<String, DateFormat>(8); // 其中的DateFormat实例, 只为了提供format功能存在
+	private static final List<DateFormat> DATE_FORMATS = new ArrayList<DateFormat>(4);
 	static {
 		ClassScanner cs = new ClassScanner();
 		List<String> classes = cs.scan(DateFormatUtil.class.getPackage().getName() + ".impl");
@@ -43,8 +47,16 @@ public class DateFormatUtil {
 	 */
 	private static void register(DateFormat dateFormat) {
 		DATE_FORMATS.add(dateFormat);
+		putDateFormat(dateFormat);
 	}
 	
+	/**
+	 * 给DateFormat的Map中加入新的format实例
+	 * @param dateFormat
+	 */
+	private static void putDateFormat(DateFormat dateFormat) {
+		DATE_FORMAT_MAP.put(dateFormat.formatPattern(), dateFormat);
+	}
 	
 	/**
 	 * 验证是否是日期类型
@@ -142,5 +154,37 @@ public class DateFormatUtil {
 			return new Timestamp((long)date);
 		}
 		throw new IllegalArgumentException("要转换为java.sql.Timestamp时，目前不支持传入的date参数类型["+date.getClass().getName()+"]");
+	}
+
+	/**
+	 * 使用指定的格式去格式化date
+	 * @param date
+	 * @param format
+	 * @return
+	 */
+	public static Object format(Date date, final String format) {
+		DateFormat df = DATE_FORMAT_MAP.get(format);
+		if(df == null) {
+			df = new DateFormat() {
+				private SimpleDateFormat sdf = new SimpleDateFormat(format);
+				
+				@Override
+				protected SimpleDateFormat sdf() {
+					return sdf;
+				}
+				
+				@Override
+				protected String formatPattern() {
+					return format;
+				}
+				
+				@Override
+				protected boolean match(String dateString) {
+					return false; // 只是为了format Date实例, 所以不实现该方法
+				}
+			};
+			putDateFormat(df);
+		}
+		return df.format(date);
 	}
 }
