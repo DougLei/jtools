@@ -162,7 +162,7 @@ public class DateFormatUtil {
 	 * @param format
 	 * @return
 	 */
-	public static Object format(Date date, final String format) {
+	public static String format(Date date, final String format) {
 		DateFormat df = DATE_FORMAT_MAP.get(format);
 		if(df == null) {
 			df = new DateFormat() {
