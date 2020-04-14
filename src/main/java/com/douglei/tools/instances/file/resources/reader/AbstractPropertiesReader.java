@@ -55,7 +55,7 @@ public abstract class AbstractPropertiesReader extends AbstractResourcesReader{
 				}
 			} catch (IOException e) {
 				properties = null;
-				logger.error("读取配置文件[{}]时出现异常: {}", path, ExceptionUtil.getExceptionDetailMessage(e));
+				logger.error("读取配置文件时出现异常: {}", ExceptionUtil.getExceptionDetailMessage(e));
 			} finally {
 				close();
 			}

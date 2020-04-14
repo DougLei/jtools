@@ -91,7 +91,7 @@ public class ResourcesReader extends AbstractResourcesReader {
 					return bufferedReader.readLine().trim();
 				}
 			} catch (IOException e) {
-				logger.error("读取文件["+path+"]时出现异常: {}", ExceptionUtil.getExceptionDetailMessage(e));
+				logger.error("读取资源文件时出现异常: {}", ExceptionUtil.getExceptionDetailMessage(e));
 			}
 			close();
 		}
