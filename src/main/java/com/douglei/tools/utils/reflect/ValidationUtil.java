@@ -9,6 +9,23 @@ import com.douglei.tools.utils.StringUtil;
 public class ValidationUtil {
 	
 	/**
+	 * clz是否继承了targetClass
+	 * @param clz
+	 * @param targetClass
+	 * @return
+	 */
+	public static boolean isExtendClass(Class<?> clz, Class<?> targetClass) {
+		do {
+			clz = clz.getSuperclass();
+			if(clz == Object.class)
+				break;
+			if(clz == targetClass)
+				return true;
+		}while(true);
+		return false;
+	}
+	
+	/**
 	 * clz是否实现了targetInterface
 	 * @param clz
 	 * @param targetInterface
