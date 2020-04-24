@@ -7,6 +7,7 @@ import java.util.Map;
 import com.douglei.tools.instances.file.resources.reader.ResourcesReader;
 import com.douglei.tools.instances.scanner.ClassScanner;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
+import com.douglei.tools.utils.reflect.ValidationUtil;
 
 /**
  * 数据类型转换器
@@ -57,7 +58,8 @@ public class ConverterUtil {
 		if(value == null) {
 			return null;
 		}
-		if(value.getClass() == targetClass) {
+		Class<?> valueClass = value.getClass();
+		if(valueClass == targetClass || (targetClass.isInterface() && ValidationUtil.isImplementInterface(valueClass, targetClass)) || ValidationUtil.isExtendClass(valueClass, targetClass)) {
 			return (T) value;
 		}
 		
