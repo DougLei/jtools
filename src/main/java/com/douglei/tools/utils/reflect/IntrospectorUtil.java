@@ -4,10 +4,8 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -216,40 +214,5 @@ public class IntrospectorUtil {
 	}
 	private static String toSetMethodName(String fieldName) {
 		return "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-	}
-	
-	
-	// ----------------------------------------------------------------------------------------------------------
-	/**
-	 * 将map转换为class对象
-	 * 前提是map的key, 要和class的属性名一致
-	 * @param map
-	 * @param targetClass
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T mapToClass(Map<String, Object> map, Class<T> targetClass) {
-		if(map != null && map.size() > 0) {
-			return (T) setProperyValues(ConstructorUtil.newInstance(targetClass), map);
-		}
-		return null;
-	}
-	
-	/**
-	 * 将list map转换为list class对象集合
-	 * 前提是map的key, 要和class的属性名一致
-	 * @param listMap
-	 * @param targetClass
-	 * @return
-	 */
-	public static <T> List<T> listMapToListClass(List<Map<String, Object>> listMap, Class<T> targetClass){
-		if(listMap!= null && listMap.size()>0) {
-			List<T> listT = new ArrayList<T>(listMap.size());
-			for (Map<String, Object> map : listMap) {
-				listT.add(mapToClass(map, targetClass));
-			}
-			return listT;
-		}
-		return null;
 	}
 }
