@@ -147,14 +147,4 @@ public class PathMatcher {
 		}
 		return path;
 	}
-	
-	/**
-	 * 销毁对象
-	 */
-	public void destroy() {
-		if(patterns != null) {
-			patterns.clear();
-			patterns = null;
-		}
-	}
 }
