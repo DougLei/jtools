@@ -1,5 +1,7 @@
 package com.douglei.tools.instances.license;
 
+import java.io.File;
+import java.io.InputStream;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -122,13 +124,16 @@ public class Server {
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-1");
 			
-			digest.update(content.getBytes());
-			digest.update(content.getBytes());
+			InputStream in = Server.class.getClassLoader().getResourceAsStream("resource.tmp");
+			byte[] b = new byte[1024];
+			
+			int len=-1;
+			while((len = in.read(b)) != -1) {
+				digest.update(b, 0, len);
+			}
 			
 			byte[] result = digest.digest();
 			System.out.println(Hex.encodeHexString(result));
-			
-			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
