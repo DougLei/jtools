@@ -18,8 +18,8 @@ public class CryptographyUtil {
 	 * @param str
 	 * @return
 	 */
-	public static String encodeMD5(String str){
-		return encodeMD5(str, null);
+	public static String encryptByMD5(String str){
+		return encryptByMD5(str, null);
 	}
 	
 	/**
@@ -28,15 +28,16 @@ public class CryptographyUtil {
 	 * @param salt
 	 * @return
 	 */
-	public static String encodeMD5(String str, String salt){
+	public static String encryptByMD5(String str, String salt){
 		if(str == null) {
-			logger.debug("进行md5加密的字符串不能为空");
+			logger.debug("进行md5加密的字符串为空");
 			return null;
 		}
 		logger.debug("将字符串[{}]进行md5加密, 其盐值为[{}]", str, salt);
 		if(salt != null) {
 			str += salt;
 		}
+		
 		String result = DigestUtils.md5Hex(str);
 		logger.debug("加密的结果为[{}]", result);
 		return result;
@@ -48,7 +49,7 @@ public class CryptographyUtil {
 	 * @param str
 	 * @return
 	 */
-	public static String encodeBASE64(String str) {
+	public static String encryptByBASE64(String str) {
 		return Base64.getEncoder().encodeToString(str.getBytes());
 	}
 	
@@ -57,9 +58,29 @@ public class CryptographyUtil {
 	 * @param str
 	 * @return
 	 */
-	public static String decodeBASE64(String str) {
+	public static String decryptByBASE64(String str) {
 		return new String(Base64.getDecoder().decode(str.getBytes()));
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// ----------------------------------------------------------------------------------------------
 	private static final byte[] radixes = {'+','.','0','7',':','F','x','=','t','?'};
