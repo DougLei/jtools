@@ -81,7 +81,7 @@ public class FileBufferedWriter implements AutoCloseable{
 		return file;
 	}
 	public void newLine() throws IOException {
-		writer.newLine();
+		writer.write("\r\n");
 	}
 	public void write(char c) throws IOException {
 		writer.write(c);
@@ -91,7 +91,7 @@ public class FileBufferedWriter implements AutoCloseable{
 	}
 	public void writeln(String str) throws IOException {
 		writer.write(str);
-		writer.newLine();
+		writer.write("\r\n");
 	}
 	public void close() {
 		CloseUtil.closeIO(writer);
