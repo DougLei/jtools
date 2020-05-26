@@ -80,6 +80,8 @@ public class FileBufferedWriter implements AutoCloseable{
 	public File getTargetFile() {
 		return file;
 	}
+	
+	// TODO 后续这个方法可能要考虑加入不同操作系统的判断
 	public void newLine() throws IOException {
 		writer.write("\r\n");
 	}
