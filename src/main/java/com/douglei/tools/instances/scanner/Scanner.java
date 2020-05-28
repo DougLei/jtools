@@ -214,13 +214,13 @@ public abstract class Scanner {
 	}
 	
 	/**
-	 * 根据包路径，扫描其下所有的类，获取它们的全名集合
+	 * 根据指定路径扫描
 	 * @param basePath
 	 * @return 
 	 */
 	public abstract List<String> scan(String basePath);
 	/**
-	 * 根据包路径，扫描其下所有的类，获取它们的全名集合
+	 * 根据指定路径，扫描其下所有的文件，获取它们的全名集合
 	 * 
 	 * 是否搜索相同的路径
 	 * 
@@ -239,15 +239,15 @@ public abstract class Scanner {
 	public abstract List<String> scan(boolean searchAll, String basePath);
 	
 	/**
-	 * 根据包路径，重新扫描其下所有的类
-	 * <p>会清空上一次扫描的类全名结果集</p>
+	 * 根据指定路径，重新扫描其下所有的文件
+	 * <p>会清空上一次扫描的结果集</p>
 	 * @param basePath
 	 * @return
 	 */
 	public abstract List<String> rescan(String basePath);
 	/**
-	 * 根据包路径，重新扫描其下所有的类
-	 * <p>会清空上一次扫描的类全名结果集</p>
+	 * 根据指定路径，重新扫描其下所有的文件
+	 * <p>会清空上一次扫描的结果集</p>
 	 * @param searchAll @see scan(boolean searchAll, String basePath)
 	 * @param basePath
 	 * @return
@@ -269,15 +269,15 @@ public abstract class Scanner {
 	public abstract List<String> multiScan(boolean searchAll, String... basePaths);
 	
 	/**
-	 * 根据包路径，重新循环扫描其下所有的类
-	 * <p>会清空上一次扫描的类全名结果集</p>
+	 * 根据指定路径，重新循环扫描其下所有的文件
+	 * <p>会清空上一次扫描的结果集</p>
 	 * @param basePaths
 	 * @return
 	 */
 	public abstract List<String> reMultiScan(String... basePaths);
 	/**
-	 * 根据包路径，重新循环扫描其下所有的类
-	 * <p>会清空上一次扫描的类全名结果集</p>
+	 * 根据指定路径，重新循环扫描其下所有的文件
+	 * <p>会清空上一次扫描的结果集</p>
 	 * @param searchAll @see scan(boolean searchAll, String basePath)
 	 * @param basePaths
 	 * @return
