@@ -18,7 +18,7 @@ import com.douglei.tools.utils.reflect.ConstructorUtil;
  * @author DougLei
  */
 public class DateFormatUtil {
-	private static final Map<String, DateFormat> DATE_FORMAT_MAP = new HashMap<String, DateFormat>(8); // 其中的DateFormat实例, 只为了提供format功能存在
+	private static final Map<String, DateFormat> DATE_FORMAT_MAP = new HashMap<String, DateFormat>(8); // 其中的DateFormat实例, 只为了提供{@link DateFormatUtil.format()}存在
 	private static final List<DateFormat> DATE_FORMATS = new ArrayList<DateFormat>(4);
 	static {
 		ClassScanner cs = new ClassScanner();
