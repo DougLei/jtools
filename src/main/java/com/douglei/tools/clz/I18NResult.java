@@ -1,5 +1,7 @@
 package com.douglei.tools.clz;
 
+import java.util.Arrays;
+
 /**
  * 国际化的结果实体
  * @author DougLei
@@ -25,4 +27,9 @@ public abstract class I18NResult {
 	 * @return
 	 */
 	public abstract String getOriginMessage();
+	
+	
+	public String toString() {
+		return getClass().getName() + "\n" + getOriginMessage() + "\n" + getCode() + "\n" + Arrays.toString(getParams());
+	}
 }
