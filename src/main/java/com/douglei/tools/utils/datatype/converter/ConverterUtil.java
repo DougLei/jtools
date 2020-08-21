@@ -80,9 +80,8 @@ public class ConverterUtil {
 	public static boolean isSimpleType(Object value) {
 		if(value != null) {
 			Converter converter = CONVERTERS.get(value.getClass());
-			if(converter == null)
-				throw new UnsupportDataTypeConvertException(value);
-			return CONVERTERS.get(value.getClass()).isSimpleType();
+			if(converter != null)
+				return CONVERTERS.get(value.getClass()).isSimpleType();
 		}
 		return false;
 	}
