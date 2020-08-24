@@ -85,7 +85,7 @@ public class ConverterUtil {
 		if(value != null) {
 			Converter converter = CONVERTERS.get(value.getClass());
 			if(converter == null && logger.isDebugEnabled())
-				logger.debug("目前不支持对类型[{}]判断, 是否简单数据类型", value.getClass().getName());
+				logger.debug("目前不支持对类型[{}]判断, 是否简单数据类型, 所以默认其不是简单数据类型", value.getClass().getName());
 			if(converter != null)
 				return CONVERTERS.get(value.getClass()).isSimpleType();
 		}
