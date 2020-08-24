@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.douglei.tools.instances.file.resources.reader.ResourcesReader;
 import com.douglei.tools.instances.scanner.ClassScanner;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
@@ -14,7 +17,8 @@ import com.douglei.tools.utils.reflect.ValidationUtil;
  * @author DougLei
  */
 public class ConverterUtil {
-	private static final Map<Class<?>, Converter> CONVERTERS = new HashMap<Class<?>, Converter>(16);
+	private static final Logger logger = LoggerFactory.getLogger(ConverterUtil.class);
+	private static Map<Class<?>, Converter> CONVERTERS = new HashMap<Class<?>, Converter>(8);
 	static {
 		ClassScanner cs = new ClassScanner();
 		List<String> classes = cs.scan(ConverterUtil.class.getPackage().getName() + ".impl");
@@ -80,6 +84,8 @@ public class ConverterUtil {
 	public static boolean isSimpleType(Object value) {
 		if(value != null) {
 			Converter converter = CONVERTERS.get(value.getClass());
+			if(converter == null && logger.isDebugEnabled())
+				logger.debug("目前不支持对类型[{}]判断, 是否简单数据类型", value.getClass().getName());
 			if(converter != null)
 				return CONVERTERS.get(value.getClass()).isSimpleType();
 		}
