@@ -109,18 +109,19 @@ public class JdkSerializeProcessor extends SerializeProcessor{
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T deserializeFromFile(Class<T> targetClass, File serializationFile) {
-		serializationFileExists(serializationFile);
-		
-		FileInputStream fis = null;
-		ObjectInputStream ois = null;
-		try {
-			fis = new FileInputStream(serializationFile);
-			ois = new ObjectInputStream(fis);
-			return (T) ois.readObject();
-		} catch (Exception e) {
-			throw new DeserializeException(targetClass, serializationFile, e);
-		} finally {
-			CloseUtil.closeIO(ois, fis);
+		if(serializationFile.exists()) {
+			FileInputStream fis = null;
+			ObjectInputStream ois = null;
+			try {
+				fis = new FileInputStream(serializationFile);
+				ois = new ObjectInputStream(fis);
+				return (T) ois.readObject();
+			} catch (Exception e) {
+				throw new DeserializeException(targetClass, serializationFile, e);
+			} finally {
+				CloseUtil.closeIO(ois, fis);
+			}
 		}
+		return null;
 	}
 }

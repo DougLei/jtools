@@ -5,7 +5,6 @@ import java.io.Serializable;
 
 import com.douglei.tools.utils.serialize.exception.NotSerializableException;
 import com.douglei.tools.utils.serialize.exception.SerializeByteArrayIsNullException;
-import com.douglei.tools.utils.serialize.exception.SerializeFileNotFoundException;
 
 
 /**
@@ -21,16 +20,6 @@ abstract class SerializeProcessor {
 	protected static void isSerializable(Object object) {
 		if(!(object instanceof Serializable)) {
 			throw new NotSerializableException(object);
-		}
-	}
-	
-	/**
-	 * 是否存在序列化文件
-	 * @param serializationFile
-	 */
-	protected static void serializationFileExists(File serializationFile) {
-		if(!serializationFile.exists()) {
-			throw new SerializeFileNotFoundException(serializationFile);
 		}
 	}
 	

@@ -117,17 +117,18 @@ public class HessianSerializeProcessor extends SerializeProcessor{
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T deserializeFromFile(Class<T> targetClass, File serializationFile) {
-		serializationFileExists(serializationFile);
-		
-		ByteArrayInputStream bais = new ByteArrayInputStream(readBytesFromFile(serializationFile, targetClass));
-		HessianInput hi = new HessianInput(bais);
-		try {
-			return (T) hi.readObject();
-		} catch (IOException e) {
-			throw new DeserializeException(targetClass, serializationFile, e);
-		} finally {
-			CloseUtil.closeIO(bais);
+		if(serializationFile.exists()) {
+			ByteArrayInputStream bais = new ByteArrayInputStream(readBytesFromFile(serializationFile, targetClass));
+			HessianInput hi = new HessianInput(bais);
+			try {
+				return (T) hi.readObject();
+			} catch (IOException e) {
+				throw new DeserializeException(targetClass, serializationFile, e);
+			} finally {
+				CloseUtil.closeIO(bais);
+			}
 		}
+		return null;
 	}
 
 	// 将文件中的内容读取成byte
