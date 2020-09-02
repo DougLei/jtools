@@ -85,6 +85,28 @@ public class IOUtil {
 	}
 	
 	// ---------------------------------------------------------------------------------------------------------------------------
+	/**
+	 * 删除文件或文件夹
+	 * @param file
+	 */
+	public static void delete(File file) {
+		if(file.exists()) {
+			if(file.isDirectory()) {
+				deleteFiles(file.listFiles());
+			}
+			file.delete();
+		}
+	}
+	private static void deleteFiles(File[] files) {
+		for (File file : files) {
+			if(file.isDirectory()) {
+				deleteFiles(file.listFiles());
+			}
+			file.delete();
+		}
+	}
+	
+	// ---------------------------------------------------------------------------------------------------------------------------
 	// zip压缩文件
 	private static void zipFile(String parentName, File srcFile, ZipOutputStream zipWriter) throws IOException {
 		try(BufferedInputStream reader=new BufferedInputStream(new FileInputStream(srcFile))){
