@@ -1,4 +1,4 @@
-package com.douglei.tools.instances.file.resources.reader;
+package com.douglei.tools.instances.file.resource.reader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,23 +16,23 @@ import com.douglei.tools.utils.ExceptionUtil;
  * 资源阅读器
  * @author DougLei
  */
-public class ResourcesReader extends AbstractResourcesReader {
-	private static final Logger logger = LoggerFactory.getLogger(ResourcesReader.class);
+public class ResourceReader extends AbstractResourcesReader {
+	private static final Logger logger = LoggerFactory.getLogger(ResourceReader.class);
 	
 	private BufferedReader bufferedReader;
 	
-	public ResourcesReader() {
+	public ResourceReader() {
 	}
-	public ResourcesReader(String projectConfigurationResourcePath) {
+	public ResourceReader(String projectConfigurationResourcePath) {
 		super(projectConfigurationResourcePath);
 	}
-	public ResourcesReader(String projectConfigurationResourcePath, Charset charset) {
+	public ResourceReader(String projectConfigurationResourcePath, Charset charset) {
 		super(projectConfigurationResourcePath, charset);
 	}
-	public ResourcesReader(InputStream in) {
+	public ResourceReader(InputStream in) {
 		super(in);
 	}
-	public ResourcesReader(InputStream in, Charset charset) {
+	public ResourceReader(InputStream in, Charset charset) {
 		super(in, charset);
 	}
 	

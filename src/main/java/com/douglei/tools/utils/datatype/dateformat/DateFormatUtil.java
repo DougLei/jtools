@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.douglei.tools.instances.file.resources.reader.ResourcesReader;
+import com.douglei.tools.instances.file.resource.reader.ResourceReader;
 import com.douglei.tools.instances.scanner.ClassScanner;
 import com.douglei.tools.utils.datatype.converter.ConverterUtil;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
@@ -35,7 +35,7 @@ public class DateFormatUtil {
 	 * 自定义的格式化实例需要继承 {@link DateFormat}
 	 */
 	private static void loadDateFormatFactories() {
-		ResourcesReader reader = new ResourcesReader("date.format.factories");
+		ResourceReader reader = new ResourceReader("date.format.factories");
 		while(reader.ready()) {
 			register((DateFormat)ConstructorUtil.newInstance(reader.readLine()));
 		}

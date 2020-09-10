@@ -7,7 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.douglei.tools.instances.file.resources.reader.ResourcesReader;
+import com.douglei.tools.instances.file.resource.reader.ResourceReader;
 import com.douglei.tools.instances.scanner.ClassScanner;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
 import com.douglei.tools.utils.reflect.ValidationUtil;
@@ -35,7 +35,7 @@ public class ConverterUtil {
 	 * 自定义的转换器需要实现 {@link Converter} 接口
 	 */
 	private static void loadConverterFactories() {
-		ResourcesReader reader = new ResourcesReader("datatype.converter.factories");
+		ResourceReader reader = new ResourceReader("datatype.converter.factories");
 		while(reader.ready()) {
 			register((Converter)ConstructorUtil.newInstance(reader.readLine()));
 		}

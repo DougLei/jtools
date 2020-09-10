@@ -1,4 +1,4 @@
-package com.douglei.tools.instances.file.resources.reader;
+package com.douglei.tools.instances.file.resource.reader;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
