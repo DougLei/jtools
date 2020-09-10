@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import com.douglei.tools.utils.CloseUtil;
 
@@ -14,88 +15,83 @@ import com.douglei.tools.utils.CloseUtil;
  * @author DougLei
  */
 public class FileBufferedWriter implements AutoCloseable{
-	private File file;
+	private File targetFile;
+	private boolean append;
+	private Charset charset = StandardCharsets.UTF_8;
 	private BufferedWriter writer;
 	
-	public FileBufferedWriter() {
-	}
-	public FileBufferedWriter(File file) {
-		setFile(file);
-	}
-	public FileBufferedWriter(File file, Charset charset) {
-		setFile(file, charset);
-	}
-	public FileBufferedWriter(File file, boolean append) {
-		setFile(file, append);
-	}
-	public FileBufferedWriter(File file, Charset charset, boolean append) {
-		setFile(file, charset, append);
+	public FileBufferedWriter() {}
+	public FileBufferedWriter(File targetFile) { 
+		setTargetFile(targetFile);
 	}
 	
-	public void setFile(File file) {
-		try {
-			setFile_(file);
-			this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	public void setFile(File file, Charset charset) {
-		try {
-			setFile_(file);
-			this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	public void setFile(File file, boolean append) {
-		try {
-			setFile_(file);
-			this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append)));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	public void setFile(File file, Charset charset, boolean append) {
-		try {
-			setFile_(file);
-			this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append), charset));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	/**
+	 * 设置要写入的文件
+	 * @param targetFile
+	 * @return
+	 */
+	public FileBufferedWriter setTargetFile(File targetFile) {
+		this.targetFile = targetFile;
+		return this;
 	}
 	
-	// 如果file不存在, 则创建
-	private void setFile_(File file) throws IOException {
-		if(!file.exists()) {
-			File folder = file.getParentFile();
-			if(!folder.exists()) {
-				folder.mkdirs();
-			}
-			file.createNewFile();
-		}
-		this.file = file;
+	/**
+	 * 设置是否要追加写入
+	 * @param append
+	 * @return
+	 */
+	public FileBufferedWriter setAppend(boolean append) {
+		this.append = append;
+		return this;
+	}
+	
+	/**
+	 * 设置写入的编码
+	 * @param charset
+	 * @return
+	 */
+	public FileBufferedWriter setCharset(Charset charset) {
+		this.charset = charset;
+		return this;
 	}
 	
 	public File getTargetFile() {
-		return file;
+		return targetFile;
 	}
 	
-	// TODO 后续这个方法可能要考虑加入不同操作系统的判断
+	// 获取写入器
+	private BufferedWriter getWriter() throws IOException {
+		if(this.writer == null) {
+			if(!targetFile.exists()) {
+				File folder = targetFile.getParentFile();
+				if(!folder.exists()) 
+					folder.mkdirs();
+				targetFile.createNewFile();
+			}
+			this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFile, append), charset));
+		}
+		return this.writer;
+	}
+	
 	public void newLine() throws IOException {
-		writer.write("\r\n");
+		getWriter().newLine();
 	}
 	public void write(char c) throws IOException {
-		writer.write(c);
+		getWriter().write(c);
 	}
 	public void write(String str) throws IOException {
-		writer.write(str);
+		getWriter().write(str);
 	}
 	public void writeln(String str) throws IOException {
-		writer.write(str);
-		writer.write("\r\n");
+		getWriter().write(str);
+		getWriter().newLine();
 	}
+	
+	/**
+	 * 关闭
+	 */
 	public void close() {
 		CloseUtil.closeIO(writer);
+		writer = null;
 	}
 }

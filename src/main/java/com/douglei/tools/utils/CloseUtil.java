@@ -26,13 +26,8 @@ public class CloseUtil {
 	 * @param ios
 	 */
 	public static void closeIO(Object... ios){
-		if(ios.length == 0){
-			logger.debug("要关闭的ios对象集合为空");
-			return;
-		}
-		for (Object io : ios) {
+		for (Object io : ios) 
 			closeIO(io);
-		}
 	}
 	
 	/**
@@ -40,13 +35,8 @@ public class CloseUtil {
 	 * @param dbconns
 	 */
 	public static void closeDBConn(Object... dbconns){
-		if(dbconns.length == 0){
-			logger.debug("要关闭的dbconns对象集合为空");
-			return;
-		}
-		for (Object dbconn : dbconns) {
+		for (Object dbconn : dbconns) 
 			closeDBConn(dbconn);
-		}
 	}
 	
 	/**
@@ -54,11 +44,8 @@ public class CloseUtil {
 	 * @param io
 	 */
 	public static void closeIO(Object io){
-		if(io == null){
-			logger.debug("要关闭的io对象为空");
+		if(io == null)
 			return;
-		}
-
 		try {
 			if(io instanceof Writer){
 				Writer writer = (Writer) io;
@@ -90,11 +77,8 @@ public class CloseUtil {
 	 * @param dbconn
 	 */
 	public static void closeDBConn(Object dbconn){
-		if(dbconn == null){
-			logger.debug("要关闭的dbconn对象为空");
+		if(dbconn == null)
 			return;
-		}
-		
 		try {
 			if(dbconn instanceof Connection){
 				Connection conn = (Connection) dbconn;

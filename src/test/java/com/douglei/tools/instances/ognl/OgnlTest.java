@@ -12,7 +12,7 @@ public class OgnlTest {
 //	}
 	
 	public static void main(String[] args) {
-		OgnlHandler ognl = OgnlHandler.singleInstance();
+		OgnlHandler ognl = OgnlHandler.getSingleton();
 		
 		
 		new Thread(new Runnable() {

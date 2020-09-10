@@ -15,23 +15,16 @@ public class OgnlHandler {
 		context = new OgnlContext(null, null, new DefaultMemberAccess(true));
 	}
 
-	/**
-	 * 获取单例实例
-	 * @return
-	 */
-	public static final OgnlHandler singleInstance(){
-		if(singleInstance == null){
-			singleInstance = new OgnlHandler();
-		}
-		return singleInstance;
+	private static OgnlHandler singleton = new OgnlHandler();
+	public static final OgnlHandler getSingleton(){
+		return singleton;
 	}
-	private static OgnlHandler singleInstance;
 	
 	/**
 	 * 创建新的实例
 	 * @return
 	 */
-	public static final OgnlHandler newInstance(){
+	public static OgnlHandler newInstance(){
 		return new OgnlHandler();
 	}
 	
