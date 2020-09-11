@@ -37,7 +37,7 @@ public class ConverterUtil {
 	private static void loadConverterFactories() {
 		FileBufferedReader reader = new FileBufferedReader("datatype.converter.factories");
 		while(reader.ready()) {
-			register((Converter)ConstructorUtil.newInstance(reader.readLine()));
+			register((Converter)ConstructorUtil.newInstance(reader.readLine().trim()));
 		}
 	}
 	

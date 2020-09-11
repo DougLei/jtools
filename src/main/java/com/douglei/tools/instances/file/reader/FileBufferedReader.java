@@ -87,7 +87,7 @@ public class FileBufferedReader {
 	 * 读取配置文件中的所有内容
 	 * @return
 	 */
-	public StringBuilder readAll() {
+	public String readAll() {
 		return readAll(16);
 	}
 	
@@ -96,13 +96,13 @@ public class FileBufferedReader {
 	 * @param capacity 存储读取内容容器的初始容量
 	 * @return
 	 */
-	public StringBuilder readAll(int capacity) {
+	public String readAll(int capacity) {
 		if(ready()) {
 			StringBuilder tmt = new StringBuilder(capacity);
 			try {
 				while(bufferedReader.ready()) 
 					tmt.append(bufferedReader.readLine());
-				return tmt;
+				return tmt.toString();
 			} catch (IOException e) {
 				logger.error("读取文件时出现异常: {}", ExceptionUtil.getExceptionDetailMessage(e));
 			} finally {

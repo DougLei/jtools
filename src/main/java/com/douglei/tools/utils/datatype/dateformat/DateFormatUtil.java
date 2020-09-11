@@ -37,7 +37,7 @@ public class DateFormatUtil {
 	private static void loadDateFormatFactories() {
 		FileBufferedReader reader = new FileBufferedReader("date.format.factories");
 		while(reader.ready()) {
-			register((DateFormat)ConstructorUtil.newInstance(reader.readLine()));
+			register((DateFormat)ConstructorUtil.newInstance(reader.readLine().trim()));
 		}
 	}
 	
