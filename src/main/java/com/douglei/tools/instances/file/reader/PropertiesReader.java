@@ -72,16 +72,18 @@ public class PropertiesReader {
 	 * @param charset
 	 */
 	public PropertiesReader(InputStream in, Charset charset) {
-		Reader reader = null;
-		try {
-			reader = new InputStreamReader(in, charset);
-			this.properties = new Properties();
-			this.properties.load(reader);
-			this.ready = properties != null && !properties.isEmpty();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			CloseUtil.closeIO(reader);
+		if(in != null) {
+			Reader reader = null;
+			try {
+				reader = new InputStreamReader(in, charset);
+				this.properties = new Properties();
+				this.properties.load(reader);
+				this.ready = properties != null && !properties.isEmpty();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				CloseUtil.closeIO(reader);
+			}
 		}
 	}
 	

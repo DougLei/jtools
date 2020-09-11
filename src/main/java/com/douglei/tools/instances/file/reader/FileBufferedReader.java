@@ -71,7 +71,8 @@ public class FileBufferedReader {
 	 * @param charset
 	 */
 	public FileBufferedReader(InputStream in, Charset charset) {
-		this.bufferedReader = new BufferedReader(new InputStreamReader(in, charset));
+		if(in != null)
+			this.bufferedReader = new BufferedReader(new InputStreamReader(in, charset));
 	}
 	
 	/**
