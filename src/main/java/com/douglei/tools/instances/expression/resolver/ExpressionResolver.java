@@ -1,7 +1,7 @@
 package com.douglei.tools.instances.expression.resolver;
 
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.Stack;
 
 import com.douglei.tools.instances.expression.resolver.operator.OperatorType;
 import com.douglei.tools.instances.expression.resolver.operator.OperatorTypeHandler;
@@ -27,8 +27,8 @@ public class ExpressionResolver {
 	}
 	
 	public Object resolve() {
-		Stack<OperatorType> operatorTypes = new Stack<OperatorType>();// 操作符类型栈
-		Stack<Object> result = new Stack<Object>();// 操作结果值栈
+		LinkedList<OperatorType> operatorTypes = new LinkedList<OperatorType>();// 操作符类型集合
+		LinkedList<Object> result = new LinkedList<Object>();// 操作结果值集合
 		
 		StringBuilder expressionToken = new StringBuilder(expression.length());
 		StringBuilder postfixExpression = new StringBuilder(expression.length());
@@ -67,52 +67,52 @@ public class ExpressionResolver {
 			}
 			
 			if(!StringUtil.isEmpty(expressionToken)){
-				result.push(getValue(expressionToken.toString()));
+				result.add(getValue(expressionToken.toString()));
 				expressionToken.setLength(0);
-				postfixExpression.append(result.peek());
+				postfixExpression.append(result.getLast());
 			}
 			
 			if(operatorTypes.isEmpty()){
-				operatorTypes.push(operatorType);
+				operatorTypes.add(operatorType);
 			}else{
 				if(operatorType == OperatorType.RIGHT_PARENTHESES){
 					while(!operatorTypes.isEmpty()){
-						if(operatorTypes.peek() == OperatorType.LEFT_PARENTHESES){
-							operatorTypes.pop();
+						if(operatorTypes.getLast() == OperatorType.LEFT_PARENTHESES){
+							operatorTypes.removeLast();
 							break;
 						}
-						postfixExpression.append(operatorTypes.peek().getSymbol());
-						result.push(operatorTypes.pop().calc(result.pop(), result.pop(), map));
+						postfixExpression.append(operatorTypes.getLast().getSymbol());
+						result.add(operatorTypes.removeLast().calc(result.removeLast(), result.removeLast(), map));
 					}
 				}else{
-					// 当前操作符的优先级，小于等于栈顶的元素，就要将栈顶元素弹出(循环判断操作)，再将新的操作符push到栈中
-					if(operatorTypes.peek() != OperatorType.LEFT_PARENTHESES && operatorType.getPriority() <= operatorTypes.peek().getPriority()){
+					// 当前操作符的优先级，小于等于集合中最后一个元素，就要将最后一个元素取出(循环判断操作)，再将新的操作符add到集合
+					if(operatorTypes.getLast() != OperatorType.LEFT_PARENTHESES && operatorType.getPriority() <= operatorTypes.getLast().getPriority()){
 						do{
-							postfixExpression.append(operatorTypes.peek().getSymbol());
-							result.push(operatorTypes.pop().calc(result.pop(), result.pop(), map));
-						}while(!operatorTypes.isEmpty() && operatorTypes.peek() != OperatorType.LEFT_PARENTHESES && operatorType.getPriority() <= operatorTypes.peek().getPriority());
+							postfixExpression.append(operatorTypes.getLast().getSymbol());
+							result.add(operatorTypes.removeLast().calc(result.removeLast(), result.removeLast(), map));
+						}while(!operatorTypes.isEmpty() && operatorTypes.getLast() != OperatorType.LEFT_PARENTHESES && operatorType.getPriority() <= operatorTypes.getLast().getPriority());
 					}
-					operatorTypes.push(operatorType);
+					operatorTypes.add(operatorType);
 				}
 			}
 		}
 		
-		// 最后还要把最后一次的值，放到栈中
+		// 最后还要把最后一次的值，放到集合中
 		if(!StringUtil.isEmpty(expressionToken)){
-			result.push(getValue(expressionToken.toString()));
+			result.add(getValue(expressionToken.toString()));
 			expressionToken.setLength(0);
-			postfixExpression.append(result.peek());
+			postfixExpression.append(result.getLast());
 		}
 		
 		while(!operatorTypes.isEmpty()){
-			if(operatorTypes.peek() == OperatorType.LEFT_PARENTHESES){
+			if(operatorTypes.getLast() == OperatorType.LEFT_PARENTHESES){
 				throw new IllegalArgumentException("表达式异常，'()' 没有正确匹配，缺少 ')'");
 			}
-			postfixExpression.append(operatorTypes.peek().getSymbol());
-			result.push(operatorTypes.pop().calc(result.pop(), result.pop(), map));
+			postfixExpression.append(operatorTypes.getLast().getSymbol());
+			result.add(operatorTypes.removeLast().calc(result.removeLast(), result.removeLast(), map));
 		}
 		this.postfixExpression = postfixExpression.toString();
-		return result.pop();
+		return result.removeLast();
 	}
 	
 	/**
