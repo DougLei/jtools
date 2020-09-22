@@ -13,9 +13,9 @@ public class ConverterUtil {
 	private static final Map<Class<?>, Converter> converters = new HashMap<Class<?>, Converter>(4);
 	
 	/**
-	 * 
-	 * @param originName
-	 * @param converterClass
+	 * 进行命名转换
+	 * @param originName 原名称
+	 * @param converterClass 转换器
 	 * @return
 	 */
 	public static String convert(String originName, Class<? extends Converter> converter) {
