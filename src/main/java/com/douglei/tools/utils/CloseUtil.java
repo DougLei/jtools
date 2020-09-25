@@ -52,18 +52,15 @@ public class CloseUtil {
 				writer.flush();
 				writer.close();
 			}else if(io instanceof Reader){
-				Reader reader = (Reader) io;
-				reader.close();
+				((Reader) io).close();
 			}else if(io instanceof OutputStream){
 				OutputStream out = (OutputStream) io;
 				out.flush();
 				out.close();
 			}else if(io instanceof InputStream){
-				InputStream in = (InputStream) io;
-				in.close();
+				((InputStream) io).close();
 			}else if(io instanceof ZipFile) {
-				ZipFile zf = (ZipFile) io;
-				zf.close();
+				((ZipFile) io).close();
 			}else{
 				logger.debug("没有匹配到[{}]的io对象", io.getClass().getName());
 			}
@@ -81,17 +78,11 @@ public class CloseUtil {
 			return;
 		try {
 			if(dbconn instanceof Connection){
-				Connection conn = (Connection) dbconn;
-				if(!conn.isClosed())
-					conn.close();
+				((Connection) dbconn).close();
 			}else if(dbconn instanceof Statement){
-				Statement st = (Statement) dbconn;
-				if(!st.isClosed())
-					st.close();
+				((Statement) dbconn).close();
 			}else if(dbconn instanceof ResultSet){
-				ResultSet rs = (ResultSet) dbconn;
-				if(!rs.isClosed())
-					rs.close();
+				((ResultSet) dbconn).close();
 			}else{
 				logger.debug("没有匹配到[{}]的dbconn对象", dbconn.getClass().getName());
 			}
