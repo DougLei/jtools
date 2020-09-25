@@ -82,13 +82,16 @@ public class CloseUtil {
 		try {
 			if(dbconn instanceof Connection){
 				Connection conn = (Connection) dbconn;
-				conn.close();
+				if(!conn.isClosed())
+					conn.close();
 			}else if(dbconn instanceof Statement){
 				Statement st = (Statement) dbconn;
-				st.close();
+				if(!st.isClosed())
+					st.close();
 			}else if(dbconn instanceof ResultSet){
 				ResultSet rs = (ResultSet) dbconn;
-				rs.close();
+				if(!rs.isClosed())
+					rs.close();
 			}else{
 				logger.debug("没有匹配到[{}]的dbconn对象", dbconn.getClass().getName());
 			}
