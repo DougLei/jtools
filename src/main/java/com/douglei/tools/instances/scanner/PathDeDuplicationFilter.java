@@ -5,11 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 路径去重过滤器
- * 防止重复扫描同一个文件或路径
+ * 路径去重过滤器, 防止重复扫描同一个文件或路径
  * @author DougLei
  */
-class PathDeDuplicationFilter {
+public class PathDeDuplicationFilter {
 	
 	private final Scanner scanner;
 	public PathDeDuplicationFilter(Scanner scanner) {
@@ -65,7 +64,7 @@ class PathDeDuplicationFilter {
 	 * @author DougLei
 	 */
 	private class PathWrapper implements Comparable<PathWrapper>{
-		byte length;// 是路径的长度, 根据长度进行排序, 短的在前面, 长的在后面
+		int length;// 是路径的长度, 根据长度进行排序, 短的在前面, 长的在后面
 		String originPath;// 记录被操作的路径
 		PathWrapper(String originPath) {
 			this.originPath = scanner.replacePathDelimiter(originPath);

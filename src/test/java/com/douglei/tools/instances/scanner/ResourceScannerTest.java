@@ -5,13 +5,15 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class FileScannerTest {
+import com.douglei.tools.instances.scanner.impl.ResourceScanner;
+
+public class ResourceScannerTest {
 	
 	@Test
 	public void scan(){
 //		String basePath = "com/douglei/tools/instances/scanner";
 		String basePath = "com\\douglei\\tools\\instances\\scanner";
-		List<String> allFileNames = new FileScanner("xml").multiScan(basePath, "com/douglei");
+		List<String> allFileNames = new ResourceScanner("xml").multiScan(basePath, "com/douglei");
 		System.out.println(allFileNames.size());
 		for (String fileName : allFileNames) {
 			System.out.println(fileName);
@@ -22,7 +24,7 @@ public class FileScannerTest {
 	@Test
 	public void scanJAR(){
 		String basePath = "META-INF\\maven\\";
-		List<String> allFileNames = new FileScanner("properties").scan(true, basePath);
+		List<String> allFileNames = new ResourceScanner("properties").scan(true, basePath);
 		System.out.println(allFileNames.size());
 		for (String fileName : allFileNames) {
 			System.out.println(fileName);

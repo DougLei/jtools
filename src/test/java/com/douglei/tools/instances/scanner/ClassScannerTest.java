@@ -10,6 +10,8 @@ import java.util.jar.JarFile;
 
 import org.junit.Test;
 
+import com.douglei.tools.instances.scanner.impl.ClassScanner;
+
 public class ClassScannerTest {
 	
 //	String basePackagePath = "com.douglei.tools.instances.scanner";

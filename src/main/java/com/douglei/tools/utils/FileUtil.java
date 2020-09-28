@@ -15,7 +15,7 @@ import java.util.zip.ZipOutputStream;
  * 
  * @author DougLei
  */
-public class IOUtil {
+public class FileUtil {
 	
 	/**
 	 * 复制输入流到输出流

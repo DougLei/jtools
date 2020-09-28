@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.douglei.tools.instances.file.reader.FileBufferedReader;
-import com.douglei.tools.instances.scanner.ClassScanner;
+import com.douglei.tools.instances.scanner.impl.ClassScanner;
 import com.douglei.tools.utils.datatype.converter.ConverterUtil;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
 
@@ -21,11 +21,13 @@ public class DateFormatUtil {
 	private static final Map<String, DateFormat> DATE_FORMAT_MAP = new HashMap<String, DateFormat>(8); // 其中的DateFormat实例, 只为了提供{@link DateFormatUtil.format()}存在
 	private static final List<DateFormat> DATE_FORMATS = new ArrayList<DateFormat>(4);
 	static {
-		ClassScanner cs = new ClassScanner();
-		List<String> classes = cs.scan(DateFormatUtil.class.getPackage().getName() + ".impl");
+		ClassScanner scanner = new ClassScanner();
+		List<String> classes = scanner.scan(DateFormatUtil.class.getPackage().getName() + ".impl");
 		for (String clz : classes) {
 			register((DateFormat)ConstructorUtil.newInstance(clz));
 		}
+		scanner.destroy();
+		
 		loadDateFormatFactories();
 	}
 	

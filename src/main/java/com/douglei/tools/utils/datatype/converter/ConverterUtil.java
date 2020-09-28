@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.douglei.tools.instances.file.reader.FileBufferedReader;
-import com.douglei.tools.instances.scanner.ClassScanner;
+import com.douglei.tools.instances.scanner.impl.ClassScanner;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
 import com.douglei.tools.utils.reflect.ValidationUtil;
 
@@ -20,11 +20,13 @@ public class ConverterUtil {
 	private static final Logger logger = LoggerFactory.getLogger(ConverterUtil.class);
 	private static Map<Class<?>, Converter> CONVERTERS = new HashMap<Class<?>, Converter>(8);
 	static {
-		ClassScanner cs = new ClassScanner();
-		List<String> classes = cs.scan(ConverterUtil.class.getPackage().getName() + ".impl");
+		ClassScanner scanner = new ClassScanner();
+		List<String> classes = scanner.scan(ConverterUtil.class.getPackage().getName() + ".impl");
 		for (String clz : classes) {
 			register((Converter)ConstructorUtil.newInstance(clz));
 		}
+		scanner.destroy();
+		
 		loadConverterFactories();
 	}
 	

@@ -1,4 +1,4 @@
-package com.douglei.tools.instances.scanner;
+package com.douglei.tools.instances.scanner.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,13 +8,17 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 
+import com.douglei.tools.instances.scanner.Scanner;
+import com.douglei.tools.instances.scanner.ScannerException;
+import com.douglei.tools.instances.scanner.UnsupportProtocolException;
+
 /**
- * 文件扫描器
+ * 资源扫描器
  * @author StoneKing
  */
-public class FileScanner extends Scanner{
+public class ResourceScanner extends Scanner{
 	
-	public FileScanner(String... targetFileSuffix) {
+	public ResourceScanner(String... targetFileSuffix) {
 		super.targetFileSuffix = validateTargetFileSuffix(targetFileSuffix);
 	}
 
@@ -119,8 +123,8 @@ public class FileScanner extends Scanner{
 	}
 
 	@Override
-	protected byte pathSplitLength(String path) {
-		return (byte) path.split("/").length;
+	protected int pathSplitLength(String path) {
+		return path.split("/").length;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------
@@ -135,7 +139,7 @@ public class FileScanner extends Scanner{
 		InputStream in = null;
 		try {
 			if(path.startsWith(JAR_FILE_PREFIX)) {
-				in = FileScanner.class.getClassLoader().getResourceAsStream(path.substring(JAR_FILE_PREFIX.length()));
+				in = ResourceScanner.class.getClassLoader().getResourceAsStream(path.substring(JAR_FILE_PREFIX.length()));
 				if(in == null) {
 					throw new NullPointerException();
 				}

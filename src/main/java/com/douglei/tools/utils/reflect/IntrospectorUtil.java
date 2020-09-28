@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.douglei.tools.utils.CollectionUtil;
 import com.douglei.tools.utils.UtilException;
 import com.douglei.tools.utils.datatype.converter.ConverterUtil;
 
@@ -162,7 +161,7 @@ public class IntrospectorUtil {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Object setProperyValues(Object object, Map<String, ? extends Object> propertyMap) {
-		if(CollectionUtil.unEmpty(propertyMap)) {
+		if(propertyMap != null && !propertyMap.isEmpty()) {
 			if(object instanceof Map) {
 				Map map = ((Map)object);
 				for(Entry<String, ? extends Object> pv : propertyMap.entrySet()) {

@@ -1,4 +1,4 @@
-package com.douglei.tools.instances.scanner;
+package com.douglei.tools.instances.scanner.impl;
 
 import java.io.File;
 import java.net.URL;
@@ -6,6 +6,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 
+import com.douglei.tools.instances.scanner.Scanner;
+import com.douglei.tools.instances.scanner.UnsupportProtocolException;
 import com.douglei.tools.utils.StringUtil;
 
 /**
@@ -74,9 +76,8 @@ public class ClassScanner extends Scanner{
 	
 	@Override
 	public List<String> rescan(boolean searchAll, String basePackagePath) {
-		if(list.size() > 0) {
+		if(!list.isEmpty()) 
 			list.clear();
-		}
 		return scan(searchAll, basePackagePath);
 	}
 	
@@ -91,9 +92,8 @@ public class ClassScanner extends Scanner{
 	
 	@Override
 	public List<String> reMultiScan(boolean searchAll, String... basePackagePaths) {
-		if(list.size() > 0) {
+		if(!list.isEmpty()) 
 			list.clear();
-		}
 		return multiScan(searchAll, basePackagePaths);
 	}
 	
@@ -123,7 +123,7 @@ public class ClassScanner extends Scanner{
 	}
 
 	@Override
-	protected byte pathSplitLength(String path) {
-		return (byte) path.split("\\.").length;
+	protected int pathSplitLength(String path) {
+		return path.split("\\.").length;
 	}
 }

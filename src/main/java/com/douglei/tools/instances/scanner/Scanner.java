@@ -21,15 +21,8 @@ import com.douglei.tools.utils.CloseUtil;
 public abstract class Scanner {
 	protected PathDeDuplicationFilter filter = new PathDeDuplicationFilter(this);
 	protected List<String> list = new LinkedList<String>();
-	private ClassLoader classLoader;
+	private ClassLoader classLoader = Scanner.class.getClassLoader();
 	protected String[] targetFileSuffix;
-	
-	private ClassLoader getClassLoader() {
-		if(classLoader == null) {
-			classLoader = Scanner.class.getClassLoader();
-		}
-		return classLoader;
-	}
 	
 	/**
 	 * 
@@ -37,7 +30,7 @@ public abstract class Scanner {
 	 * @return
 	 */
 	protected URL getResource(String basePath){
-		return getClassLoader().getResource(basePath);
+		return classLoader.getResource(basePath);
 	}
 	
 	/**
@@ -47,7 +40,7 @@ public abstract class Scanner {
 	 */
 	protected Enumeration<URL> getResources(String basePath){
 		try {
-			return getClassLoader().getResources(basePath);
+			return classLoader.getResources(basePath);
 		} catch (IOException e) {
 			throw new ScannerException("在扫描["+basePath+"]路径, getResources()时, 出现异常:", e);
 		}
@@ -296,5 +289,5 @@ public abstract class Scanner {
 	 * @param path
 	 * @return
 	 */
-	protected abstract byte pathSplitLength(String path);
+	protected abstract int pathSplitLength(String path);
 }
