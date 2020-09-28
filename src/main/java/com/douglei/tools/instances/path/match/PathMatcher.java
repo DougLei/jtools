@@ -24,13 +24,13 @@ public class PathMatcher {
 	}
 	
 	/**
-	 * set路径pattern, 即重置
+	 * 设置路径pattern, 也有重置的功能
 	 * @param pathPatterns
 	 */
 	public void setPathPatterns(String... pathPatterns) {
-		if(patterns != null && patterns.size() > 0) {
+		if(patterns != null && !patterns.isEmpty()) 
 			patterns.clear();
-		}
+		
 		if(pathPatterns != null && pathPatterns.length > 0) {
 			if(patterns == null) {
 				patterns = new ArrayList<Pattern>(pathPatterns.length);
