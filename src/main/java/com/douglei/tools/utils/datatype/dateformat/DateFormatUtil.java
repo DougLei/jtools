@@ -26,8 +26,6 @@ public class DateFormatUtil {
 		for (String clz : classes) {
 			register((DateFormat)ConstructorUtil.newInstance(clz));
 		}
-		scanner.destroy();
-		
 		loadDateFormatFactories();
 	}
 	

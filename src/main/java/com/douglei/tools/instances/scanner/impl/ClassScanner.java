@@ -6,7 +6,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 
-import com.douglei.tools.instances.scanner.Scanner;
 import com.douglei.tools.instances.scanner.UnsupportProtocolException;
 import com.douglei.tools.utils.StringUtil;
 
@@ -14,38 +13,31 @@ import com.douglei.tools.utils.StringUtil;
  * 类扫描器
  * @author StoneKing
  */
-public class ClassScanner extends Scanner{
-	private static final String[] targetClassSuffix_ = {".class"};
+public class ClassScanner extends ResourceScanner{
 	
 	public ClassScanner() {
-		super.targetFileSuffix = targetClassSuffix_;
+		super(".class");
 	}
 
 	@Override
-	public void resetTargetFileSuffix(String... targetFileSuffix) {
+	public void resetSuffixes(String... suffixes) {
 	}
 
 	// -----------------------------------------------------------------------------------------------------------
 	@Override
-	public List<String> scan(boolean searchAll, String basePackage) {
-		if(StringUtil.isEmpty(basePackage)){
-			throw new NullPointerException("basePackage 参数值不能为空");
-		}
-		
-		String packagePath = basePackage.replace(".", "/"); // 将包名的小数点，转换成url格式的分隔符，即'/'
-		if(searchAll) {
+	public List<String> scan(boolean scanAll, String package_) {
+		String packagePath = package_.replace(".", "/"); // 将包名的小数点，转换成url格式的分隔符，即'/'
+		if(scanAll) {
 			Enumeration<URL> fileUrls = getResources(packagePath);
-			while(fileUrls.hasMoreElements()) {
+			while(fileUrls.hasMoreElements()) 
 				scan_(fileUrls.nextElement(), basePackage, packagePath);
-			}
 		}else {
-			URL fileUrl = getResource(packagePath); // 获取包在操作系统下的URL路径
-			scan_(fileUrl, basePackage, packagePath);
+			scan_(classloader.getResource(packagePath), package_, packagePath);
 		}
 		return list;
 	}
 	
-	private void scan_(URL fileUrl, String pagekage_, String packagePath) {
+	private void scan_(URL url, String pagekage_, String packagePath) {
 		if(fileUrl != null) {
 			if(isFile(fileUrl)) {
 				scanFromFile(fileUrl.getFile(), pagekage_);

@@ -25,8 +25,6 @@ public class ConverterUtil {
 		for (String clz : classes) {
 			register((Converter)ConstructorUtil.newInstance(clz));
 		}
-		scanner.destroy();
-		
 		loadConverterFactories();
 	}
 	

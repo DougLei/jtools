@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Resources;
+
+import com.douglei.tools.instances.scanner.impl.ResourceScanner;
+
 /**
  * 路径去重过滤器, 防止重复扫描同一个文件或路径
  * @author DougLei
  */
 public class PathDeDuplicationFilter {
 	
-	private final Scanner scanner;
-	public PathDeDuplicationFilter(Scanner scanner) {
-		this.scanner = scanner;
-	}
-
 	/**
 	 * 
 	 * @param paths
