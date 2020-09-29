@@ -1,11 +1,11 @@
-package com.douglei.tools.instances.scanner;
+package com.douglei.tools.instances.resource.scanner;
 
 /**
  * 
  * @author DougLei
  */
 public class ScannerException extends RuntimeException{
-	private static final long serialVersionUID = 6610697534667561161L;
+	private static final long serialVersionUID = -4914858900534711783L;
 
 	public ScannerException(String message) {
 		super(message);

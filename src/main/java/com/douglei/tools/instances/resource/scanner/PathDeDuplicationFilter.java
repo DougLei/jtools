@@ -1,12 +1,8 @@
-package com.douglei.tools.instances.scanner;
+package com.douglei.tools.instances.resource.scanner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.annotation.Resources;
-
-import com.douglei.tools.instances.scanner.impl.ResourceScanner;
 
 /**
  * 路径去重过滤器, 防止重复扫描同一个文件或路径
@@ -14,12 +10,22 @@ import com.douglei.tools.instances.scanner.impl.ResourceScanner;
  */
 public class PathDeDuplicationFilter {
 	
+	private final String separator;
+	
 	/**
-	 * 
+	 * 路径分隔符
+	 * @param splitChar
+	 */
+	public PathDeDuplicationFilter(String separator) {
+		this.separator = separator;
+	}
+
+	/**
+	 * 去重
 	 * @param paths
 	 * @return
 	 */
-	public String[] doFilter(String... paths) {
+	public String[] deDuplication(String... paths) {
 		if(paths.length < 2) {
 			return paths;
 		}
@@ -66,15 +72,10 @@ public class PathDeDuplicationFilter {
 		int length;// 是路径的长度, 根据长度进行排序, 短的在前面, 长的在后面
 		String originPath;// 记录被操作的路径
 		PathWrapper(String originPath) {
-			this.originPath = scanner.replacePathDelimiter(originPath);
-			this.length = scanner.pathSplitLength(this.originPath);
+			this.originPath = (originPath.indexOf("\\")!=-1)?originPath.replace("\\", "/"):originPath;
+			this.length = this.originPath.split(separator).length;
 		}
 		
-		@Override
-		public String toString() {
-			return "\nPathWrapper [length=" + length + ", originPath=" + originPath + "]";
-		}
-
 		@Override
 		public int compareTo(PathWrapper o) {
 			if(this.length < o.length) {
@@ -84,6 +85,11 @@ public class PathDeDuplicationFilter {
 			}else {
 				return 1;
 			}
+		}
+		
+		@Override
+		public String toString() {
+			return "\nPathWrapper [length=" + length + ", originPath=" + originPath + "]";
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.douglei.tools.instances.scanner.tests;
+package com.douglei.tools.instances.scanner.test.tests;
 
 /**
  * 测试类扫描用的类

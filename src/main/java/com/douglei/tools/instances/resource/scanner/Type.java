@@ -1,10 +1,10 @@
-package com.douglei.tools.instances.scanner.impl;
+package com.douglei.tools.instances.resource.scanner;
 
 /**
  * 资源文件类型
  * @author DougLei
  */
-enum Type {
+public enum Type {
 	/**
 	 * 普通文件
 	 */

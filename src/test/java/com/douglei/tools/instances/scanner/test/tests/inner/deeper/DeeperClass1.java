@@ -1,4 +1,4 @@
-package com.douglei.tools.instances.scanner.tests.inner.deeper;
+package com.douglei.tools.instances.scanner.test.tests.inner.deeper;
 
 /**
  * 测试类扫描用的类
