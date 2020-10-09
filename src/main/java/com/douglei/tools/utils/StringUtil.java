@@ -122,15 +122,14 @@ public class StringUtil {
 	 * @param string
 	 * @return
 	 */
-	public static int computeStringLength(String string) {
-		if(string == null){
+	public static int calcLength(String string) {
+		if(string == null)
 			return 0;
-		}
+		
 		int length = string.length();
 		Matcher matcher = chineseCharacterPattern.matcher(string);
-		while(matcher.find()){
+		while(matcher.find())
 			length++;
-		}
 		return length;
 	}
 	// 匹配汉字
