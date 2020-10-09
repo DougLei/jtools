@@ -11,13 +11,16 @@ import com.douglei.tools.utils.datatype.converter.Converter;
 public class ShortConverter implements Converter {
 
 	@Override
-	public Class<?>[] targetClasses() {
+	public Class<?>[] supportClasses() {
 		return new Class[] {Short.class, short.class};
 	}
 
 	@Override
-	public Short doConvert(Object object) throws DataTypeConvertException {
-		String str = object.toString();
+	public Short convert(Object value) throws DataTypeConvertException {
+		if(value.getClass() == short.class)
+			return (short) value;
+		
+		String str = value.toString();
 		if(VerifyTypeMatchUtil.isLimitShort(str)) {
 			return Short.parseShort(str);
 		}

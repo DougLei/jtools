@@ -11,13 +11,16 @@ import com.douglei.tools.utils.datatype.converter.Converter;
 public class DoubleConverter implements Converter {
 
 	@Override
-	public Class<?>[] targetClasses() {
+	public Class<?>[] supportClasses() {
 		return new Class[] {Double.class, double.class};
 	}
 
 	@Override
-	public Double doConvert(Object object) throws DataTypeConvertException {
-		String str = object.toString();
+	public Double convert(Object value) throws DataTypeConvertException {
+		if(value.getClass() == double.class)
+			return (double)value;
+		
+		String str = value.toString();
 		if(VerifyTypeMatchUtil.isDouble(str)) {
 			return Double.parseDouble(str);
 		}

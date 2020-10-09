@@ -13,16 +13,16 @@ import com.douglei.tools.utils.datatype.dateformat.DateFormatUtil;
 public class TimestampDateConverter implements Converter {
 
 	@Override
-	public Class<?>[] targetClasses() {
+	public Class<?>[] supportClasses() {
 		return new Class[] {Timestamp.class};
 	}
 
 	@Override
-	public Timestamp doConvert(Object object) throws DataTypeConvertException {
+	public Timestamp convert(Object value) throws DataTypeConvertException {
 		try {
-			return DateFormatUtil.parseSqlTimestamp(object);
+			return DateFormatUtil.parseSqlTimestamp(value);
 		} catch (Exception e) {
-			throw new DataTypeConvertException(object, Timestamp.class, e);
+			throw new DataTypeConvertException(value, Timestamp.class, e);
 		}
 	}
 }

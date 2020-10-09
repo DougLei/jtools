@@ -11,13 +11,16 @@ import com.douglei.tools.utils.datatype.converter.Converter;
 public class FloatConverter implements Converter {
 
 	@Override
-	public Class<?>[] targetClasses() {
+	public Class<?>[] supportClasses() {
 		return new Class[] {Float.class, float.class};
 	}
 
 	@Override
-	public Float doConvert(Object object) throws DataTypeConvertException {
-		String str = object.toString();
+	public Float convert(Object value) throws DataTypeConvertException {
+		if(value.getClass() == float.class)
+			return (float) value;
+		
+		String str = value.toString();
 		if(VerifyTypeMatchUtil.isDouble(str)) {
 			return Float.parseFloat(str);
 		}

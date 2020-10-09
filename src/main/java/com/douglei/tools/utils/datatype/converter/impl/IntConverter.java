@@ -11,13 +11,16 @@ import com.douglei.tools.utils.datatype.converter.Converter;
 public class IntConverter implements Converter {
 
 	@Override
-	public Class<?>[] targetClasses() {
+	public Class<?>[] supportClasses() {
 		return new Class[] {Integer.class, int.class};
 	}
 
 	@Override
-	public Integer doConvert(Object object) throws DataTypeConvertException {
-		String str = object.toString();
+	public Integer convert(Object value) throws DataTypeConvertException {
+		if(value.getClass() == int.class)
+			return (int) value;
+		
+		String str = value.toString();
 		if(VerifyTypeMatchUtil.isLimitInteger(str)) {
 			return Integer.parseInt(str);
 		}

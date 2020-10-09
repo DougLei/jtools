@@ -11,13 +11,16 @@ import com.douglei.tools.utils.datatype.converter.Converter;
 public class LongConverter implements Converter {
 
 	@Override
-	public Class<?>[] targetClasses() {
+	public Class<?>[] supportClasses() {
 		return new Class[] {Long.class, long.class};
 	}
 
 	@Override
-	public Long doConvert(Object object) throws DataTypeConvertException {
-		String str = object.toString();
+	public Long convert(Object value) throws DataTypeConvertException {
+		if(value.getClass() == long.class)
+			return (long) value;
+		
+		String str = value.toString();
 		if(VerifyTypeMatchUtil.isLimitLong(str)) {
 			return Long.parseLong(str);
 		}

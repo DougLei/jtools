@@ -10,16 +10,18 @@ import com.douglei.tools.utils.datatype.converter.Converter;
 public class CharConverter implements Converter {
 
 	@Override
-	public Class<?>[] targetClasses() {
+	public Class<?>[] supportClasses() {
 		return new Class[] {Character.class, char.class};
 	}
 
 	@Override
-	public Character doConvert(Object object) throws DataTypeConvertException {
-		String str = object.toString();
-		if(str.length() == 0) {
+	public Character convert(Object value) throws DataTypeConvertException {
+		if(value.getClass() == char.class)
+			return (char)value;
+		
+		String str = value.toString();
+		if(str.length() == 0) 
 			return null;
-		}
 		return str.charAt(0);
 	}
 }

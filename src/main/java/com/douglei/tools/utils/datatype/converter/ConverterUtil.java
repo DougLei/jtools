@@ -18,13 +18,12 @@ import com.douglei.tools.utils.reflect.ValidationUtil;
  */
 public class ConverterUtil {
 	private static final Logger logger = LoggerFactory.getLogger(ConverterUtil.class);
-	private static Map<Class<?>, Converter> CONVERTERS = new HashMap<Class<?>, Converter>(8);
+	private static Map<Class<?>, Converter> converters = new HashMap<Class<?>, Converter>(8);
 	static {
-		ClassScanner scanner = new ClassScanner();
-		List<String> classes = scanner.scan(ConverterUtil.class.getPackage().getName() + ".impl");
-		for (String clz : classes) {
-			register((Converter)ConstructorUtil.newInstance(clz));
-		}
+		List<String> classes = new ClassScanner().scan(ConverterUtil.class.getPackage().getName() + ".impl");
+		for (String clazz : classes) 
+			register((Converter)ConstructorUtil.newInstance(clazz));
+		
 		loadConverterFactories();
 	}
 	
@@ -46,8 +45,8 @@ public class ConverterUtil {
 	 * @param converter
 	 */
 	private static void register(Converter converter) {
-		for(Class<?> clz: converter.targetClasses()) {
-			CONVERTERS.put(clz, converter);
+		for(Class<?> clazz: converter.supportClasses()) {
+			converters.put(clazz, converter);
 		}
 	}
 	
@@ -59,35 +58,32 @@ public class ConverterUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T convert(Object value, Class<T> targetClass) {
-		if(value == null) {
+		if(value == null) 
 			return null;
-		}
 		Class<?> valueClass = value.getClass();
-		if(valueClass == targetClass || (targetClass.isInterface() && ValidationUtil.isImplementInterface(valueClass, targetClass)) || ValidationUtil.isExtendClass(valueClass, targetClass)) {
+		if(valueClass == targetClass || (targetClass.isInterface() && ValidationUtil.isImplementInterface(valueClass, targetClass)) || ValidationUtil.isExtendClass(valueClass, targetClass)) 
 			return (T) value;
-		}
 		
-		Converter converter = CONVERTERS.get(targetClass);
+		Converter converter = converters.get(targetClass);
 		if(converter != null) {
-			return (T) converter.doConvert(value);
+			return (T) converter.convert(value);
 		}
 		throw new UnsupportDataTypeConvertException(value, targetClass);
 	}
 	
 	
 	/**
-	 * 是否是简单的数据类型
-	 * 即对象中直接包裹着值, 比如String, Date, Integer...
+	 * 判断value是否是简单的数据类型, 即对象中直接包裹着值, 比如String, Date, Integer...
 	 * @param value
 	 * @return
 	 */
 	public static boolean isSimpleType(Object value) {
 		if(value != null) {
-			Converter converter = CONVERTERS.get(value.getClass());
+			Converter converter = converters.get(value.getClass());
 			if(converter == null && logger.isDebugEnabled())
 				logger.debug("目前不支持对类型[{}]判断, 是否简单数据类型, 所以默认其不是简单数据类型", value.getClass().getName());
 			if(converter != null)
-				return CONVERTERS.get(value.getClass()).isSimpleType();
+				return converters.get(value.getClass()).isSimpleType();
 		}
 		return false;
 	}

@@ -13,16 +13,16 @@ import com.douglei.tools.utils.datatype.dateformat.DateFormatUtil;
 public class DateConverter implements Converter {
 
 	@Override
-	public Class<?>[] targetClasses() {
+	public Class<?>[] supportClasses() {
 		return new Class[] {Date.class};
 	}
 
 	@Override
-	public Date doConvert(Object object) throws DataTypeConvertException {
+	public Date convert(Object value) throws DataTypeConvertException {
 		try {
-			return DateFormatUtil.parseDate(object);
+			return DateFormatUtil.parseDate(value);
 		} catch (Exception e) {
-			throw new DataTypeConvertException(object, Date.class, e);
+			throw new DataTypeConvertException(value, Date.class, e);
 		}
 	}
 }

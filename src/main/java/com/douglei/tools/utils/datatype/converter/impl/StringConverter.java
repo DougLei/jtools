@@ -10,12 +10,12 @@ import com.douglei.tools.utils.datatype.converter.Converter;
 public class StringConverter implements Converter {
 
 	@Override
-	public Class<?>[] targetClasses() {
+	public Class<?>[] supportClasses() {
 		return new Class[] {String.class};
 	}
 
 	@Override
-	public String doConvert(Object object) throws DataTypeConvertException {
-		return object.toString();
+	public String convert(Object value) throws DataTypeConvertException {
+		return value.toString();
 	}
 }

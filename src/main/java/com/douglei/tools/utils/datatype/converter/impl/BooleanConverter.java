@@ -11,19 +11,20 @@ import com.douglei.tools.utils.datatype.converter.DataTypeConvertException;
 public class BooleanConverter implements Converter {
 
 	@Override
-	public Class<?>[] targetClasses() {
+	public Class<?>[] supportClasses() {
 		return new Class[] {Boolean.class, boolean.class};
 	}
 
 	@Override
-	public Boolean doConvert(Object object) throws DataTypeConvertException {
-		String str = object.toString();
-		if(VerifyTypeMatchUtil.isBoolean(str)) {
+	public Boolean convert(Object value) throws DataTypeConvertException {
+		if(value.getClass() == boolean.class)
+			return (boolean)value;
+			
+		String str = value.toString();
+		if(VerifyTypeMatchUtil.isBoolean(str)) 
 			return Boolean.parseBoolean(str);
-		}
-		if(str.equals("1")) {
+		if(str.equals("1")) 
 			return true;
-		}
 		return false;
 	}
 }
