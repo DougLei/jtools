@@ -1,5 +1,7 @@
 package com.douglei.tools.utils.datatype.converter.impl;
 
+import java.math.BigDecimal;
+
 import com.douglei.tools.utils.datatype.VerifyTypeMatchUtil;
 import com.douglei.tools.utils.datatype.converter.DataTypeConvertException;
 import com.douglei.tools.utils.datatype.converter.Converter;
@@ -19,6 +21,8 @@ public class IntConverter implements Converter {
 	public Integer convert(Object value) throws DataTypeConvertException {
 		if(value.getClass() == int.class)
 			return (int) value;
+		if(value instanceof BigDecimal)
+			return ((BigDecimal)value).intValue();
 		
 		String str = value.toString();
 		if(VerifyTypeMatchUtil.isLimitInteger(str)) {

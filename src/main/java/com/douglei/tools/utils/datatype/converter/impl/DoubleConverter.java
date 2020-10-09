@@ -1,5 +1,7 @@
 package com.douglei.tools.utils.datatype.converter.impl;
 
+import java.math.BigDecimal;
+
 import com.douglei.tools.utils.datatype.VerifyTypeMatchUtil;
 import com.douglei.tools.utils.datatype.converter.DataTypeConvertException;
 import com.douglei.tools.utils.datatype.converter.Converter;
@@ -19,6 +21,8 @@ public class DoubleConverter implements Converter {
 	public Double convert(Object value) throws DataTypeConvertException {
 		if(value.getClass() == double.class)
 			return (double)value;
+		if(value instanceof BigDecimal)
+			return ((BigDecimal)value).doubleValue();
 		
 		String str = value.toString();
 		if(VerifyTypeMatchUtil.isDouble(str)) {

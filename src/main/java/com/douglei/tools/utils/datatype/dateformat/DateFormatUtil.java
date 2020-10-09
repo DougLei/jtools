@@ -64,12 +64,10 @@ public class DateFormatUtil {
 	 * @return
 	 */
 	public static boolean verifyIsDate(Object object) {
-		if(object == null) {
+		if(object == null) 
 			return false;
-		}
-		if(DateFormat.isDate(object)) {
+		if(DateFormat.isDate(object)) 
 			return true;
-		}
 		return verifyIsDate(object.toString());
 	}
 	
