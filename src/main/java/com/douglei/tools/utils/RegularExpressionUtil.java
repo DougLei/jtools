@@ -15,7 +15,7 @@ public class RegularExpressionUtil {
 	public static String transferRegularExpressionKey(String str) {
 		StringBuilder sp = new StringBuilder(str.length()*2);
 		char s;
-		for(byte i=0;i<str.length();i++) {
+		for(int i=0;i<str.length();i++) {
 			s = str.charAt(i);
 			for(char k : regular_expression_keys) {
 				if(s == k) {
@@ -51,7 +51,7 @@ public class RegularExpressionUtil {
 	 */
 	public static boolean includeRegularExpressionKey(String str) {
 		char s;
-		for(byte i=0;i<str.length();i++) {
+		for(int i=0;i<str.length();i++) {
 			s = str.charAt(i);
 			for(char k : regular_expression_keys) {
 				if(s == k) 
