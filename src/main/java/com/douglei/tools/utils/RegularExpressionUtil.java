@@ -12,7 +12,7 @@ public class RegularExpressionUtil {
 	 * @param str
 	 * @return
 	 */
-	public static String transferRegularExpressionKey(String str) {
+	public static String transferKey(String str) {
 		StringBuilder sp = new StringBuilder(str.length()*2);
 		char s;
 		for(int i=0;i<str.length();i++) {
@@ -36,7 +36,7 @@ public class RegularExpressionUtil {
 	 * @param c
 	 * @return
 	 */
-	public static boolean isRegularExpressionKey(char c) {
+	public static boolean isKey(char c) {
 		for(char k : regular_expression_keys) {
 			if(k == c) 
 				return true;
@@ -49,7 +49,7 @@ public class RegularExpressionUtil {
 	 * @param str
 	 * @return
 	 */
-	public static boolean includeRegularExpressionKey(String str) {
+	public static boolean includeKey(String str) {
 		char s;
 		for(int i=0;i<str.length();i++) {
 			s = str.charAt(i);
