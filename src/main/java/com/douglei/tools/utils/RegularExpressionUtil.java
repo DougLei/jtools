@@ -1,47 +1,31 @@
 package com.douglei.tools.utils;
 
 /**
- * 
+ * 正则表达式工具类
  * @author DougLei
  */
 public class RegularExpressionUtil {
 	private static final char[] regular_expression_keys = {'$', '(', ')', '*', '+', '.', '[', '?', '\\', '^', '{', '|'};
 	
 	/**
-	 * 对字符串中正则表达式关键字的字符进行转义, 前加\
+	 * 给字符串中是正则表达式关键字的字符加反斜杠(\)
 	 * @param str
 	 * @return
 	 */
-	public static String transferKey(String str) {
-		StringBuilder sp = new StringBuilder(str.length()*2);
-		char s;
+	public static String addBackslash4Key(String str) {
+		StringBuilder sb = new StringBuilder(str.length()*2);
+		char c;
 		for(int i=0;i<str.length();i++) {
-			s = str.charAt(i);
+			c = str.charAt(i);
 			for(char k : regular_expression_keys) {
-				if(s == k) {
-					sp.append('\\');
+				if(c == k) {
+					sb.append('\\');
 					break;
 				}
 			}
-			sp.append(s);
+			sb.append(c);
 		}
-		if(sp.length() == str.length()) {
-			return str;
-		}
-		return sp.toString();
-	}
-	
-	/**
-	 * 指定字符, 是否是正则表达式关键字
-	 * @param c
-	 * @return
-	 */
-	public static boolean isKey(char c) {
-		for(char k : regular_expression_keys) {
-			if(k == c) 
-				return true;
-		}
-		return false;
+		return sb.length() == str.length() ? str : sb.toString();
 	}
 	
 	/**

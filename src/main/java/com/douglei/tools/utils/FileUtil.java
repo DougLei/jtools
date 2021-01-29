@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,157 +12,159 @@ import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * 
+ * 文件工具类
  * @author DougLei
  */
 public class FileUtil {
+	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 	
 	/**
-	 * 复制输入流到输出流
+	 * 复制, 从输入流到输出流
 	 * @param in
 	 * @param out
-	 * @throws IOException
 	 */
-	public static void copy(InputStream in, OutputStream out) throws IOException {
-		try(BufferedInputStream reader=new BufferedInputStream(in)){
+	public static void copy(InputStream in, OutputStream out) {
+		try(BufferedInputStream reader = new BufferedInputStream(in)){
+			int len;
 			byte[] b = new byte[1024];
-			short len;
-			while((len =(short) reader.read(b)) > 0) {
+			while((len = reader.read(b)) > 0) 
 				out.write(b, 0, len);
-			}
+		} catch (IOException e) {
+			logger.error("复制时出现异常: {}", ExceptionUtil.getStackTrace(e));
 		}
-	}
-	
-	/**
-	 * 复制文件到输出流
-	 * @param srcFile
-	 * @param out
-	 * @throws IOException
-	 */
-	public static void copy(File srcFile, OutputStream out) throws IOException {
-		copy(new FileInputStream(srcFile), out);
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	// 创建文件夹
-	private static void mkdirs(File folder) {
-		if(!folder.exists())
-			folder.mkdirs();
 	}
 	
 	/**
 	 * 复制文件
 	 * @param srcFile
-	 * @param destFolder 这个是要复制的目标文件夹, 不是文件, 所以不要出现文件名
-	 * @throws IOException 
+	 * @param out
 	 */
-	public static void copyFile(File srcFile, File destFolder) throws IOException {
-		mkdirs(destFolder);
-		try(BufferedOutputStream writer=new BufferedOutputStream(new FileOutputStream(new File(destFolder.getAbsolutePath()+File.separatorChar+srcFile.getName())))){
-			copy(srcFile, writer);
+	public static void copyFile(File srcFile, OutputStream out) {
+		try {
+			copy(new FileInputStream(srcFile), out);
+		} catch (FileNotFoundException e) {
+			logger.error("复制文件时出现异常: {}", ExceptionUtil.getStackTrace(e));
+		}
+	}
+	
+	/**
+	 * 复制文件
+	 * @param sourceFile
+	 * @param targetFolder 目标文件夹
+	 */
+	public static void copyFile(File sourceFile, File targetFolder) {
+		if(!targetFolder.exists())
+			targetFolder.mkdirs();
+		
+		try(BufferedOutputStream writer=new BufferedOutputStream(new FileOutputStream(targetFolder.getAbsolutePath()+File.separatorChar+sourceFile.getName()))){
+			copyFile(sourceFile, writer);
+		} catch (IOException e) {
+			logger.error("复制文件时出现异常: {}", ExceptionUtil.getStackTrace(e));
 		}
 	}
 	
 	/**
 	 * 复制文件夹
-	 * @param srcFolder
-	 * @param destFolder 这个是要复制的目标文件夹, 不是文件, 所以不要出现文件名
-	 * @throws IOException 
+	 * @param sourceFolder 
+	 * @param targetFolder 目标文件夹
 	 */
-	public static void copyFolder(File srcFolder, File destFolder) throws IOException {
-		if(srcFolder.isFile()) {
-			copyFile(srcFolder, destFolder);
-		}else if(srcFolder.isDirectory()){
-			mkdirs(destFolder);
-			for (File file : srcFolder.listFiles()) {
-				if(file.isFile()) {
-					copyFile(file, destFolder);
-				}else {
-					copyFolder(file, new File(destFolder.getAbsolutePath()+File.separatorChar+file.getName()));
+	public static void copyFolder(File sourceFolder, File targetFolder) {
+		if(sourceFolder.isFile()) {
+			copyFile(sourceFolder, targetFolder);
+		} else {
+			if(!targetFolder.exists())
+				targetFolder.mkdirs();
+			
+			for (File sf : sourceFolder.listFiles()) {
+				if(sf.isFile()) {
+					copyFile(sf, targetFolder);
+				} else {
+					copyFolder(sf, new File(targetFolder.getAbsolutePath() + File.separatorChar + sf.getName()));
 				}
 			}
 		}
 	}
 	
-	// ---------------------------------------------------------------------------------------------------------------------------
 	/**
 	 * 删除文件或文件夹
-	 * @param file
+	 * @param files
 	 */
-	public static void delete(File file) {
-		if(file.exists()) {
-			if(file.isDirectory()) {
-				deleteFiles(file.listFiles());
-			}
-			file.delete();
-		}
-	}
-	private static void deleteFiles(File[] files) {
+	public static void deleteFiles(File... files) {
 		for (File file : files) {
-			if(file.isDirectory()) {
+			if(file.isDirectory()) 
 				deleteFiles(file.listFiles());
-			}
 			file.delete();
-		}
-	}
-	
-	// ---------------------------------------------------------------------------------------------------------------------------
-	// zip压缩文件
-	private static void zipFile(String parentName, File srcFile, ZipOutputStream zipWriter) throws IOException {
-		try(BufferedInputStream reader=new BufferedInputStream(new FileInputStream(srcFile))){
-			byte[] b = new byte[1024];
-			short len;
-			zipWriter.putNextEntry(new ZipEntry((parentName==null?srcFile.getName():(parentName+File.separatorChar+srcFile.getName()))));
-			while((len =(short) reader.read(b)) > 0) {
-				zipWriter.write(b, 0, len);
-			}
-			zipWriter.closeEntry();
 		}
 	}
 	
 	/**
 	 * zip压缩文件
-	 * @param srcFile
-	 * @param destZipFile 这个是进行zip压缩后的文件绝对路径, 必须有相关的文件名, 且以.zip结尾
-	 * @throws IOException 
+	 * @param folderName 所属文件名, 可为null, 表示最顶层的文件
+	 * @param sourceFile
+	 * @param out
+	 * @throws IOException
 	 */
-	public static void zipFile(File srcFile, File destZipFile) throws IOException {
-		mkdirs(destZipFile.getParentFile());
-		try(ZipOutputStream zipWriter=new ZipOutputStream(new FileOutputStream(destZipFile))){
-			zipFile(null, srcFile, zipWriter);
+	private static void zipFile(String folderName, File sourceFile, ZipOutputStream out) throws IOException {
+		try(BufferedInputStream reader = new BufferedInputStream(new FileInputStream(sourceFile))){
+			int len;
+			byte[] b = new byte[1024];
+			out.putNextEntry(new ZipEntry((folderName==null?sourceFile.getName():(folderName+File.separatorChar+sourceFile.getName()))));
+			while((len = reader.read(b)) > 0) 
+				out.write(b, 0, len);
+			out.closeEntry();
+		}
+	}
+	
+	/**
+	 * zip压缩文件
+	 * @param sourceFile
+	 * @param targetZipFile 目标压缩文件
+	 */
+	public static void zipFile(File sourceFile, File targetZipFile) {
+		File folder = targetZipFile.getParentFile();
+		if(!folder.exists())
+			folder.mkdirs();
+		
+		try(ZipOutputStream out = new ZipOutputStream(new FileOutputStream(targetZipFile))){
+			zipFile(null, sourceFile, out);
+		} catch (IOException e) {
+			logger.error("zip压缩文件时出现异常: {}", ExceptionUtil.getStackTrace(e));
 		}
 	}
 	
 	/**
 	 * zip压缩文件夹
-	 * @param srcFolder
-	 * @param destZipFile 这个是进行zip压缩后的文件绝对路径, 必须有相关的文件名, 且以.zip结尾
-	 * @throws IOException 
+	 * @param sourceFolder
+	 * @param targetZipFile 目标压缩文件
 	 */
-	public static void zipFolder(File srcFolder, File destZipFile) throws IOException {
-		if(srcFolder.isFile()) {
-			zipFile(srcFolder, destZipFile);
-		}else if(srcFolder.isDirectory()){
-			try(ZipOutputStream zipWriter = new ZipOutputStream(new FileOutputStream(destZipFile))){
-				for (File file : srcFolder.listFiles()) {
+	public static void zipFolder(File sourceFolder, File targetZipFile) {
+		if(sourceFolder.isFile()) {
+			zipFile(sourceFolder, targetZipFile);
+		}else{
+			try(ZipOutputStream out = new ZipOutputStream(new FileOutputStream(targetZipFile))){
+				for (File file : sourceFolder.listFiles()) {
 					if(file.isFile()) {
-						zipFile(null, file, zipWriter);
+						zipFile(null, file, out);
 					}else {
-						recursiveZipFolder(zipWriter, file, file.getName());
+						zipFolder(file.getName(), file, out);
 					}
 				}
+			} catch (IOException e) {
+				logger.error("zip压缩文件夹时出现异常: {}", ExceptionUtil.getStackTrace(e));
 			}
 		}
 	}
-	
 	// 递归压缩文件夹
-	private static void recursiveZipFolder(ZipOutputStream zipWriter, File srcFolder, String folderName) throws IOException {
-		for (File file : srcFolder.listFiles()) {
+	private static void zipFolder(String sourceFolderName, File sourceFolder, ZipOutputStream out) throws IOException {
+		for (File file : sourceFolder.listFiles()) {
 			if(file.isFile()) {
-				zipFile(folderName, file, zipWriter);
+				zipFile(sourceFolderName, file, out);
 			}else {
-				recursiveZipFolder(zipWriter, file, folderName + File.separatorChar +file.getName());
+				zipFolder(sourceFolderName + File.separatorChar + file.getName(), file, out);
 			}
 		}
 	}

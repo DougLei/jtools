@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.douglei.tools.instances.file.reader.FileBufferedReader;
-import com.douglei.tools.instances.resource.scanner.impl.ClassScanner;
+import com.douglei.tools.instances.scanner.impl.ClassScanner;
 import com.douglei.tools.utils.datatype.converter.ConverterUtil;
 import com.douglei.tools.utils.reflect.ConstructorUtil;
 

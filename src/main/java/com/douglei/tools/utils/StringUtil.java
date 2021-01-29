@@ -10,58 +10,43 @@ import java.util.regex.Pattern;
 public class StringUtil {
 	
 	/**
-	 * <pre>
-	 * 	字符串是否为空
-	 * 	trim()后的空字符串, 也会被判定为空
-	 * </pre>
-	 * @param string
+	 * 是否为空, 判断时进行了trim操作
+	 * @param str
 	 * @return
 	 */
-	public static boolean isEmpty(String string){
-		if(string == null || string.trim().length() == 0){
-			return true;
-		}
-		return false;
+	public static boolean isEmpty(String str){
+		return str == null || str.trim().length() == 0;
 	}
 	
 	/**
-	 * object类型的字符串是否为空
-	 * @param object
+	 * 是否为空, 判断时进行了trim操作
+	 * @param obj
 	 * @return
 	 */
-	public static boolean isEmpty(Object object){
-		if(object == null || object.toString().trim().length() == 0){
-			return true;
-		}
-		return false;
+	public static boolean isEmpty(Object obj){
+		return obj == null || obj.toString().trim().length() == 0;
 	}
 	
 	/**
-	 * 字符串是否不为空
-	 * @param string
+	 * 是否不为空, 判断时进行了trim操作
+	 * @param str
 	 * @return
 	 */
-	public static boolean notEmpty(String string){
-		if(string == null || string.trim().length() == 0){
-			return false;
-		}
-		return true;
+	public static boolean unEmpty(String str){
+		return str != null && str.trim().length() > 0;
 	}
 	
 	/**
-	 * object类型的字符串是否不为空
-	 * @param object
+	 * 是否不为空, 判断时进行了trim操作
+	 * @param obj
 	 * @return
 	 */
-	public static boolean notEmpty(Object object){
-		if(object == null || object.toString().trim().length() == 0){
-			return false;
-		}
-		return true;
+	public static boolean unEmpty(Object obj){
+		return obj != null && obj.toString().trim().length() > 0;
 	}
 	
 	/**
-	 * 	去掉前后指定的字符
+	 * 去掉前后指定的字符
 	 * @param str
 	 * @param c
 	 * @return
@@ -70,68 +55,29 @@ public class StringUtil {
 		int topIndex = 0;
 		int bottomIndex = str.length();
 		
-		while(topIndex < bottomIndex && str.charAt(topIndex) == c) {
+		while(topIndex < bottomIndex && str.charAt(topIndex) == c) 
 			topIndex++;
-		}
-		while(topIndex < bottomIndex && str.charAt(bottomIndex-1) == c) {
+		
+		while(topIndex < bottomIndex && str.charAt(bottomIndex-1) == c) 
 			bottomIndex--;
-		}
+		
 		return (topIndex > 0 || bottomIndex < str.length())?str.substring(topIndex, bottomIndex):str;
 	}
 	
 	/**
-	 * <pre>
-	 * 	去掉前后指定的字符
-	 * 	[0]=要去掉的前面的字符, 如果没有返回null
-	 * 	[1]=去掉前后字符的string
-	 * 	[2]=要去掉的后面的字符, 如果没有返回null
-	 * </pre>
+	 * 计算字符串的长度; 如果存在n个双字节的字符, 长度加n*1
 	 * @param str
-	 * @param c
 	 * @return
 	 */
-	public static String[] trim_(String str, char c) {
-		String[] result = new String[3];
-		
-		int topIndex = 0;
-		int bottomIndex = str.length();
-		
-		while(topIndex < bottomIndex && str.charAt(topIndex) == c) {
-			topIndex++;
-		}
-		while(topIndex < bottomIndex && str.charAt(bottomIndex-1) == c) {
-			bottomIndex--;
-		}
-		
-		boolean flag = false;
-		if(topIndex > 0) {
-			result[0] = str.substring(0, topIndex);
-			flag = true;
-		}
-		if(bottomIndex < str.length()) {
-			result[2] = str.substring(bottomIndex);
-			flag = true;
-		}
-		result[1] = flag?str.substring(topIndex, bottomIndex):str;
-		return result;
-	}
-	
-	/**
-	 * 计算字符串的长度
-	 * <p>如果存在汉字，将对应的长度+1</p>
-	 * @param string
-	 * @return
-	 */
-	public static int calcLength(String string) {
-		if(string == null)
+	public static int calcLength(String str) {
+		if(str == null)
 			return 0;
 		
-		int length = string.length();
-		Matcher matcher = chineseCharacterPattern.matcher(string);
+		int length = str.length();
+		Matcher matcher = pattern.matcher(str);
 		while(matcher.find())
 			length++;
 		return length;
 	}
-	// 匹配汉字
-	private static final Pattern chineseCharacterPattern = Pattern.compile("[\u4e00-\u9fa5]");
+	private static final Pattern pattern = Pattern.compile("[^\\x00-\\xff]"); // 匹配占两个字节的字符的正则表达式
 }
