@@ -50,6 +50,10 @@ public class JdkSerializeUtil {
 	 * @param file
 	 */
 	public static void serialize4File(Object object, File file) {
+		File folder = file.getParentFile();
+		if(!folder.exists())
+			folder.mkdirs();
+		
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))){
 			oos.writeObject(object);
 		} catch (IOException e) {
