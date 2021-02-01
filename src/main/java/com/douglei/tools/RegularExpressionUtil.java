@@ -15,7 +15,7 @@ public class RegularExpressionUtil {
 	public static String addBackslash4Key(String str) {
 		StringBuilder sb = new StringBuilder(str.length()*2);
 		char c;
-		for(int i=0;i<str.length();i++) {
+		for(int i=0;i < str.length();i++) {
 			c = str.charAt(i);
 			for(char k : regular_expression_keys) {
 				if(c == k) {
@@ -44,5 +44,4 @@ public class RegularExpressionUtil {
 		}
 		return false;
 	}
-	
 }

@@ -15,9 +15,6 @@ import java.io.ObjectOutputStream;
  */
 public class JdkSerializeUtil {
 
-	// ---------------------------------------------------------------------------------------------------
-	// 序列化到byte数组、从byte数组反序列化
-	// ---------------------------------------------------------------------------------------------------
 	/**
 	 * 序列化成byte数组
 	 * @param object
@@ -29,10 +26,9 @@ public class JdkSerializeUtil {
 			oos.writeObject(object);
 			return baos.toByteArray();
 		} catch (IOException e) {
-			throw new RuntimeException("序列化成byte数组时出现异常", e);
+			throw new UtilRuntimeException("序列化成byte数组时出现异常", e);
 		}
 	}
-
 	/**
 	 * 从byte数组反序列化
 	 * @param clazz
@@ -44,13 +40,10 @@ public class JdkSerializeUtil {
 		try(ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes))){
 			return (T) ois.readObject();
 		} catch (Exception e) {
-			throw new RuntimeException("从byte数组反序列化时出现异常", e);
+			throw new UtilRuntimeException("从byte数组反序列化时出现异常", e);
 		}
 	}
 	
-	// ---------------------------------------------------------------------------------------------------
-	// 序列化到文件、从文件反序列化
-	// ---------------------------------------------------------------------------------------------------
 	/**
 	 * 序列化到文件
 	 * @param object
@@ -60,10 +53,9 @@ public class JdkSerializeUtil {
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))){
 			oos.writeObject(object);
 		} catch (IOException e) {
-			throw new RuntimeException("序列化到文件时出现异常", e);
+			throw new UtilRuntimeException("序列化到文件时出现异常", e);
 		}
 	}
-
 	/**
 	 * 从文件反序列化
 	 * @param clazz
@@ -75,7 +67,7 @@ public class JdkSerializeUtil {
 		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
 			return (T) ois.readObject();
 		} catch (Exception e) {
-			throw new RuntimeException("从文件反序列化时出现异常", e);
+			throw new UtilRuntimeException("从文件反序列化时出现异常", e);
 		}
 	}
 }

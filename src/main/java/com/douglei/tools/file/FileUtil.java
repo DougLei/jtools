@@ -12,17 +12,13 @@ import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.douglei.tools.ExceptionUtil;
+import com.douglei.tools.UtilRuntimeException;
 
 /**
  * 文件工具类
  * @author DougLei
  */
 public class FileUtil {
-	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 	
 	/**
 	 * 复制, 从输入流到输出流
@@ -36,7 +32,7 @@ public class FileUtil {
 			while((len = reader.read(b)) > 0) 
 				out.write(b, 0, len);
 		} catch (IOException e) {
-			logger.error("复制时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("复制时出现异常", e);
 		}
 	}
 	
@@ -49,7 +45,7 @@ public class FileUtil {
 		try {
 			copy(new FileInputStream(srcFile), out);
 		} catch (FileNotFoundException e) {
-			logger.error("复制文件时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("复制文件时出现异常", e);
 		}
 	}
 	
@@ -65,7 +61,7 @@ public class FileUtil {
 		try(BufferedOutputStream writer=new BufferedOutputStream(new FileOutputStream(targetFolder.getAbsolutePath()+File.separatorChar+sourceFile.getName()))){
 			copyFile(sourceFile, writer);
 		} catch (IOException e) {
-			logger.error("复制文件时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("复制文件时出现异常", e);
 		}
 	}
 	
@@ -134,7 +130,7 @@ public class FileUtil {
 		try(ZipOutputStream out = new ZipOutputStream(new FileOutputStream(targetZipFile))){
 			zipFile(null, sourceFile, out);
 		} catch (IOException e) {
-			logger.error("zip压缩文件时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("zip压缩文件时出现异常", e);
 		}
 	}
 	
@@ -156,7 +152,7 @@ public class FileUtil {
 					}
 				}
 			} catch (IOException e) {
-				logger.error("zip压缩文件夹时出现异常: {}", ExceptionUtil.getStackTrace(e));
+				throw new UtilRuntimeException("zip压缩文件夹时出现异常", e);
 			}
 		}
 	}

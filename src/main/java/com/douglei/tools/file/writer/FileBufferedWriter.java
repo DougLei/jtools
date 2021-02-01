@@ -8,68 +8,49 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.douglei.tools.CloseUtil;
-import com.douglei.tools.ExceptionUtil;
+import com.douglei.tools.UtilRuntimeException;
 
 /**
  * 
  * @author DougLei
  */
 public class FileBufferedWriter implements AutoCloseable {
-	private static final Logger logger = LoggerFactory.getLogger(FileBufferedWriter.class);
-	private File targetFile;
-	private boolean append;
-	private Charset charset = StandardCharsets.UTF_8;
 	private BufferedWriter writer;
 	
-	public FileBufferedWriter() {}
-	public FileBufferedWriter(File targetFile) { 
-		setTargetFile(targetFile);
-	}
-	
 	/**
-	 * 设置要写入的文件
+	 * 
 	 * @param targetFile
-	 * @return
 	 */
-	public FileBufferedWriter setTargetFile(File targetFile) {
-		this.targetFile = targetFile;
-		return this;
+	public FileBufferedWriter(File targetFile) {
+		this(targetFile, false, StandardCharsets.UTF_8);
 	}
 	
 	/**
-	 * 设置是否要追加写入
+	 * 
+	 * @param targetFile
 	 * @param append
-	 * @return
 	 */
-	public FileBufferedWriter setAppend(boolean append) {
-		this.append = append;
-		return this;
+	public FileBufferedWriter(File targetFile, boolean append) {
+		this(targetFile, append, StandardCharsets.UTF_8);
 	}
 	
 	/**
-	 * 设置写入的编码
+	 * 
+	 * @param targetFile
 	 * @param charset
-	 * @return
 	 */
-	public FileBufferedWriter setCharset(Charset charset) {
-		this.charset = charset;
-		return this;
+	public FileBufferedWriter(File targetFile, Charset charset) {
+		this(targetFile, false, charset);
 	}
 	
 	/**
-	 * 获取写出的目标文件实例
-	 * @return
+	 * 
+	 * @param targetFile
+	 * @param append
+	 * @param charset
 	 */
-	public File getTargetFile() {
-		return targetFile;
-	}
-	
-	public BufferedWriter getWriter() throws IOException {
-		if(writer == null) {
+	public FileBufferedWriter(File targetFile, boolean append, Charset charset) {
+		try {
 			if(!targetFile.exists()) {
 				File folder = targetFile.getParentFile();
 				if(!folder.exists()) 
@@ -77,45 +58,38 @@ public class FileBufferedWriter implements AutoCloseable {
 				targetFile.createNewFile();
 			}
 			this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFile, append), charset));
+		} catch (IOException e) {
+			throw new UtilRuntimeException("创建实例时出现异常", e);
 		}
-		return writer;
 	}
+	
 	public void newLine() {
 		try {
-			getWriter().newLine();
+			writer.newLine();
 		} catch (IOException e) {
-			logger.error("newLine时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("newLine时出现异常", e);
 		}
 	}
 	public void write(char c) {
 		try {
-			getWriter().write(c);
+			writer.write(c);
 		} catch (IOException e) {
-			logger.error("write时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("write时出现异常", e);
 		}
 	}
 	public void write(String str) {
 		try {
-			getWriter().write(str);
+			writer.write(str);
 		} catch (IOException e) {
-			logger.error("write时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("write时出现异常", e);
 		}
 	}
 	public void writeln(String str) {
 		try {
-			getWriter().write(str);
-			getWriter().newLine();
+			writer.write(str);
+			writer.newLine();
 		} catch (IOException e) {
-			logger.error("writeln时出现异常: {}", ExceptionUtil.getStackTrace(e));
-		}
-	}
-	public void writeAndClose(String str) {
-		try {
-			getWriter().write(str);
-		} catch (IOException e) {
-			logger.error("writeAndClose时出现异常: {}", ExceptionUtil.getStackTrace(e));
-		} finally {
-			close();
+			throw new UtilRuntimeException("writeln时出现异常", e);
 		}
 	}
 	
@@ -125,7 +99,7 @@ public class FileBufferedWriter implements AutoCloseable {
 			writer.close();
 			writer = null;
 		} catch (IOException e) {
-			logger.error("关闭时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("关闭时出现异常", e);
 		}
 	}
 }

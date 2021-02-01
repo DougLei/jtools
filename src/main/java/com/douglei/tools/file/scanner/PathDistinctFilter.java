@@ -1,4 +1,4 @@
-package com.douglei.tools.scanner;
+package com.douglei.tools.file.scanner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,14 +8,14 @@ import java.util.List;
  * 路径去重过滤器, 防止重复扫描同一个文件或路径
  * @author DougLei
  */
-public class PathDeDuplicationFilter {
+public class PathDistinctFilter {
 	private final String separator;
 	
 	/**
 	 * 路径分隔符
 	 * @param splitChar
 	 */
-	PathDeDuplicationFilter(String separator) {
+	PathDistinctFilter(String separator) {
 		this.separator = separator;
 	}
 
@@ -24,7 +24,7 @@ public class PathDeDuplicationFilter {
 	 * @param paths
 	 * @return
 	 */
-	public String[] deDuplication(String... paths) {
+	public String[] distinct(String... paths) {
 		if(paths.length < 2) {
 			return paths;
 		}

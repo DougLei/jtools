@@ -1,4 +1,4 @@
-package com.douglei.tools.scanner.impl;
+package com.douglei.tools.file.scanner.impl;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -10,21 +10,14 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.douglei.tools.CloseUtil;
-import com.douglei.tools.ExceptionUtil;
-import com.douglei.tools.scanner.AbstractScanner;
-import com.douglei.tools.scanner.ScannerException;
-import com.douglei.tools.scanner.UnsupportUrlConnectionException;
+import com.douglei.tools.UtilRuntimeException;
+import com.douglei.tools.file.scanner.AbstractScanner;
 
 /**
  * 类扫描器
  * @author StoneKing
  */
 public class ClassScanner extends AbstractScanner{
-	private static final Logger logger = LoggerFactory.getLogger(ClassScanner.class); 
 	
 	public ClassScanner() {
 		super("\\.", ".class");
@@ -45,7 +38,7 @@ public class ClassScanner extends AbstractScanner{
 				while(urls.hasMoreElements()) 
 					scan_(urls.nextElement(), path, package_);
 			} catch (IOException e) {
-				logger.error("在扫描[{}]路径, getResources()时, 出现异常:", path, ExceptionUtil.getStackTrace(e));
+				throw new UtilRuntimeException("在扫描["+path+"]路径, getResources()时, 出现异常:", e);
 			}
 		}else {
 			scan_(getClassloader().getResource(path), path, package_);
@@ -110,18 +103,19 @@ public class ClassScanner extends AbstractScanner{
 	 * @param package_
 	 */
 	private void scanFromJar(URL url, String path, String package_) {
-		URLConnection urlConnection = url.openConnection();
-		if(!(urlConnection instanceof JarURLConnection))
-			throw new IllegalArgumentException("目前不支持class=["+urlConnection.getClass().getName()+"]的URLConnection");
-		
-		try(JarFile jarFile = ((JarURLConnection) urlConnection).getJarFile()){
-			JarEntry entry = null;
-			Enumeration<JarEntry> jarEntries = jarFile.entries();
-			while(jarEntries.hasMoreElements()) {
-				entry = jarEntries.nextElement();
-				if(entry.getName().startsWith(path) && isTargetFile(entry.getName()))
-					list.add(entry.getName().replace("/", ".").substring(0, entry.getName().length() - 6));
+		try {
+			URLConnection urlConnection = url.openConnection();
+			try(JarFile jarFile = ((JarURLConnection) urlConnection).getJarFile()){
+				JarEntry entry = null;
+				Enumeration<JarEntry> jarEntries = jarFile.entries();
+				while(jarEntries.hasMoreElements()) {
+					entry = jarEntries.nextElement();
+					if(entry.getName().startsWith(path) && isTargetFile(entry.getName()))
+						list.add(entry.getName().replace("/", ".").substring(0, entry.getName().length() - 6));
+				}
 			}
+		} catch (IOException e) {
+			throw new UtilRuntimeException("从jar扫描文件时出现异常", e);
 		}
 	}
 }

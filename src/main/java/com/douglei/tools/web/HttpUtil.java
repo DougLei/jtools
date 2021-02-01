@@ -1,9 +1,11 @@
-package com.douglei.tools;
+package com.douglei.tools.web;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.douglei.tools.UtilRuntimeException;
 
 /**
  * http工具类
@@ -44,7 +46,7 @@ public class HttpUtil {
 					requestBody.append(br.readLine().trim());
 				return br.toString();
 			} catch (IOException e) {
-				throw new RuntimeException("获取Http请求体转换的字符串时出现异常", e);
+				throw new UtilRuntimeException("获取Http请求体转换的字符串时出现异常", e);
 			}
 		}
 		return null;

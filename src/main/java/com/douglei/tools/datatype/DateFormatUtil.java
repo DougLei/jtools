@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.douglei.tools.UtilRuntimeException;
 import com.douglei.tools.datatype.dateformat.AbstractDateFormat;
-import com.douglei.tools.reflect.ClassUtil;
-import com.douglei.tools.scanner.impl.ClassScanner;
+import com.douglei.tools.file.scanner.impl.ClassScanner;
 
 /**
  * 日期格式化工具类
@@ -17,8 +17,12 @@ import com.douglei.tools.scanner.impl.ClassScanner;
 public class DateFormatUtil {
 	static final List<AbstractDateFormat> DATE_FORMATS = new ArrayList<AbstractDateFormat>(4);
 	static {
-		for (String clz : new ClassScanner().scan(AbstractDateFormat.class.getPackage().getName() + ".impl")) 
-			DATE_FORMATS.add((AbstractDateFormat)ClassUtil.newInstance(clz));
+		try {
+			for (String clz : new ClassScanner().scan(AbstractDateFormat.class.getPackage().getName() + ".impl")) 
+				DATE_FORMATS.add((AbstractDateFormat)Class.forName(clz).newInstance());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -26,7 +30,7 @@ public class DateFormatUtil {
 	 * @param obj
 	 * @return 
 	 */
-	public static Date parseDate(Object obj){
+	public static Date parseDate(Object obj) {
 		if(obj instanceof String) {
 			for(AbstractDateFormat df : DATE_FORMATS) {
 				if(df.isDate(obj.toString()))
@@ -37,7 +41,7 @@ public class DateFormatUtil {
 		}else if(obj instanceof Long || obj.getClass() == long.class) {
 			return new Date((long)obj);
 		}
-		throw new IllegalArgumentException("目前不支持将[class="+obj.getClass().getName()+", value="+obj+"]转换为[java.util.Date]类型");
+		throw new UtilRuntimeException("目前不支持将[class="+obj.getClass().getName()+", value="+obj+"]转换为[java.util.Date]类型");
 	}
 	
 	
@@ -46,7 +50,7 @@ public class DateFormatUtil {
 	 * @param obj
 	 * @return 
 	 */
-	public static java.sql.Date parseSqlDate(Object obj){
+	public static java.sql.Date parseSqlDate(Object obj) {
 		if(obj instanceof String) 
 			return new java.sql.Date(parseDate(obj).getTime());
 		if(obj instanceof java.sql.Date) 
@@ -55,7 +59,7 @@ public class DateFormatUtil {
 			return new java.sql.Date(((Date)obj).getTime());
 		if(obj instanceof Long || obj.getClass() == long.class) 
 			return new java.sql.Date((long)obj);
-		throw new IllegalArgumentException("目前不支持将[class="+obj.getClass().getName()+", value="+obj+"]转换为[java.sql.Date]类型");
+		throw new UtilRuntimeException("目前不支持将[class="+obj.getClass().getName()+", value="+obj+"]转换为[java.sql.Date]类型");
 	}
 	
 	/**
@@ -72,7 +76,7 @@ public class DateFormatUtil {
 			return new Time(((Date)obj).getTime());
 		if(obj instanceof Long || obj.getClass() == long.class) 
 			return new Time((long)obj);
-		throw new IllegalArgumentException("目前不支持将[class="+obj.getClass().getName()+", value="+obj+"]转换为[java.sql.Time]类型");
+		throw new UtilRuntimeException("目前不支持将[class="+obj.getClass().getName()+", value="+obj+"]转换为[java.sql.Time]类型");
 	}
 	
 	/**
@@ -89,7 +93,7 @@ public class DateFormatUtil {
 			return new Timestamp(((Date)obj).getTime());
 		if(obj instanceof Long || obj.getClass() == long.class) 
 			return new Timestamp((long)obj);
-		throw new IllegalArgumentException("目前不支持将[class="+obj.getClass().getName()+", value="+obj+"]转换为[java.sql.Timestamp]类型");
+		throw new UtilRuntimeException("目前不支持将[class="+obj.getClass().getName()+", value="+obj+"]转换为[java.sql.Timestamp]类型");
 	}
 	
 	/**
@@ -103,6 +107,6 @@ public class DateFormatUtil {
 			if(df.pattern().equals(pattern))
 				return df.format(date);
 		}
-		throw new IllegalArgumentException("目前不支持将[java.util.Date]实例转换为["+pattern+"]格式的字符串");
+		throw new UtilRuntimeException("目前不支持将[java.util.Date]实例转换为["+pattern+"]格式的字符串");
 	}
 }

@@ -3,6 +3,7 @@ package com.douglei.tools.datatype;
 import java.util.Date;
 import java.util.regex.Pattern;
 
+import com.douglei.tools.UtilRuntimeException;
 import com.douglei.tools.datatype.dateformat.AbstractDateFormat;
 
 /**
@@ -132,7 +133,7 @@ public class DataTypeValidateUtil {
 				if(df.isDate(obj.toString()))
 					return true;
 			}
-			throw new IllegalArgumentException("目前不支持判断["+obj.toString()+"]是否是日期类型");
+			throw new UtilRuntimeException("目前不支持判断["+obj.toString()+"]是否是日期类型");
 		}
 		return obj instanceof Date || obj instanceof Long || obj.getClass() == long.class;
 	}

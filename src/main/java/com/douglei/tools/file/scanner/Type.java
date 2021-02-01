@@ -1,10 +1,11 @@
-package com.douglei.tools.scanner;
+package com.douglei.tools.file.scanner;
 
 /**
  * 资源文件类型
  * @author DougLei
  */
 public enum Type {
+	
 	/**
 	 * 普通文件
 	 */

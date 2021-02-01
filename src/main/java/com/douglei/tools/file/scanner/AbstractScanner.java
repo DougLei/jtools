@@ -1,10 +1,11 @@
-package com.douglei.tools.scanner;
+package com.douglei.tools.file.scanner;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.douglei.tools.scanner.impl.ResourceScanner;
+import com.douglei.tools.UtilRuntimeException;
+import com.douglei.tools.file.scanner.impl.ResourceScanner;
 
 /**
  * 
@@ -12,13 +13,13 @@ import com.douglei.tools.scanner.impl.ResourceScanner;
  */
 public abstract class AbstractScanner {
 	private ClassLoader classloader;
-	private PathDeDuplicationFilter filter; // 路径去重过滤器
+	private PathDistinctFilter filter; // 路径去重过滤器
 	private String[] suffixes; // 要扫描的资源文件后缀
 	
 	protected List<String> list = new ArrayList<String>();
 	
 	protected AbstractScanner(String separator, String... suffixes) {
-		this.filter = new PathDeDuplicationFilter(separator);
+		this.filter = new PathDistinctFilter(separator);
 		setSuffixes(suffixes);
 	}
 	
@@ -86,7 +87,7 @@ public abstract class AbstractScanner {
 	public List<String> multiScan(boolean scanAll, String... paths){
 		if(!list.isEmpty()) 
 			list.clear();
-		paths = filter.deDuplication(paths);
+		paths = filter.distinct(paths);
 		for (String path : paths) 
 			scan_(scanAll, path);
 		return list;
@@ -114,7 +115,7 @@ public abstract class AbstractScanner {
 			return Type.FILE;
 		if(url.getProtocol().equals("jar"))
 			return Type.JAR;
-		throw new IllegalArgumentException("目前扫描器不支持处理 "+url.getProtocol()+" 类型的资源文件");
+		throw new UtilRuntimeException("目前扫描器不支持处理 "+url.getProtocol()+" 类型的资源文件");
 	}
 	
 	/**

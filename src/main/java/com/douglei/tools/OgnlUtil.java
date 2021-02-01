@@ -1,4 +1,4 @@
-package com.douglei.tools.ognl;
+package com.douglei.tools;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Member;
@@ -6,6 +6,63 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import ognl.MemberAccess;
+import ognl.Ognl;
+import ognl.OgnlContext;
+import ognl.OgnlException;
+
+/**
+ * Ognl工具类
+ * @author DougLei
+ */
+public class OgnlUtil {
+	private static OgnlContext context = new OgnlContext(null, null, new DefaultMemberAccess(true));
+	
+	/**
+	 * 获取boolean值
+	 * @param expression
+	 * @return
+	 */
+	public static boolean getBooleanValue(String expression) {
+		return getBooleanValue(expression, null);
+	}
+	
+	/**
+	 * 获取boolean值
+	 * @param expression
+	 * @param root
+	 * @return
+	 */
+	public static boolean getBooleanValue(String expression, Object root) {
+		try {
+			return (boolean) Ognl.getValue(expression, context, root);
+		} catch (OgnlException e) {
+			throw new UtilRuntimeException("OGNL.getBooleanValue时出现异常: ", e);
+		}
+	}
+	
+	/**
+	 * 获取Object值
+	 * @param expression
+	 * @return
+	 */
+	public static Object getObjectValue(String expression) {
+		return getObjectValue(expression, null);
+	}
+	
+	/**
+	 * 获取Object值
+	 * @param expression
+	 * @param root
+	 * @return
+	 */
+	public static Object getObjectValue(String expression, Object root) {
+		try {
+			return Ognl.getValue(expression, context, root);
+		} catch (OgnlException e) {
+			throw new UtilRuntimeException("OGNL.getObjectValue时出现异常: ", e);
+		}
+	}
+}
 
 /**
  * This class provides methods for setting up and restoring

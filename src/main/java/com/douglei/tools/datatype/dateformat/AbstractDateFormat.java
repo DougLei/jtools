@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.douglei.tools.UtilRuntimeException;
+
 /**
  * 
  * @author DougLei
@@ -32,12 +34,13 @@ public abstract class AbstractDateFormat {
 	 * 将日期字符串转换为 {@link Date} 实例
 	 * @param str
 	 * @return
+	 * @throws UtilRuntimeException
 	 */
-	public Date parse(String str) {
+	public Date parse(String str) throws UtilRuntimeException {
 		try {
 			return sdf.parse(str);
 		} catch (ParseException e) {
-			throw new IllegalArgumentException("将["+str+"]转换为[java.util.Date]实例时出现异常", e);
+			throw new UtilRuntimeException("将["+str+"]转换为[java.util.Date]实例时出现异常", e);
 		}
 	}
 	
@@ -49,28 +52,4 @@ public abstract class AbstractDateFormat {
 	public String format(Date date) {
 		return sdf.format(date);
 	}
-	
-//	/**
-//	 * 获取格式化实例
-//	 * @return
-//	 */
-//	protected abstract SimpleDateFormat sdf();
-	
-//	/**
-//	 * 处理dateString, 获取最终需要的
-//	 * @param dateString
-//	 * @return
-//	 */
-//	protected String processDateString(String dateString) {
-//		return dateString;
-//	}
-	
-//	/**
-//	 * 进行转化操作
-//	 * @param date
-//	 * @return
-//	 */
-//	final String format(Date date) {
-//		return sdf().format(date);
-//	}
 }

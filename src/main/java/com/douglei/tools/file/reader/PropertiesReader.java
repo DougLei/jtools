@@ -9,25 +9,18 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.douglei.tools.ExceptionUtil;
-import com.douglei.tools.StringUtil;
+import com.douglei.tools.UtilRuntimeException;
 
 /**
  * properties资源阅读器
  * @author DougLei
  */
 public class PropertiesReader {
-	private static final Logger logger = LoggerFactory.getLogger(PropertiesReader.class);
 	private Properties properties;
-	private boolean ready;
 	
 	/**
 	 * 读取classpath下的properties文件
@@ -53,7 +46,7 @@ public class PropertiesReader {
 		try {
 			initial(new FileInputStream(file), StandardCharsets.UTF_8);
 		} catch (FileNotFoundException e) {
-			logger.error("创建实例时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("创建实例时出现异常", e);
 		}
 	}
 	/**
@@ -65,7 +58,7 @@ public class PropertiesReader {
 		try {
 			initial(new FileInputStream(file), charset);
 		} catch (FileNotFoundException e) {
-			logger.error("创建实例时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("创建实例时出现异常", e);
 		}
 	}
 	
@@ -90,18 +83,9 @@ public class PropertiesReader {
 		try (Reader reader = new InputStreamReader(in, charset)){
 			this.properties = new Properties();
 			this.properties.load(reader);
-			this.ready = properties != null && !properties.isEmpty();
 		} catch (IOException e) {
-			logger.error("创建实例时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("创建实例时出现异常", e);
 		}
-	}
-	
-	/**
-	 * 是否可以读取
-	 * @return
-	 */
-	public boolean ready() {
-		return ready;
 	}
 	
 	/**
@@ -110,9 +94,7 @@ public class PropertiesReader {
 	 * @return
 	 */
 	public String readProperty(String key) {
-		if(ready())
-			return readProperty(key, null);
-		return null;
+		return properties.getProperty(key);
 	}
 	
 	/**
@@ -122,12 +104,10 @@ public class PropertiesReader {
 	 * @return
 	 */
 	public String readProperty(String key, String defaultValue) {
-		if(ready()) {
-			String v = properties.getProperty(key);
-			if(StringUtil.unEmpty(v)) 
-				return v;
-		}
-		return defaultValue;
+		String value = properties.getProperty(key);
+		if(value == null) 
+			return defaultValue;
+		return value;
 	}
 	
 	/**
@@ -135,8 +115,6 @@ public class PropertiesReader {
 	 * @return
 	 */
 	public Set<Entry<Object, Object>> entrySet() {
-		if(ready())
-			return properties.entrySet();
-		return Collections.emptySet();
+		return properties.entrySet();
 	}
 }

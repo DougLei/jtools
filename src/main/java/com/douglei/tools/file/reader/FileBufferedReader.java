@@ -10,17 +10,13 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.douglei.tools.ExceptionUtil;
+import com.douglei.tools.UtilRuntimeException;
 
 /**
  * 
  * @author DougLei
  */
 public class FileBufferedReader implements AutoCloseable{
-	private static final Logger logger = LoggerFactory.getLogger(FileBufferedReader.class);
 	private BufferedReader reader;
 	
 	/**
@@ -49,7 +45,7 @@ public class FileBufferedReader implements AutoCloseable{
 		try {
 			this.reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
 		} catch (FileNotFoundException e) {
-			logger.error("创建实例时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("创建实例时出现异常", e);
 		}
 	}
 	/**
@@ -61,7 +57,7 @@ public class FileBufferedReader implements AutoCloseable{
 		try {
 			this.reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
 		} catch (FileNotFoundException e) {
-			logger.error("创建实例时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("创建实例时出现异常", e);
 		}
 	}
 	
@@ -82,18 +78,6 @@ public class FileBufferedReader implements AutoCloseable{
 	}
 	
 	/**
-	 * 是否可以读取
-	 * @return
-	 */
-	public boolean ready() {
-		try {
-			return reader != null && reader.ready();
-		} catch (IOException e) {
-			
-		}
-	}
-	
-	/**
 	 * 读取配置文件中的所有内容
 	 * @return
 	 */
@@ -107,17 +91,14 @@ public class FileBufferedReader implements AutoCloseable{
 	 * @return
 	 */
 	public String readAll(int capacity) {
-		if(ready()) {
-			StringBuilder tmt = new StringBuilder(capacity);
-			try {
-				while(reader.ready()) 
-					tmt.append(reader.readLine());
-				return tmt.toString();
-			} catch (IOException e) {
-				logger.error("读取文件时出现异常: {}", ExceptionUtil.getStackTrace(e));
-			}
+		try {
+			StringBuilder sb = new StringBuilder(capacity);
+			while(reader.ready()) 
+				sb.append(reader.readLine());
+			return sb.toString();
+		} catch (IOException e) {
+			throw new UtilRuntimeException("读取文件(readAll)时出现异常", e);
 		}
-		return null;
 	}
 	
 	
@@ -126,15 +107,13 @@ public class FileBufferedReader implements AutoCloseable{
 	 * @return
 	 */
 	public String readLine() {
-		if(ready()) {
-			try {
-				if(reader.ready()) 
-					return reader.readLine();
-			} catch (IOException e) {
-				logger.error("读取文件时出现异常: {}", ExceptionUtil.getStackTrace(e));
-			}
+		try {
+			if(reader.ready()) 
+				return reader.readLine();
+			return null;
+		} catch (IOException e) {
+			throw new UtilRuntimeException("读取文件(readLine)时出现异常", e);
 		}
-		return null;
 	}
 
 	@Override
@@ -143,7 +122,7 @@ public class FileBufferedReader implements AutoCloseable{
 			reader.close();
 			reader = null;
 		} catch (IOException e) {
-			logger.error("关闭时出现异常: {}", ExceptionUtil.getStackTrace(e));
+			throw new UtilRuntimeException("关闭时出现异常", e);
 		}
 	}
 }

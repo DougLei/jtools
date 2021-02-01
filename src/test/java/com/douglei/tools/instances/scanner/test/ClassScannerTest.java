@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.douglei.tools.scanner.impl.ClassScanner;
+import com.douglei.tools.file.scanner.impl.ClassScanner;
 
 public class ClassScannerTest {
 	

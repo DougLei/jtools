@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.douglei.tools.UtilRuntimeException;
 import com.douglei.tools.datatype.DataTypeConvertUtil;
 
 /**
@@ -32,7 +33,7 @@ public class IntrospectorUtil {
 			}
 			return null;
 		} catch (Exception e) {
-			throw new RuntimeException("通过内省机制, 从对象中获取指定name的属性值时出现异常", e);
+			throw new UtilRuntimeException("通过内省机制, 从对象中获取指定name的属性值时出现异常", e);
 		}
 	}
 	
@@ -63,7 +64,7 @@ public class IntrospectorUtil {
 			}
 			return valueMap;
 		} catch (Exception e) {
-			throw new RuntimeException("通过内省机制, 从对象中获取多个指定name的属性值集合时出现异常", e);
+			throw new UtilRuntimeException("通过内省机制, 从对象中获取多个指定name的属性值集合时出现异常", e);
 		}
 	}
 	
@@ -91,7 +92,7 @@ public class IntrospectorUtil {
 				}
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("通过内省机制, 给对象中指定name的属性赋值时出现异常", e);
+			throw new UtilRuntimeException("通过内省机制, 给对象中指定name的属性赋值时出现异常", e);
 		}
 	}
 	
@@ -128,7 +129,7 @@ public class IntrospectorUtil {
 				}
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("通过内省机制, 给对象中多个指定name的属性赋值时出现异常", e);
+			throw new UtilRuntimeException("通过内省机制, 给对象中多个指定name的属性赋值时出现异常", e);
 		}
 	}
 }

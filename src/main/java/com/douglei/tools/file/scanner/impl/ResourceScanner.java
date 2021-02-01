@@ -1,4 +1,4 @@
-package com.douglei.tools.scanner.impl;
+package com.douglei.tools.file.scanner.impl;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -12,21 +12,14 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.douglei.tools.CloseUtil;
-import com.douglei.tools.ExceptionUtil;
-import com.douglei.tools.scanner.AbstractScanner;
-import com.douglei.tools.scanner.ScannerException;
-import com.douglei.tools.scanner.UnsupportUrlConnectionException;
+import com.douglei.tools.UtilRuntimeException;
+import com.douglei.tools.file.scanner.AbstractScanner;
 
 /**
  * 资源扫描器
  * @author StoneKing
  */
 public class ResourceScanner extends AbstractScanner{
-	private static final Logger logger = LoggerFactory.getLogger(ResourceScanner.class);
 	
 	public ResourceScanner(String... suffixes) {
 		super("/", suffixes);
@@ -43,7 +36,7 @@ public class ResourceScanner extends AbstractScanner{
 				while(urls.hasMoreElements()) 
 					scan_(urls.nextElement(), path);
 			} catch (IOException e) {
-				logger.error("在扫描[{}]路径, getResources()时, 出现异常:", path, ExceptionUtil.getExceptionDetailMessage(e));
+				throw new UtilRuntimeException("在扫描["+path+"]路径, getResources()时, 出现异常:", e);
 			}
 		}else {
 			scan_(getClassloader().getResource(path), path);
@@ -101,25 +94,19 @@ public class ResourceScanner extends AbstractScanner{
 	 * @param path
 	 */
 	private void scanFromJar(URL url, String path) {
-		JarFile jarFile = null;
-		JarEntry entry = null;
 		try {
 			URLConnection urlConnection = url.openConnection();
-			if(urlConnection instanceof JarURLConnection) {
-				jarFile = ((JarURLConnection) urlConnection).getJarFile();
+			try(JarFile jarFile = ((JarURLConnection) urlConnection).getJarFile()){
+				JarEntry entry = null;
 				Enumeration<JarEntry> jarEntries = jarFile.entries();
 				while(jarEntries.hasMoreElements()) {
 					entry = jarEntries.nextElement();
 					if(entry.getName().startsWith(path) && isTargetFile(entry.getName())) 
 						list.add(JAR_FILE_PREFIX + entry.getName());
 				}
-			}else {
-				throw new UnsupportUrlConnectionException(urlConnection);
 			}
 		} catch (Exception e) {
-			throw new ScannerException("从jar扫描文件时出现异常", e);
-		} finally {
-			CloseUtil.closeIO(jarFile);
+			throw new UtilRuntimeException("从jar扫描文件时出现异常", e);
 		}
 	}
 
@@ -132,18 +119,12 @@ public class ResourceScanner extends AbstractScanner{
 	 * @return
 	 */
 	public static final InputStream readByScanPath(String path) {
-		InputStream in = null;
 		try {
-			if(path.startsWith(JAR_FILE_PREFIX)) {
-				in = ResourceScanner.class.getClassLoader().getResourceAsStream(path.substring(JAR_FILE_PREFIX.length()));
-				if(in == null) 
-					throw new NullPointerException();
-			}else {
-				in = new FileInputStream(path);
-			}
-			return in;
+			if(path.startsWith(JAR_FILE_PREFIX)) 
+				return ResourceScanner.class.getClassLoader().getResourceAsStream(path.substring(JAR_FILE_PREFIX.length()));
+			return new FileInputStream(path);
 		} catch (Exception e) {
-			throw new ScannerException("给定的["+path+"], 不存在任何文件");
+			throw new UtilRuntimeException("readByScanPath时出现异常", e);
 		}
 	}
 }
