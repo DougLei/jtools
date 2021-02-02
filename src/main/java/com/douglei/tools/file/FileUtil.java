@@ -91,10 +91,10 @@ public class FileUtil {
 	 * 删除文件或文件夹
 	 * @param files
 	 */
-	public static void deleteFiles(File... files) {
+	public static void delete(File... files) {
 		for (File file : files) {
 			if(file.isDirectory()) 
-				deleteFiles(file.listFiles());
+				delete(file.listFiles());
 			file.delete();
 		}
 	}

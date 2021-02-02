@@ -89,6 +89,14 @@ public class PropertiesReader {
 	}
 	
 	/**
+	 * 是否为空
+	 * @return
+	 */
+	public boolean isEmpty() {
+		return properties.isEmpty();
+	}
+	
+	/**
 	 * 获取指定key的值
 	 * @param key
 	 * @return
