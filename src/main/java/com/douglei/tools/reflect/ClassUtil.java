@@ -7,6 +7,61 @@ package com.douglei.tools.reflect;
 public class ClassUtil {
 	
 	/**
+	 * 加载class; 不会触发static代码块
+	 * @param name
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> Class<T> loadClass1(String name){
+		try {
+			return (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(name);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("加载class时出现异常", e);
+		}
+	}
+	
+	/**
+	 * 加载class; 会触发static代码块
+	 * @param name
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> Class<T> loadClass2(String name){
+		try {
+			return (Class<T>) Class.forName(name);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("加载class时出现异常", e);
+		}
+	}
+	
+	/**
+	 * 创建实例; 使用无参构造函数
+	 * @param name
+	 * @return
+	 */
+	public static Object newInstance(String name) {
+		try {
+			return Class.forName(name).newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException("创建实例时出现异常", e);
+		}
+	}
+	
+	/**
+	 * 创建实例; 使用无参构造函数
+	 * @param clazz
+	 * @return
+	 */
+	public static <T> T newInstance(Class<T> clazz) {
+		try {
+			return (T) clazz.newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException("创建实例时出现异常", e);
+		}
+	}
+	
+	
+	/**
 	 * 是否继承了指定的class
 	 * @param clazz
 	 * @param target

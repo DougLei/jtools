@@ -109,4 +109,17 @@ public class DateFormatUtil {
 		}
 		throw new UtilRuntimeException("目前不支持将[java.util.Date]实例转换为["+pattern+"]格式的字符串");
 	}
+	
+	/**
+	 * 获取指定格式的 {@link AbstractDateFormat} 实例
+	 * @param pattern
+	 * @return
+	 */
+	public static AbstractDateFormat getFormat(String pattern) {
+		for(AbstractDateFormat df : DATE_FORMATS) {
+			if(df.pattern().equals(pattern))
+				return df;
+		}
+		throw new UtilRuntimeException("目前不存在["+pattern+"]格式的[com.douglei.tools.datatype.dateformat.AbstractDateFormat]实例");
+	}
 }
