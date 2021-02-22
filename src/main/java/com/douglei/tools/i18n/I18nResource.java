@@ -46,6 +46,16 @@ public class I18nResource {
 	}
 	
 	/**
+	 * 获取默认语言的消息
+	 * @param code
+	 * @param params
+	 * @return
+	 */
+	public Message getDefaultMessage(String code, Object... params) {
+		return container.getMessage(defaultLanguage, code, params);
+	}
+	
+	/**
 	 * 获取指定语言的消息
 	 * @param language
 	 * @param code
