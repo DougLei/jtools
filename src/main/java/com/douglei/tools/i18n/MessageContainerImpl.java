@@ -30,4 +30,9 @@ public class MessageContainerImpl implements MessageContainer {
 			return new Message(null, code, params);
 		return new Message(messageMap.get(code), code, params);
 	}
+
+	@Override
+	public void clear() {
+		container.clear();
+	}
 }

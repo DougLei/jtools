@@ -12,12 +12,10 @@ public class Message {
 	private Object[] params;
 	
 	public Message(String message, String code, Object... params) {
-		if(message == null) {
-			this.code = code;
-			this.params = params;
-		}else {
+		if(message != null) 
 			this.message = params.length>0?String.format(message, params):message;
-		}
+		this.code = code;
+		this.params = params;
 	}
 	
 	/**
@@ -44,8 +42,6 @@ public class Message {
 
 	@Override
 	public String toString() {
-		if(message == null)
-			return "Message [code=" + code + ", params=" + Arrays.toString(params) + "]";
-		return "Message [message=" + message + "]";
+		return "Message [message=" + message + ", code=" + code + ", params=" + Arrays.toString(params) + "]";
 	}
 }

@@ -24,4 +24,9 @@ public interface MessageContainer {
 	 * @return
 	 */
 	Message getMessage(String language, String code, Object... params);
+	
+	/**
+	 * 清空容器
+	 */
+	void clear();
 }

@@ -114,11 +114,11 @@ public class ResourceScanner extends AbstractScanner{
 	private static final String JAR_FILE_PREFIX = "_JAR_FILE_";
 	
 	/**
-	 * 根据扫描的path读取文件, 获取文件字节流
-	 * @param path
+	 * 读取指定路径下的资源文件, 获取InputStream实例
+	 * @param path 可以是当前扫描器扫描出的路径, 或是指定的资源路径(基于java resource)
 	 * @return
 	 */
-	public static final InputStream readByScanPath(String path) {
+	public static final InputStream read(String path) {
 		try {
 			if(path.startsWith(JAR_FILE_PREFIX)) 
 				return ResourceScanner.class.getClassLoader().getResourceAsStream(path.substring(JAR_FILE_PREFIX.length()));

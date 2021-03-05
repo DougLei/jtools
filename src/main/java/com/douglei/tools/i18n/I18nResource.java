@@ -35,7 +35,7 @@ public class I18nResource {
 		if(files.size() > 0) {
 			PropertiesReader reader = null;
 			for (String file : files) {
-				reader = new PropertiesReader(ResourceScanner.readByScanPath(file), StandardCharsets.UTF_8);
+				reader = new PropertiesReader(ResourceScanner.read(file), StandardCharsets.UTF_8);
 				if(reader.isEmpty())
 					continue;
 				
