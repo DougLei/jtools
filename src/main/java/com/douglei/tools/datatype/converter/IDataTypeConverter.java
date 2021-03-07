@@ -10,7 +10,7 @@ public interface IDataTypeConverter {
 	 * 是否是简单的数据类型, 例如: String, Date, Integer...
 	 * @return
 	 */
-	default boolean simple() {
+	default boolean isSimple() {
 		return true;
 	}
 	

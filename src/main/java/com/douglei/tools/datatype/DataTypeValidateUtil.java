@@ -146,6 +146,6 @@ public class DataTypeValidateUtil {
 	public static boolean isSimpleDataType(Object value) {
 		if(value == null)
 			return false;
-		return DataTypeConvertUtil.DATA_TYPE_CONVERTER_MAP.get(value.getClass()).simple();
+		return DataTypeConvertUtil.DATA_TYPE_CONVERTER_MAP.get(value.getClass()).isSimple();
 	}
 }
