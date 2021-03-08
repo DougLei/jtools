@@ -28,7 +28,6 @@
 			<artifactId>logback-access</artifactId>
 			<version>1.2.3</version>
 		</dependency>
-		
 		<dependency>
 		    <groupId>ognl</groupId>
 		    <artifactId>ognl</artifactId>
