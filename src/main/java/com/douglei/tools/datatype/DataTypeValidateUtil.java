@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 import com.douglei.tools.UtilRuntimeException;
+import com.douglei.tools.datatype.converter.IDataTypeConverter;
 import com.douglei.tools.datatype.dateformat.AbstractDateFormat;
 
 /**
@@ -146,6 +147,8 @@ public class DataTypeValidateUtil {
 	public static boolean isSimpleDataType(Object value) {
 		if(value == null)
 			return false;
-		return DataTypeConvertUtil.DATA_TYPE_CONVERTER_MAP.get(value.getClass()).isSimple();
+		
+		IDataTypeConverter converter = DataTypeConvertUtil.DATA_TYPE_CONVERTER_MAP.get(value.getClass());
+		return converter != null && converter.isSimple();
 	}
 }

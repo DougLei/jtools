@@ -20,21 +20,21 @@ public class FileBufferedReader implements AutoCloseable{
 	private BufferedReader reader;
 	
 	/**
-	 * 读取classpath下的文件内容
-	 * @param name
+	 * 读取classpath下的文件内容(基于java resource)
+	 * @param filepath
 	 */
-	public FileBufferedReader(String name) {
+	public FileBufferedReader(String filepath) {
 		this.reader = new BufferedReader(
-				new InputStreamReader(FileBufferedReader.class.getClassLoader().getResourceAsStream(name), StandardCharsets.UTF_8));
+				new InputStreamReader(FileBufferedReader.class.getClassLoader().getResourceAsStream(filepath), StandardCharsets.UTF_8));
 	}
 	/**
-	 * 读取classpath下的文件内容
-	 * @param name
+	 * 读取classpath下的文件内容(基于java resource)
+	 * @param filepath
 	 * @param charset
 	 */
-	public FileBufferedReader(String name, Charset charset) {
+	public FileBufferedReader(String filepath, Charset charset) {
 		this.reader = new BufferedReader(
-				new InputStreamReader(FileBufferedReader.class.getClassLoader().getResourceAsStream(name), charset));
+				new InputStreamReader(FileBufferedReader.class.getClassLoader().getResourceAsStream(filepath), charset));
 	}
 	
 	/**

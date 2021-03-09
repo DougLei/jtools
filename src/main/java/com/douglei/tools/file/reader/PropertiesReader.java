@@ -23,19 +23,19 @@ public class PropertiesReader {
 	private Properties properties;
 	
 	/**
-	 * 读取classpath下的properties文件
-	 * @param name
+	 * 读取classpath下的properties文件(基于java resource)
+	 * @param filepath
 	 */
-	public PropertiesReader(String name) {
-		initial(PropertiesReader.class.getClassLoader().getResourceAsStream(name), StandardCharsets.UTF_8);
+	public PropertiesReader(String filepath) {
+		initial(PropertiesReader.class.getClassLoader().getResourceAsStream(filepath), StandardCharsets.UTF_8);
 	}
 	/**
-	 * 读取classpath下的properties文件
-	 * @param name
+	 * 读取classpath下的properties文件(基于java resource)
+	 * @param filepath
 	 * @param charset
 	 */
-	public PropertiesReader(String name, Charset charset) {
-		initial(PropertiesReader.class.getClassLoader().getResourceAsStream(name), charset);
+	public PropertiesReader(String filepath, Charset charset) {
+		initial(PropertiesReader.class.getClassLoader().getResourceAsStream(filepath), charset);
 	}
 	
 	/**
