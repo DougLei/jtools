@@ -78,7 +78,7 @@ public class FileBufferedReader implements AutoCloseable{
 	}
 	
 	/**
-	 * 读取配置文件中的所有内容
+	 * 读取文件中的所有内容
 	 * @return
 	 */
 	public String readAll() {
@@ -86,8 +86,8 @@ public class FileBufferedReader implements AutoCloseable{
 	}
 	
 	/**
-	 * 读取配置文件中的所有内容
-	 * @param capacity 存储读取内容容器的初始容量
+	 * 读取文件中的所有内容
+	 * @param capacity 
 	 * @return
 	 */
 	public String readAll(int capacity) {
