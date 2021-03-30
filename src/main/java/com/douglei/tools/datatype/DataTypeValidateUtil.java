@@ -136,7 +136,7 @@ public class DataTypeValidateUtil {
 			}
 			throw new UtilRuntimeException("目前不支持判断["+obj.toString()+"]是否是日期类型");
 		}
-		return obj instanceof Date || obj instanceof Long || obj.getClass() == long.class;
+		return obj instanceof Date || ((obj instanceof Long || obj.getClass() == long.class) && obj.toString().length()==13);
 	}
 	
 	/**
