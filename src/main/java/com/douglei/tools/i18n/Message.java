@@ -13,7 +13,7 @@ public class Message {
 	
 	public Message(String message, String code, Object... params) {
 		if(message != null) 
-			this.message = params.length>0?String.format(message, params):message;
+			this.message = (params!= null && params.length>0)?String.format(message, params):message;
 		this.code = code;
 		this.params = params;
 	}
